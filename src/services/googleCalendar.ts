@@ -9,8 +9,15 @@ import {
 } from 'firebase/auth';
 import firebaseConfig from '../../firebase-applet-config.json';
 
+const config = {
+  ...firebaseConfig,
+  authDomain: window.location.hostname === 'localhost'
+    ? 'localhost'
+    : firebaseConfig.authDomain
+};
+
 // Initialize Firebase App if not already initialized
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const app = getApps().length > 0 ? getApp() : initializeApp(config);
 export const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();

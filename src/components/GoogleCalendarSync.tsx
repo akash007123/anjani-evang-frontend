@@ -116,7 +116,11 @@ export default function GoogleCalendarSync({
       }
     } catch (err: any) {
       console.error('Google Sign-In failed:', err);
-      setError(err.message || 'Google Calendar connection failed.');
+      if (err.code === 'auth/unauthorized-domain' || err.message?.includes('unauthorized-domain')) {
+        setError('This domain is not authorized for Firebase sign-in. Please add "localhost" to Firebase Console → Authentication → Authorized domains.');
+      } else {
+        setError(err.message || 'Google Calendar connection failed.');
+      }
     } finally {
       setLoading(false);
     }
