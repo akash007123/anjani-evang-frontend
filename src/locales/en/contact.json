@@ -1,0 +1,17 @@
+{
+  "pageTitle": "Get In Touch",
+  "pageSubtitle": "Let us tailor a culinary experience designed specifically for your occasion.",
+  "formTitle": "Send Us an Event Inquiry",
+  "namePlaceholder": "John Doe",
+  "emailPlaceholder": "john@example.com",
+  "phonePlaceholder": "+91-9685533878",
+  "eventTypePlaceholder": "Select event type",
+  "messagePlaceholder": "Tell us about your event vision, guest count, preferred date, and dietary needs...",
+  "sendMessage": "Submit Inquiry",
+  "officeAddress": "Headquarters Address",
+  "contactPhone": "Direct Phone",
+  "contactEmail": "General Inquiries",
+  "workingHours": "Office Hours",
+  "locationTitle": "Visit Our Tasting Studio",
+  "faqPrompt": "Have quick questions? Check our FAQ section."
+}

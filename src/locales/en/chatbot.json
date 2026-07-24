@@ -1,0 +1,13 @@
+{
+  "headerTitle": "Anjani Concierge AI",
+  "onlineStatus": "Online • Instant Event Assistant",
+  "welcomeMessage": "Hello! I am your Anjani Catering & Events Culinary Concierge. How may I assist you with catering menus, guest package estimates, or date availability today?",
+  "placeholder": "Ask about menus, dietary options, or event pricing...",
+  "suggestedHeader": "Suggested Questions:",
+  "q1": "What are your most popular wedding menu options?",
+  "q2": "Do you offer vegan and gluten-free catering packages?",
+  "q3": "How many guests can you accommodate for a corporate gala?",
+  "q4": "What is the booking process and deposit requirement?",
+  "thinking": "Concierge is thinking...",
+  "clearChat": "Clear Conversation"
+}

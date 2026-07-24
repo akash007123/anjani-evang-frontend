@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #D49A5B;
+  --color-primary-hover: #C5884B;
+  --color-secondary: #1F3E29;
+  --color-secondary-hover: #152B1C;
+  --color-cream: #FDFBF7;
+  --color-linen: #F7F4EE;
+  --color-charcoal: #1A1A1A;
+  --color-accent: #C5A880;
+
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --animate-fade-in: fade-in 0.8s ease-out forwards;
+  --animate-slide-up: slide-up 0.8s ease-out forwards;
+  --animate-scale-up: scale-up(0.95) 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border: 3px solid var(--color-cream);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Custom Markdown styling for blogs */
+.markdown-body h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-secondary);
+}
+.markdown-body h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary-hover);
+}
+.markdown-body p {
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+  color: #374151; /* gray-700 */
+}
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.markdown-body li {
+  margin-bottom: 0.5rem;
+}
+
+/* Printer-friendly PDF Layout Styles */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm 15mm 15mm;
+  }
+  
+  html, body {
+    background: #ffffff !important;
+    color: #0b0f19 !important;
+    font-size: 11pt !important;
+    font-family: Georgia, serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide screen-only components completely */
+  header, 
+  footer, 
+  nav, 
+  aside, 
+  button, 
+  .print-hidden, 
+  #whatsapp-floating-widget, 
+  #whatsapp-trigger-btn,
+  #whatsapp-chat-popup,
+  .whatsapp-contact,
+  .page-banner,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Exclude default layout wrapping */
+  .flex-col, main, div {
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Force display the hidden print view block */
+  .print-only-block {
+    display: block !important;
+  }
+
+  /* Keep dishes from being split awkwardly across page edges */
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+
