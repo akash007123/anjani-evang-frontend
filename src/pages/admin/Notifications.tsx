@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import { useNotifications, NotificationItem } from '../../context/NotificationContext';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 function formatFullDate(dateStr: string): string {
   if (!dateStr) return 'N/A';
@@ -61,6 +62,8 @@ export default function NotificationsPage() {
 
   // Modal State
   const [selectedNotif, setSelectedNotif] = useState<NotificationItem | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch Notifications from Server
   const loadNotifications = useCallback(async () => {
@@ -152,17 +155,24 @@ export default function NotificationsPage() {
     }
   };
 
-  const handleDelete = async (id: string, e?: React.MouseEvent) => {
+  const handleDelete = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (!window.confirm('Are you sure you want to delete this notification?')) return;
+    setDeleteTarget(id);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
     try {
-      await api.deleteNotification(id);
-      setItems(prev => prev.filter(n => n._id !== id && n.id !== id));
+      await api.deleteNotification(deleteTarget);
+      setItems(prev => prev.filter(n => n._id !== deleteTarget && n.id !== deleteTarget));
       setTotalCount(prev => Math.max(0, prev - 1));
       refreshGlobalNotifications();
     } catch (err) {
       console.error('Failed to delete notification:', err);
     }
+    setIsDeleting(false);
+    setDeleteTarget(null);
   };
 
   const getTypeBadge = (type: string) => {
@@ -278,6 +288,16 @@ export default function NotificationsPage() {
         {/* Decorative background circle */}
         <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        title="Delete Notification"
+        itemName="this notification"
+        isLoading={isDeleting}
+      />
 
       {/* Filter & Search Controls Bar */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">

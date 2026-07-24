@@ -1,7 +1,11 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../components/admin/AdminLayout';
 import ProtectedRoute from '../components/admin/ProtectedRoute';
-import { NotificationProvider } from '../context/NotificationContext';
+import { NotificationProvider, useNotifications } from '../context/NotificationContext';
+import { useToast } from '../context/ToastContext';
+import { useAdminAuth } from '../context/AdminAuthContext';
+import { connectSocket, disconnectSocket } from '../lib/socket';
 import Dashboard from './admin/Dashboard';
 import Bookings from './admin/Bookings';
 import Orders from './admin/Orders';
@@ -17,9 +21,33 @@ import AIChatbotInquiries from './admin/AIChatbotInquiries';
 import Notifications from './admin/Notifications';
 import SEO from '../components/SEO';
 
+function AdminSocketHandler() {
+  const { fetchNotifications } = useNotifications();
+  const { toast } = useToast();
+  const { currentUser } = useAdminAuth();
+
+  useEffect(() => {
+    const role = currentUser?.role || 'Admin';
+    const socket = connectSocket(role);
+
+    socket.on('notification:new', (notification) => {
+      fetchNotifications();
+      toast.info(notification.message, notification.title);
+    });
+
+    return () => {
+      socket.off('notification:new');
+      disconnectSocket();
+    };
+  }, [fetchNotifications, toast, currentUser]);
+
+  return null;
+}
+
 export default function Admin() {
   return (
     <NotificationProvider>
+      <AdminSocketHandler />
       <SEO 
         title="Admin Control Panel - Anjani Catering & Events" 
         description="Manage website content, bookings, orders, blogs, menu items, packages, subscribers, and gallery."

@@ -7,6 +7,7 @@ import {
   ChevronLeft, ChevronRight, RefreshCw, X, Send, Phone, Mail, Utensils
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 import GoogleCalendarSync from '../../components/GoogleCalendarSync';
 
 const STATUS_OPTIONS = [
@@ -20,6 +21,10 @@ const EVENT_TYPES = [
   'Anniversary', 'Housewarming', 'Festival', 'Engagement', 
   'Baby Shower', 'Private Party', 'Other'
 ];
+
+function getId(b: any): string {
+  return b._id || b.id;
+}
 
 export default function Bookings() {
   const [loading, setLoading] = useState(true);
@@ -51,6 +56,8 @@ export default function Bookings() {
   // Selected Booking for Modal Detail Inspection
   const [selectedBooking, setSelectedBooking] = useState<BookingRequest | null>(null);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch Bookings from API / Local Storage
   const fetchBookings = async () => {
@@ -157,7 +164,7 @@ export default function Bookings() {
     try {
       await api.updateBookingStatus(id, newStatus);
       updateLocalStatus(id, newStatus);
-      if (selectedBooking && selectedBooking.id === id) {
+      if (selectedBooking && getId(selectedBooking) === id) {
         setSelectedBooking({ ...selectedBooking, status: newStatus });
       }
       fetchBookings();
@@ -168,19 +175,25 @@ export default function Bookings() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this booking record?')) {
-      try {
-        await api.deleteBooking(id);
-        deleteLocalBooking(id);
-        if (selectedBooking?.id === id) {
-          setSelectedBooking(null);
-        }
-        fetchBookings();
-      } catch (err) {
-        console.error('Failed to delete booking:', err);
+  const handleDelete = (id: string) => {
+    setDeleteTarget(id);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
+    try {
+      await api.deleteBooking(deleteTarget);
+      deleteLocalBooking(deleteTarget);
+      if (selectedBooking && getId(selectedBooking) === deleteTarget) {
+        setSelectedBooking(null);
       }
+      fetchBookings();
+    } catch (err) {
+      console.error('Failed to delete booking:', err);
     }
+    setIsDeleting(false);
+    setDeleteTarget(null);
   };
 
   const totalPages = Math.ceil(totalItems / pageSize) || 1;
@@ -210,6 +223,16 @@ export default function Bookings() {
 
   return (
     <div className="space-y-6">
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        title="Delete Booking"
+        itemName="this booking record"
+        isLoading={isDeleting}
+      />
+
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -373,11 +396,12 @@ export default function Bookings() {
                   const displayPhone = b.phone || b.mobile || 'N/A';
                   const displayGuests = b.guestCount || b.guests || '10+';
                   const displayDate = b.eventDate || b.date || '';
-                  const displayRef = b.bookingReference || (b.id ? b.id.toUpperCase() : 'N/A');
+                  const bookingId = getId(b);
+                  const displayRef = b.bookingReference || (bookingId ? bookingId.toUpperCase() : 'N/A');
 
                   return (
                     <tr 
-                      key={b.id || idx} 
+                      key={bookingId || idx} 
                       className="hover:bg-slate-50/70 transition-colors cursor-pointer"
                       onClick={() => setSelectedBooking(b)}
                     >
@@ -425,7 +449,7 @@ export default function Bookings() {
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => handleDelete(b.id)}
+                            onClick={() => handleDelete(bookingId)}
                             className="p-1.5 border border-slate-200 hover:bg-rose-50 hover:text-rose-600 rounded-lg text-slate-400 transition-colors"
                             title="Delete Record"
                           >
@@ -480,7 +504,7 @@ export default function Bookings() {
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
                 <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                  Ref #{selectedBooking.bookingReference || selectedBooking.id.toUpperCase()}
+                  Ref #{selectedBooking.bookingReference || (getId(selectedBooking) || '').toUpperCase()}
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-secondary mt-0.5">
                   Booking Details
@@ -500,7 +524,7 @@ export default function Bookings() {
               <div className="flex items-center gap-2">
                 <select
                   value={selectedBooking.status}
-                  onChange={(e) => handleStatusChange(selectedBooking.id, e.target.value as any)}
+                  onChange={(e) => handleStatusChange(getId(selectedBooking), e.target.value as any)}
                   disabled={isUpdatingStatus}
                   className="px-3 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-bold text-secondary focus:outline-none"
                 >
@@ -563,7 +587,7 @@ export default function Bookings() {
               <GoogleCalendarSync
                 initialBookingData={{
                   summary: `${selectedBooking.eventType || 'Catering Event'} - ${selectedBooking.fullName || selectedBooking.name}`,
-                  description: `Booking Reference: ${selectedBooking.bookingReference || selectedBooking.id}\nPhone: ${selectedBooking.phone || 'N/A'}\nEmail: ${selectedBooking.email}\nGuests: ${selectedBooking.guestCount || 10}\nPackage: ${selectedBooking.cateringPackage || 'Standard'}`,
+                  description: `Booking Reference: ${selectedBooking.bookingReference || getId(selectedBooking)}\nPhone: ${selectedBooking.phone || 'N/A'}\nEmail: ${selectedBooking.email}\nGuests: ${selectedBooking.guestCount || 10}\nPackage: ${selectedBooking.cateringPackage || 'Standard'}`,
                   location: selectedBooking.venueAddress || '',
                   eventDate: selectedBooking.eventDate || selectedBooking.date,
                   eventTime: selectedBooking.eventTime || '12:00'
@@ -574,7 +598,7 @@ export default function Bookings() {
             {/* Modal Actions */}
             <div className="flex justify-between items-center pt-4 border-t border-slate-100">
               <a 
-                href={`mailto:${selectedBooking.email}?subject=Regarding Your Anjani Catering & Events Booking Ref %23${selectedBooking.bookingReference || selectedBooking.id}`}
+                href={`mailto:${selectedBooking.email}?subject=Regarding Your Anjani Catering & Events Booking Ref %23${selectedBooking.bookingReference || getId(selectedBooking)}`}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-xl text-xs font-bold hover:bg-secondary/90 transition-colors"
               >
                 <Send className="w-3.5 h-3.5" /> Email Customer

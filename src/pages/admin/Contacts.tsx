@@ -5,6 +5,7 @@ import {
   XCircle, ArrowDownToLine, Phone, Calendar, Users, Send, Check 
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 export default function Contacts() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,8 @@ export default function Contacts() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedInquiry, setSelectedInquiry] = useState<any | null>(null);
   const [showExportToast, setShowExportToast] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchContacts();
@@ -45,17 +48,25 @@ export default function Contacts() {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to permanently delete this client inquiry?')) {
-      try {
-        await api.deleteContact(id);
-        setContacts(prev => prev.filter(c => c._id !== id && c.id !== id));
-        if (selectedInquiry && (selectedInquiry._id === id || selectedInquiry.id === id)) {
-          setSelectedInquiry(null);
-        }
-      } catch (err) {
-        console.error('Failed to delete contact', err);
+    const target = contacts.find(c => (c._id === id || c.id === id));
+    setDeleteTarget(target || id);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    const id = deleteTarget._id || deleteTarget.id || deleteTarget;
+    setIsDeleting(true);
+    try {
+      await api.deleteContact(id);
+      setContacts(prev => prev.filter(c => c._id !== id && c.id !== id));
+      if (selectedInquiry && (selectedInquiry._id === id || selectedInquiry.id === id)) {
+        setSelectedInquiry(null);
       }
+    } catch (err) {
+      console.error('Failed to delete contact', err);
     }
+    setIsDeleting(false);
+    setDeleteTarget(null);
   };
 
   const handleExport = () => {
@@ -66,7 +77,7 @@ export default function Contacts() {
     const csvContent = "data:text/csv;charset=utf-8," 
       + ["ID,Name,Email,Phone,Event Date,Guests,Message,Status,Created At"].join(",") + "\n"
       + contacts.map(c => [
-          c.id, 
+          c._id || c.id, 
           `"${c.name}"`, 
           c.email, 
           c.phone || '', 
@@ -99,6 +110,16 @@ export default function Contacts() {
 
   return (
     <div className="space-y-6 relative">
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        title="Delete Inquiry"
+        itemName={deleteTarget?.name ? `"${deleteTarget.name}"'s inquiry` : 'this inquiry'}
+        isLoading={isDeleting}
+      />
+
       {/* Toast Notification */}
       {showExportToast && (
         <div className="fixed bottom-6 right-6 bg-slate-950 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 z-50 animate-bounce font-sans text-xs sm:text-sm font-bold border border-white/10">
@@ -187,9 +208,9 @@ export default function Contacts() {
                 <tbody className="divide-y divide-slate-50 font-medium text-secondary">
                   {filteredContacts.map((c) => (
                     <tr 
-                      key={c.id} 
+                      key={c._id || c.id} 
                       className={`hover:bg-slate-50/50 transition-colors cursor-pointer ${
-                        selectedInquiry?.id === c.id ? 'bg-primary/5 border-l-4 border-l-primary' : ''
+                        (selectedInquiry?._id || selectedInquiry?.id) === (c._id || c.id) ? 'bg-primary/5 border-l-4 border-l-primary' : ''
                       }`}
                       onClick={() => setSelectedInquiry(c)}
                     >
@@ -233,7 +254,7 @@ export default function Contacts() {
                             <Eye className="w-4 h-4" />
                           </button>
                           <button 
-                            onClick={() => handleDelete(c.id)}
+                            onClick={() => handleDelete(c._id || c.id)}
                             className="p-2 border border-slate-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded-xl transition-colors cursor-pointer"
                             title="Delete"
                           >
@@ -255,7 +276,7 @@ export default function Contacts() {
             <div className="space-y-6 animate-fade-in font-sans">
               <div className="flex items-center justify-between border-b border-slate-50 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Inquiry ID: {selectedInquiry.id.toUpperCase()}</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Inquiry ID: {((selectedInquiry._id || selectedInquiry.id) || '').toString().toUpperCase()}</span>
                   <h4 className="font-serif text-lg font-bold text-secondary mt-1 font-sans">Message Detail</h4>
                 </div>
                 <button 
@@ -332,7 +353,7 @@ export default function Contacts() {
                 <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Actionable Status</h5>
                 <div className="grid grid-cols-3 gap-2 text-center text-xs font-bold">
                   <button
-                    onClick={() => handleStatusChange(selectedInquiry.id, 'new')}
+                    onClick={() => handleStatusChange(selectedInquiry._id || selectedInquiry.id, 'new')}
                     className={`py-2 px-1 rounded-xl border transition-all cursor-pointer ${
                       selectedInquiry.status === 'new' 
                         ? 'bg-rose-500 border-rose-500 text-white shadow-xs' 
@@ -342,7 +363,7 @@ export default function Contacts() {
                     <span>Unread</span>
                   </button>
                   <button
-                    onClick={() => handleStatusChange(selectedInquiry.id, 'reviewed')}
+                    onClick={() => handleStatusChange(selectedInquiry._id || selectedInquiry.id, 'reviewed')}
                     className={`py-2 px-1 rounded-xl border transition-all cursor-pointer ${
                       selectedInquiry.status === 'reviewed' 
                         ? 'bg-amber-500 border-amber-500 text-white shadow-xs' 
@@ -352,7 +373,7 @@ export default function Contacts() {
                     <span>Review</span>
                   </button>
                   <button
-                    onClick={() => handleStatusChange(selectedInquiry.id, 'responded')}
+                    onClick={() => handleStatusChange(selectedInquiry._id || selectedInquiry.id, 'responded')}
                     className={`py-2 px-1 rounded-xl border transition-all cursor-pointer ${
                       selectedInquiry.status === 'responded' 
                         ? 'bg-emerald-500 border-emerald-500 text-white shadow-xs' 
