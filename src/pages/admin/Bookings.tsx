@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
-import GoogleCalendarSync from '../../components/GoogleCalendarSync';
 
 const STATUS_OPTIONS = [
   'New Booking', 'Contacted', 'Quotation Sent', 
@@ -581,19 +580,6 @@ export default function Bookings() {
                 </p>
               </div>
             )}
-
-            {/* Google Calendar Sync for Admin */}
-            <div className="pt-2">
-              <GoogleCalendarSync
-                initialBookingData={{
-                  summary: `${selectedBooking.eventType || 'Catering Event'} - ${selectedBooking.fullName || selectedBooking.name}`,
-                  description: `Booking Reference: ${selectedBooking.bookingReference || getId(selectedBooking)}\nPhone: ${selectedBooking.phone || 'N/A'}\nEmail: ${selectedBooking.email}\nGuests: ${selectedBooking.guestCount || 10}\nPackage: ${selectedBooking.cateringPackage || 'Standard'}`,
-                  location: selectedBooking.venueAddress || '',
-                  eventDate: selectedBooking.eventDate || selectedBooking.date,
-                  eventTime: selectedBooking.eventTime || '12:00'
-                }}
-              />
-            </div>
 
             {/* Modal Actions */}
             <div className="flex justify-between items-center pt-4 border-t border-slate-100">

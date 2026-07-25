@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { createBooking, getAvailableSlotsForDate, TimeSlot } from '../services/api/bookingService';
 import SEOConfig from '../components/SEOConfig';
-import GoogleCalendarSync from '../components/GoogleCalendarSync';
 import AvailabilityCalendar from '../components/AvailabilityCalendar';
 import { useToast } from '../context/ToastContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -332,19 +331,6 @@ export default function Booking() {
                       <Mail className="w-4 h-4 text-emerald-600" />
                       An acknowledgment notification was dispatched to your email.
                     </p>
-                  </div>
-
-                  {/* Add to Google Calendar Sync Section */}
-                  <div className="my-8 text-left max-w-2xl mx-auto">
-                    <GoogleCalendarSync
-                      initialBookingData={{
-                        summary: `${submittedBooking.eventType || 'Catering Event'} Reservation - ${submittedBooking.name}`,
-                        description: `Anjani Catering & Events Reservation (Ref: ${submittedBooking.reference})\nGuest Count: ${submittedBooking.guestCount || 100}\nPackage: ${submittedBooking.cateringPackage || 'Custom Menu'}`,
-                        location: submittedBooking.venueAddress || '',
-                        eventDate: submittedBooking.date,
-                        eventTime: submittedBooking.time || '18:00'
-                      }}
-                    />
                   </div>
 
                   <button

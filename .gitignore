@@ -8,4 +8,3 @@ dist
 .vscode
 .idea
 *.tsbuildinfo
-firebase-applet-config.json
