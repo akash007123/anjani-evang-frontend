@@ -238,6 +238,29 @@ export const api = {
   updateSettings: (settings: any) =>
     apiRequest('/settings', { method: 'PUT', body: JSON.stringify(settings) }),
 
+  // Blog Comments
+  getBlogComments: (blogId: string) =>
+    apiRequest(`/blogs/${blogId}/comments`),
+
+  createComment: (blogId: string, payload: any) =>
+    apiRequest(`/blogs/${blogId}/comments`, { method: 'POST', body: JSON.stringify(payload) }),
+
+  // Admin Comment Management
+  getAllComments: (params?: Record<string, any>) =>
+    apiRequest(`/comments${buildQueryString(params)}`),
+
+  getCommentById: (id: string) =>
+    apiRequest(`/comments/${id}`),
+
+  approveComment: (id: string) =>
+    apiRequest(`/comments/${id}/approve`, { method: 'PATCH' }),
+
+  rejectComment: (id: string) =>
+    apiRequest(`/comments/${id}/reject`, { method: 'PATCH' }),
+
+  deleteComment: (id: string) =>
+    apiRequest(`/comments/${id}`, { method: 'DELETE' }),
+
   // ======== MISSING METHODS ADDED BY AUDIT ========
 
   // Contacts — CRUD

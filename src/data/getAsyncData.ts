@@ -1,5 +1,5 @@
 import { api } from '../lib/api';
-import type { Service, MenuItem, CateringPackage, Project, TeamMember, Testimonial, FAQItem, BlogPost } from '../types';
+import type { Service, MenuItem, CateringPackage, Project, TeamMember, Testimonial, FAQItem, BlogPost, BlogComment } from '../types';
 import type { TestimonialItem } from './testimonialsData';
 
 function mapService(item: any): Service {
@@ -258,6 +258,11 @@ export async function getBlogs(lang: string): Promise<BlogPost[]> {
     }
   } catch {}
   return [];
+}
+
+export async function getBlogComments(blogId: string): Promise<BlogComment[]> {
+  const res = await api.getBlogComments(blogId);
+  return res.data || [];
 }
 
 export async function getBlogBySlug(slug: string, lang: string): Promise<BlogPost | null> {

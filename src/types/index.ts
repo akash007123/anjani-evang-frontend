@@ -80,6 +80,19 @@ export interface FAQItem {
   answer: string;
 }
 
+export interface BlogComment {
+  _id: string;
+  blogId: string;
+  name: string;
+  email?: string;
+  mobile?: string;
+  profileImage?: string;
+  comment: string;
+  status: 'Pending' | 'Approved' | 'Rejected';
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface BlogPost {
   id: string;
   slug: string;

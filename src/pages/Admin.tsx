@@ -12,6 +12,7 @@ import Orders from './admin/Orders';
 import Contacts from './admin/Contacts';
 import Users from './admin/Users';
 import Blogs from './admin/Blogs';
+import Comments from './admin/Comments';
 import Menu from './admin/Menu';
 import Packages from './admin/Packages';
 import Newsletter from './admin/Newsletter';
@@ -74,6 +75,7 @@ export default function Admin() {
 
             {/* Content & Marketing Management Modules */}
             <Route path="blogs" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Blogs /></ProtectedRoute>} />
+            <Route path="comments" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Comments /></ProtectedRoute>} />
             <Route path="newsletter" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Newsletter /></ProtectedRoute>} />
             <Route path="gallery" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Gallery /></ProtectedRoute>} />
             <Route path="settings" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Settings /></ProtectedRoute>} />
