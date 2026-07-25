@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, Search, Filter, RefreshCw, Trash2, Edit3, Eye, Sparkles, 
@@ -7,6 +7,7 @@ import {
 import DOMPurify from 'dompurify';
 import { api } from '../../lib/api';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import { slugify } from '../../lib/slugify';
 
 interface BlogPostItem {
   _id?: string;
@@ -18,6 +19,7 @@ interface BlogPostItem {
   featuredImage: string;
   galleryImages?: string[];
   author: string;
+  authorAvatar?: string;
   category: string;
   tags?: string[];
   readingTime: string;
@@ -54,6 +56,7 @@ export default function BlogsManagement() {
   const [viewingItem, setViewingItem] = useState<BlogPostItem | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const slugManuallyEdited = useRef(false);
 
   // Form Fields
   const [formData, setFormData] = useState<Partial<BlogPostItem>>({
@@ -63,6 +66,7 @@ export default function BlogsManagement() {
     content: '',
     featuredImage: '',
     author: 'Anjani Culinary Team',
+    authorAvatar: '',
     category: 'Culinary Arts',
     tags: [],
     readingTime: '5 min read',
@@ -135,15 +139,15 @@ export default function BlogsManagement() {
   };
 
   const handleTitleChange = (val: string) => {
-    const autoSlug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     setFormData(prev => ({
       ...prev,
       title: val,
-      slug: prev.slug ? prev.slug : autoSlug
+      slug: slugManuallyEdited.current ? prev.slug : slugify(val)
     }));
   };
 
   const handleOpenCreate = () => {
+    slugManuallyEdited.current = false;
     setEditingItem(null);
     setFormData({
       title: '',
@@ -152,6 +156,7 @@ export default function BlogsManagement() {
       content: '',
       featuredImage: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80',
       author: 'Anjani Culinary Team',
+      authorAvatar: '',
       category: 'Culinary Arts',
       tags: ['Weddings', 'Catering'],
       readingTime: '5 min read',
@@ -166,6 +171,7 @@ export default function BlogsManagement() {
   };
 
   const handleOpenEdit = (item: BlogPostItem) => {
+    slugManuallyEdited.current = true;
     setEditingItem(item);
     setFormData({
       ...item,
@@ -554,10 +560,14 @@ export default function BlogsManagement() {
                   <input
                     type="text"
                     value={formData.slug || ''}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                    onChange={(e) => {
+                      slugManuallyEdited.current = true;
+                      setFormData({ ...formData, slug: e.target.value });
+                    }}
                     placeholder="e.g., the-art-of-royal-plating"
                     className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono text-[11px]"
                   />
+                  <p className="text-[10px] text-slate-400 mt-1">Slug is automatically generated from the blog title. You can edit it manually if needed.</p>
                 </div>
 
                 <div>
@@ -590,6 +600,17 @@ export default function BlogsManagement() {
                     type="text"
                     value={formData.readingTime || '5 min read'}
                     onChange={(e) => setFormData({ ...formData, readingTime: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Author Avatar URL</label>
+                  <input
+                    type="text"
+                    value={formData.authorAvatar || ''}
+                    onChange={(e) => setFormData({ ...formData, authorAvatar: e.target.value })}
+                    placeholder="https://images.unsplash.com/..."
                     className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
                   />
                 </div>

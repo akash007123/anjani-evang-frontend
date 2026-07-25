@@ -110,12 +110,12 @@ function mapBlog(item: any): BlogPost {
     content: item.content || '',
     image: item.image || item.featuredImage || '',
     date: item.date || item.publishDate || item.createdAt || '',
-    category: item.category || 'Catering Trends',
     author: {
       name: author.name || '',
-      avatar: author.avatar || author.image || '',
+      avatar: author.avatar || item.authorAvatar || '',
       role: author.role || '',
     },
+    category: item.category || 'Catering Trends',
     tags: item.tags || [],
     commentsCount: item.commentsCount ?? 0,
   };
@@ -251,7 +251,7 @@ export async function getFAQs(lang: string): Promise<FAQItem[]> {
 
 export async function getBlogs(lang: string): Promise<BlogPost[]> {
   try {
-    const res = await api.getBlogs({ status: 'Published', limit: 50 });
+    const res = await api.getBlogs({ limit: 50 });
     if (res.success && res.data) {
       const list = extractList(res.data);
       if (list.length > 0) return list.map(mapBlog);
