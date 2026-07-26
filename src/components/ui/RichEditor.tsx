@@ -10,18 +10,29 @@ if (typeof window !== 'undefined' && !window.CKEDITOR_VERSION) {
   window.CKEDITOR_VERSION = '48.3.1';
 }
 
-import {
-  ClassicEditor, Essentials, Paragraph, Heading,
-  Bold, Italic, Underline, Strikethrough, Subscript, Superscript,
-  RemoveFormat, List, ListProperties, TodoList,
-  Alignment, BlockQuote, CodeBlock, HorizontalLine,
-  Table, TableToolbar, TableProperties, TableCellProperties,
-  Link, LinkImage, Image, ImageInsert, ImageUpload,
-  ImageResize, ImageCaption, ImageStyle, ImageToolbar, ImageInsertViaUrl,
-  Font, FontSize, FontFamily, FontColor, FontBackgroundColor,
-  Highlight, Undo, Indent, IndentBlock, Autoformat,
-  Clipboard, Enter, ShiftEnter, FileRepository, Plugin
-} from 'ckeditor5';
+import { Plugin } from '@ckeditor/ckeditor5-core';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+import { Essentials } from '@ckeditor/ckeditor5-essentials';
+import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+import { Heading } from '@ckeditor/ckeditor5-heading';
+import { Bold, Italic, Underline, Strikethrough, Subscript, Superscript } from '@ckeditor/ckeditor5-basic-styles';
+import { RemoveFormat } from '@ckeditor/ckeditor5-remove-format';
+import { List, ListProperties, TodoList } from '@ckeditor/ckeditor5-list';
+import { Alignment } from '@ckeditor/ckeditor5-alignment';
+import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
+import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
+import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
+import { Table, TableToolbar, TableProperties, TableCellProperties } from '@ckeditor/ckeditor5-table';
+import { Link, LinkImage } from '@ckeditor/ckeditor5-link';
+import { Image, ImageInsert, ImageUpload, ImageResize, ImageCaption, ImageStyle, ImageToolbar, ImageInsertViaUrl } from '@ckeditor/ckeditor5-image';
+import { Font, FontSize, FontFamily, FontColor, FontBackgroundColor } from '@ckeditor/ckeditor5-font';
+import { Highlight } from '@ckeditor/ckeditor5-highlight';
+import { Undo } from '@ckeditor/ckeditor5-undo';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
+import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
+import { Clipboard } from '@ckeditor/ckeditor5-clipboard';
+import { Enter, ShiftEnter } from '@ckeditor/ckeditor5-enter';
+import { FileRepository } from '@ckeditor/ckeditor5-upload';
 
 const UPLOAD_URL = (import.meta as any).env?.VITE_API_URL || '/api';
 
@@ -67,10 +78,9 @@ interface RichEditorProps {
 export default function RichEditor({ value, onChange, placeholder, minHeight, simple }: RichEditorProps) {
 
   const config: Record<string, any> = useMemo(() => simple ? {
-    extraPlugins: [UploadAdapterPlugin],
     plugins: [
       Essentials, Paragraph, Heading, Bold, Italic, Underline,
-      List, ListProperties, TodoList, FileRepository,
+      List, ListProperties, TodoList, FileRepository, UploadAdapterPlugin,
       BlockQuote, Link, Undo, Clipboard, Enter, ShiftEnter,
       Table, TableToolbar
     ],
@@ -93,7 +103,6 @@ export default function RichEditor({ value, onChange, placeholder, minHeight, si
     shouldNotGroupWhenFull: false,
     licenseKey: 'GPL',
   } : {
-    extraPlugins: [UploadAdapterPlugin],
     plugins: [
       Essentials, Paragraph, Heading, Bold, Italic, Underline, Strikethrough,
       Subscript, Superscript, RemoveFormat, List, ListProperties, TodoList,
@@ -102,7 +111,7 @@ export default function RichEditor({ value, onChange, placeholder, minHeight, si
       ImageUpload, ImageResize, ImageCaption, ImageStyle, ImageToolbar,
       ImageInsertViaUrl, Font, FontSize, FontFamily, FontColor, FontBackgroundColor,
       Highlight, Undo, Indent, IndentBlock, Autoformat, Clipboard, Enter, ShiftEnter,
-      FileRepository
+      FileRepository, UploadAdapterPlugin
     ],
     toolbar: {
       items: [
