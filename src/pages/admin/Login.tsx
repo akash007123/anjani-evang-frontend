@@ -102,7 +102,7 @@ export default function Login() {
           <div className="text-xs font-semibold text-secondary space-y-1.5 flex-1">
             <p>Reviewer Demo Credentials:</p>
             <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-slate-600">
-              <span className="bg-white/80 px-1.5 py-0.5 rounded border border-slate-200">admin@eveng.com</span>
+              <span className="bg-white/80 px-1.5 py-0.5 rounded border border-slate-200">akashraikwar763@gmail.com</span>
               <span>/</span>
               <span className="bg-white/80 px-1.5 py-0.5 rounded border border-slate-200">Admin123!</span>
             </div>
