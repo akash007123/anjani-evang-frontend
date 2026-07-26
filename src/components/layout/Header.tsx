@@ -54,13 +54,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <span className="text-white/60">{t('openHours')}</span>
           <div className="flex items-center gap-4 border-l border-white/20 pl-4">
-            <a href="/project.zip" download="project.zip" className="text-primary hover:text-white transition-colors flex items-center gap-1.5 font-bold text-xs">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-              </svg>
-              <span>{t('downloadZip')}</span>
-            </a>
-            <div className="flex items-center gap-2 border-l border-white/10 pl-4">
+            <div className="flex items-center gap-2 pl-4">
               <a href="#" className="hover:text-primary transition-colors" aria-label="Instagram"><Instagram className="w-3.5 h-3.5" /></a>
               <a href="#" className="hover:text-primary transition-colors" aria-label="Facebook"><Facebook className="w-3.5 h-3.5" /></a>
               <a href="#" className="hover:text-primary transition-colors" aria-label="Twitter"><Twitter className="w-3.5 h-3.5" /></a>
@@ -299,12 +293,6 @@ export default function Header() {
             <div className="text-white/70 text-xs flex flex-col gap-2">
               <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-primary" /> {COMPANY_PHONE}</p>
               <p className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-primary" /> {COMPANY_EMAIL}</p>
-              <a href="/project.zip" download="project.zip" className="flex items-center gap-2 text-primary font-bold mt-1">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                </svg>
-                <span>{t('downloadZip')}</span>
-              </a>
             </div>
             <Link
               to="/contact"
