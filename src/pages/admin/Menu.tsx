@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Plus, Search, Filter, RefreshCw, Trash2, Edit3, Eye, 
-  ChevronLeft, ChevronRight, Check, AlertCircle, UtensilsCrossed, X, Star, Sparkles
+  Plus, Search, Filter, RefreshCw, Trash2, Edit3, 
+  ChevronLeft, ChevronRight, Check, AlertCircle, UtensilsCrossed, X, Star
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 interface MenuItem {
   _id?: string;
@@ -183,7 +184,7 @@ export default function MenuManagement() {
     }
 
     try {
-      const id = editingItem?._id || editingItem?.id;
+      const id = editingItem?._id;
       let res;
       if (id) {
         res = await api.updateMenuItem(id, formData);
@@ -220,7 +221,7 @@ export default function MenuManagement() {
   };
 
   const handleToggleStatus = async (item: MenuItem) => {
-    const id = item._id || item.id;
+    const id = item._id;
     if (!id) return;
     const newStatus = item.status === 'Active' ? 'Inactive' : 'Active';
     try {
@@ -235,7 +236,7 @@ export default function MenuManagement() {
   };
 
   const handleTogglePopular = async (item: MenuItem) => {
-    const id = item._id || item.id;
+    const id = item._id;
     if (!id) return;
     try {
       const res = await api.updateMenuItem(id, { popular: !item.popular });
@@ -276,7 +277,7 @@ export default function MenuManagement() {
             <span className="p-2 rounded-lg bg-primary/10 text-primary">
               <UtensilsCrossed className="w-5 h-5" />
             </span>
-            <h1 className="text-2xl font-serif font-bold text-secondary">Menu Management (200+ Dishes)</h1>
+            <h1 className="text-2xl font-serif font-bold text-secondary">Menu Management</h1>
           </div>
           <p className="text-slate-500 text-xs sm:text-sm mt-1">
             Manage your full banquet & wedding menu catalog dynamically across all categories and cuisines.
@@ -392,7 +393,7 @@ export default function MenuManagement() {
         {loading ? (
           <div className="p-12 text-center text-slate-500 space-y-3">
             <RefreshCw className="w-8 h-8 animate-spin mx-auto text-primary" />
-            <p className="text-sm font-semibold">Loading 200+ menu items...</p>
+            <p className="text-sm font-semibold">Loading menu items...</p>
           </div>
         ) : error ? (
           <div className="p-12 text-center text-rose-500 space-y-2">
@@ -426,7 +427,7 @@ export default function MenuManagement() {
               </thead>
               <tbody className="divide-y divide-slate-100 text-xs font-sans text-slate-700">
                 {items.map((item) => {
-                  const id = item._id || item.id || '';
+                  const id = item._id || '';
                   return (
                     <tr key={id} className="hover:bg-slate-50/70 transition-colors">
                       <td className="py-3.5 px-4 max-w-xs">
@@ -690,35 +691,14 @@ export default function MenuManagement() {
       )}
 
       {/* Delete Confirmation Modal */}
-      {deletingId && (
-        <div className="fixed inset-0 z-50 bg-secondary/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-xl border border-slate-200">
-            <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
-              <Trash2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Delete Dish</h3>
-              <p className="text-xs text-slate-500 mt-1">
-                Are you sure you want to remove this dish from the menu catalog?
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <button
-                onClick={() => setDeletingId(null)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs hover:bg-slate-200 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 cursor-pointer shadow-sm"
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteConfirmModal
+        isOpen={!!deletingId}
+        onClose={() => setDeletingId(null)}
+        onConfirm={handleDelete}
+        title="Delete Dish"
+        itemName="this dish"
+        message="Are you sure you want to remove this dish from the menu catalog?"
+      />
     </div>
   );
 }

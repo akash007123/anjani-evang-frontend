@@ -31,8 +31,14 @@ export interface MenuItem {
   price: number;
   description: string;
   image: string;
+  cuisine: string;
+  dietary: string;
   tags: string[];
   isPopular?: boolean;
+  chefSpecial?: boolean;
+  featured?: boolean;
+  status?: string;
+  displayOrder?: number;
 }
 
 export interface CateringPackage {

@@ -17,6 +17,12 @@ function mapService(item: any): Service {
 }
 
 function mapMenuItem(item: any): MenuItem {
+  const tags: string[] = [];
+  if (item.cuisine) tags.push(item.cuisine);
+  if (item.dietary) tags.push(item.dietary);
+  if (item.chefSpecial) tags.push('Chef Special');
+  if (item.featured) tags.push('Featured');
+
   return {
     id: item._id || item.id,
     name: item.name,
@@ -24,8 +30,14 @@ function mapMenuItem(item: any): MenuItem {
     price: item.price ?? 0,
     description: item.description || '',
     image: item.image || '',
-    tags: item.tags || [],
+    cuisine: item.cuisine || '',
+    dietary: item.dietary || '',
+    tags,
     isPopular: item.isPopular ?? item.popular ?? false,
+    chefSpecial: Boolean(item.chefSpecial),
+    featured: Boolean(item.featured),
+    status: item.status || 'Active',
+    displayOrder: item.displayOrder ?? 0,
   };
 }
 
@@ -150,7 +162,7 @@ export async function getServiceBySlug(slug: string, lang: string): Promise<Serv
 
 export async function getMenuItems(lang: string): Promise<MenuItem[]> {
   try {
-    const res = await api.getMenuItems();
+    const res = await api.getMenuItems({ limit: 999, status: 'Active' });
     if (res.success && res.data) {
       const list = extractList(res.data);
       if (list.length > 0) return list.map(mapMenuItem);
