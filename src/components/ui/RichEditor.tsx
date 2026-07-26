@@ -6,10 +6,7 @@ if (typeof window !== 'undefined' && !window.CKEDITOR_VERSION) {
   window.CKEDITOR_VERSION = '48.3.1';
 }
 
-import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
-import { Essentials } from '@ckeditor/ckeditor5-essentials';
-import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
-import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { ClassicEditor, Essentials, Paragraph, Bold, Italic } from 'ckeditor5';
 
 interface RichEditorProps {
   value: string;

@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { api } from '../../lib/api';
 import { 
-  Search, SlidersHorizontal, Eye, ShoppingBag, CheckCircle2, Clock, 
-  XCircle, Filter, Trash2, ShieldCheck, IndianRupee, RefreshCw 
+  Search, Eye, ShoppingBag, CheckCircle2, Clock, 
+  XCircle, Filter, Trash2, ShieldCheck, RefreshCw 
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
 
@@ -34,8 +34,8 @@ export default function Orders() {
   const handleStatusChange = async (id: string, status: string) => {
     try {
       await api.updateOrderStatus(id, status);
-      setOrders(prev => prev.map(o => o._id === id || o.id === id ? { ...o, status } : o));
-      if (selectedOrder && (selectedOrder._id === id || selectedOrder.id === id)) {
+      setOrders(prev => prev.map(o => o._id === id ? { ...o, status } : o));
+      if (selectedOrder && selectedOrder._id === id) {
         setSelectedOrder(prev => prev ? { ...prev, status } : null);
       }
     } catch (err) {
@@ -47,8 +47,8 @@ export default function Orders() {
     if (window.confirm('Are you sure you want to delete this catering order record?')) {
       try {
         await api.deleteOrder(id);
-        setOrders(prev => prev.filter(o => o._id !== id && o.id !== id));
-        if (selectedOrder && (selectedOrder._id === id || selectedOrder.id === id)) {
+        setOrders(prev => prev.filter(o => o._id !== id));
+        if (selectedOrder && selectedOrder._id === id) {
           setSelectedOrder(null);
         }
       } catch (err) {
@@ -59,9 +59,11 @@ export default function Orders() {
 
   const filteredOrders = useMemo(() => {
     return orders.filter(o => {
-      const matchSearch = o.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          o.customerEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          o.serviceName.toLowerCase().includes(searchQuery.toLowerCase());
+      const searchStr = searchQuery.toLowerCase();
+      const matchSearch = o.customerName.toLowerCase().includes(searchStr) ||
+                          o.email.toLowerCase().includes(searchStr) ||
+                          (o.items?.[0]?.title || o.deliveryAddress || '').toLowerCase().includes(searchStr) ||
+                          (o.orderNumber || '').toLowerCase().includes(searchStr);
       const matchStatus = statusFilter === 'all' || o.status === statusFilter;
       return matchSearch && matchStatus;
     });
@@ -99,7 +101,7 @@ export default function Orders() {
             <Filter className="w-3.5 h-3.5" />
             <span>Status:</span>
           </div>
-          {['all', 'paid', 'preparing', 'delivered', 'cancelled'].map((status) => (
+          {['all', 'pending', 'processing', 'delivered', 'cancelled'].map((status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
@@ -145,34 +147,34 @@ export default function Orders() {
                 <tbody className="divide-y divide-slate-50 font-medium text-secondary">
                   {filteredOrders.map((o) => (
                     <tr 
-                      key={o.id} 
+                      key={o._id} 
                       className={`hover:bg-slate-50/50 transition-colors cursor-pointer ${
-                        selectedOrder?.id === o.id ? 'bg-primary/5 border-l-4 border-l-primary' : ''
+                        selectedOrder?._id === o._id ? 'bg-primary/5 border-l-4 border-l-primary' : ''
                       }`}
                       onClick={() => setSelectedOrder(o)}
                     >
                       <td className="py-4 px-5 font-bold font-mono text-slate-400">
-                        {o.id}
+                        {o.orderNumber || o._id}
                       </td>
                       <td className="py-4 px-5">
                         <p className="font-bold">{o.customerName}</p>
-                        <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">{o.customerEmail}</span>
+                        <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">{o.email}</span>
                       </td>
                       <td className="py-4 px-5 font-bold text-slate-600 max-w-xs truncate">
-                        {o.serviceName}
+                        {o.items?.[0]?.title || o.deliveryAddress || '—'}
                       </td>
                       <td className="py-4 px-5 font-extrabold text-secondary">
-                        ₹{(o.amount ?? 0).toLocaleString('en-IN')}
+                        ₹{(o.totalAmount ?? 0).toLocaleString('en-IN')}
                       </td>
                       <td className="py-4 px-5">
                         <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                          o.status === 'paid' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
-                          o.status === 'preparing' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
+                          o.status === 'pending' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
+                          o.status === 'processing' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
                           o.status === 'delivered' ? 'bg-blue-50 text-blue-700 border border-blue-100' :
                           'bg-rose-50 text-rose-700 border border-rose-100'
                         }`}>
-                          {o.status === 'paid' && <IndianRupee className="w-2.5 h-2.5" />}
-                          {o.status === 'preparing' && <RefreshCw className="w-2.5 h-2.5" />}
+                          {o.status === 'pending' && <Clock className="w-2.5 h-2.5" />}
+                          {o.status === 'processing' && <RefreshCw className="w-2.5 h-2.5" />}
                           {o.status === 'delivered' && <CheckCircle2 className="w-2.5 h-2.5" />}
                           {o.status === 'cancelled' && <XCircle className="w-2.5 h-2.5" />}
                           <span>{o.status}</span>
@@ -188,7 +190,7 @@ export default function Orders() {
                             <Eye className="w-4 h-4" />
                           </button>
                           <button 
-                            onClick={() => handleDelete(o.id)}
+                            onClick={() => handleDelete(o._id)}
                             className="p-2 border border-slate-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded-xl transition-colors cursor-pointer"
                             title="Delete Record"
                           >
@@ -210,7 +212,7 @@ export default function Orders() {
             <div className="space-y-6 animate-fade-in font-sans">
               <div className="flex items-center justify-between border-b border-slate-50 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Invoice: {selectedOrder.id}</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Invoice: {selectedOrder.orderNumber || selectedOrder._id}</span>
                   <h4 className="font-serif text-lg font-bold text-secondary mt-1">Catering Order Panel</h4>
                 </div>
                 <button 
@@ -228,25 +230,25 @@ export default function Orders() {
                   <div>
                     <p className="font-bold text-secondary text-sm">{selectedOrder.customerName}</p>
                     <p className="text-xs text-primary font-semibold underline mt-0.5">
-                      <a href={`mailto:${selectedOrder.customerEmail}`}>{selectedOrder.customerEmail}</a>
+                      <a href={`mailto:${selectedOrder.email}`}>{selectedOrder.email}</a>
                     </p>
                   </div>
                   <div className="border-t border-slate-200/50 pt-2.5 flex justify-between text-xs font-bold text-slate-600">
                     <span>Order Date:</span>
-                    <span>{selectedOrder.date}</span>
+                    <span>{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</span>
                   </div>
                   <div className="flex justify-between text-xs font-bold text-slate-600">
                     <span>Catering Pack:</span>
-                    <span className="text-slate-800 text-right max-w-[120px] truncate">{selectedOrder.serviceName}</span>
+                    <span className="text-slate-800 text-right max-w-[120px] truncate">{selectedOrder.items?.[0]?.title || selectedOrder.deliveryAddress || '—'}</span>
                   </div>
                   <div className="flex justify-between text-xs font-extrabold text-secondary border-t border-dashed border-slate-200 pt-2.5">
                     <span>Total Amount:</span>
-                    <span className="text-primary text-sm font-sans font-extrabold">₹{(selectedOrder.amount ?? 0).toLocaleString('en-IN')}</span>
+                    <span className="text-primary text-sm font-sans font-extrabold">₹{(selectedOrder.totalAmount ?? 0).toLocaleString('en-IN')}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Verified Badge */}
+              {selectedOrder.paymentStatus === 'Paid' && (
               <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3">
                 <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0" />
                 <div className="text-left font-sans text-xs">
@@ -254,35 +256,36 @@ export default function Orders() {
                   <p className="text-emerald-600 font-semibold mt-0.5">The invoice holds a guaranteed clearance badge.</p>
                 </div>
               </div>
+              )}
 
               {/* Status Update Dropdown */}
               <div className="space-y-3">
                 <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Configure Preparation Status</h5>
                 <div className="grid grid-cols-2 gap-2 text-center text-xs font-bold">
                   <button
-                    onClick={() => handleStatusChange(selectedOrder.id, 'paid')}
+                    onClick={() => handleStatusChange(selectedOrder._id, 'pending')}
                     className={`py-2 px-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                      selectedOrder.status === 'paid' 
-                        ? 'bg-emerald-500 border-emerald-500 text-white font-bold shadow-xs' 
+                      selectedOrder.status === 'pending' 
+                        ? 'bg-slate-600 border-slate-600 text-white font-bold shadow-xs' 
                         : 'border-slate-200 hover:bg-slate-50 text-slate-600'
                     }`}
                   >
-                    <IndianRupee className="w-3.5 h-3.5" />
-                    <span>Mark Paid</span>
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Pending</span>
                   </button>
                   <button
-                    onClick={() => handleStatusChange(selectedOrder.id, 'preparing')}
+                    onClick={() => handleStatusChange(selectedOrder._id, 'processing')}
                     className={`py-2 px-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                      selectedOrder.status === 'preparing' 
+                      selectedOrder.status === 'processing' 
                         ? 'bg-amber-500 border-amber-500 text-white font-bold shadow-xs' 
                         : 'border-slate-200 hover:bg-slate-50 text-slate-600'
                     }`}
                   >
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
-                    <span>Preparing</span>
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Processing</span>
                   </button>
                   <button
-                    onClick={() => handleStatusChange(selectedOrder.id, 'delivered')}
+                    onClick={() => handleStatusChange(selectedOrder._id, 'delivered')}
                     className={`py-2 px-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       selectedOrder.status === 'delivered' 
                         ? 'bg-blue-500 border-blue-500 text-white font-bold shadow-xs' 
@@ -293,7 +296,7 @@ export default function Orders() {
                     <span>Delivered</span>
                   </button>
                   <button
-                    onClick={() => handleStatusChange(selectedOrder.id, 'cancelled')}
+                    onClick={() => handleStatusChange(selectedOrder._id, 'cancelled')}
                     className={`py-2 px-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       selectedOrder.status === 'cancelled' 
                         ? 'bg-rose-500 border-rose-500 text-white font-bold shadow-xs' 
