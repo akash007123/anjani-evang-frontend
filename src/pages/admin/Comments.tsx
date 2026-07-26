@@ -114,6 +114,7 @@ export default function Comments() {
                 <tr className="border-b border-slate-100 bg-slate-50/50">
                   <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Avatar</th>
                   <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Name</th>
+                  <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Type</th>
                   <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Blog</th>
                   <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Email</th>
                   <th className="text-left px-4 py-3 font-bold font-sans text-[11px] uppercase tracking-wider text-slate-500">Comment</th>
@@ -138,6 +139,17 @@ export default function Comments() {
                       )}
                     </td>
                     <td className="px-4 py-3 font-sans font-semibold text-secondary text-xs">{c.name}</td>
+                    <td className="px-4 py-3">
+                      {c.isReply ? (
+                        <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">
+                          Reply
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200">
+                          Comment
+                        </span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 font-sans text-xs text-slate-600 max-w-[160px] truncate">
                       {(c as any).blogId?.title || '—'}
                     </td>
@@ -238,7 +250,14 @@ export default function Comments() {
                 </div>
               )}
               <div className="flex-1">
-                <h3 className="font-serif font-bold text-secondary">{viewComment.name}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-serif font-bold text-secondary">{viewComment.name}</h3>
+                  {viewComment.isReply ? (
+                    <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">Reply</span>
+                  ) : (
+                    <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200">Comment</span>
+                  )}
+                </div>
                 <p className="text-[11px] text-slate-400 font-sans">
                   {viewComment.email && <span>{viewComment.email}</span>}
                   {viewComment.mobile && <span className="ml-2">{viewComment.mobile}</span>}
@@ -249,6 +268,7 @@ export default function Comments() {
             <p className="font-sans text-sm text-slate-600 leading-relaxed mb-3">{viewComment.comment}</p>
             <p className="text-[11px] text-slate-400 font-sans">
               {(viewComment as any).blogId?.title && <>Blog: {(viewComment as any).blogId.title}</>}
+              {viewComment.parentCommentId && <span className="ml-2">(Reply)</span>}
             </p>
             <button
               onClick={() => setViewComment(null)}

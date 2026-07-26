@@ -19,8 +19,9 @@ export default function Blog() {
   const allTags = Array.from(new Set(blogs.flatMap(b => b.tags)));
 
   const filteredBlogs = blogs.filter((blog) => {
+    const stripHtml = (s: string) => s ? s.replace(/<[^>]*>/g, '') : '';
     const matchesSearch = blog.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          blog.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+                          stripHtml(blog.excerpt).toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTag = selectedTag ? blog.tags.includes(selectedTag) : true;
     return matchesSearch && matchesTag;
   });
@@ -90,7 +91,7 @@ export default function Blog() {
                         </h3>
 
                         <p className="font-sans text-slate-500 text-sm sm:text-base leading-relaxed">
-                          {blog.excerpt}
+                          {(() => { const s = blog.excerpt; return s ? s.replace(/<[^>]*>/g, '') : ''; })()}
                         </p>
                       </div>
                     </div>

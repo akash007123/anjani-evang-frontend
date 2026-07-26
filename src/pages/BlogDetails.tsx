@@ -38,11 +38,34 @@ export default function BlogDetails() {
   const [refreshKey, setRefreshKey] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { data: comments, loading: commentsLoading } = useAsyncData<BlogComment[]>(
-    () => blog ? getBlogComments(blog.id) : Promise.resolve([]),
-    [],
-    [blog?.id, refreshKey]
-  );
+const [replyingTo, setReplyingTo] = useState<string | null>(null);
+const [replyName, setReplyName] = useState('');
+const [replyEmail, setReplyEmail] = useState('');
+const [replyMobile, setReplyMobile] = useState('');
+const [replyText, setReplyText] = useState('');
+const [replyFile, setReplyFile] = useState<File | null>(null);
+const [replyPreview, setReplyPreview] = useState('');
+const [replySubmitting, setReplySubmitting] = useState(false);
+const [replyError, setReplyError] = useState('');
+const replyFileRef = useRef<HTMLInputElement>(null);
+
+const [comments, setComments] = useState<BlogComment[]>([]);
+const [commentsLoading, setCommentsLoading] = useState(true);
+const [repliesMap, setRepliesMap] = useState<Record<string, BlogComment[]>>({});
+const [repliesLoading, setRepliesLoading] = useState(false);
+
+useEffect(() => {
+  if (!blog) return;
+  let cancelled = false;
+  setCommentsLoading(true);
+  getBlogComments(blog.id).then(data => {
+    if (!cancelled) {
+      setComments(data);
+      setCommentsLoading(false);
+    }
+  });
+  return () => { cancelled = true; };
+}, [blog?.id, refreshKey]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -145,36 +168,102 @@ export default function BlogDetails() {
     }
   };
 
-  // Convert double newline content into HTML paragraphs beautifully
-  const renderParagraphs = (text: string) => {
-    return text.trim().split('\n\n').map((para, index) => {
-      if (para.startsWith('###')) {
-        return (
-          <h3 key={index} className="font-serif text-xl sm:text-2xl font-bold text-secondary mt-8 mb-4">
-            {para.replace('###', '').trim()}
-          </h3>
-        );
-      }
-      if (para.startsWith('##')) {
-        return (
-          <h2 key={index} className="font-serif text-2xl sm:text-3xl font-bold text-secondary mt-10 mb-4">
-            {para.replace('##', '').trim()}
-          </h2>
-        );
-      }
-      return (
-        <p key={index} className="font-sans text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-          {para}
-        </p>
-      );
-    });
+  const handleReplyFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setReplyError('Only image files are allowed');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setReplyError('Image must be less than 2MB');
+      return;
+    }
+    setReplyFile(file);
+    setReplyPreview(URL.createObjectURL(file));
+    setReplyError('');
   };
+
+  const handleReplySubmit = async (e: FormEvent, parentCommentId: string) => {
+    e.preventDefault();
+    setReplyError('');
+
+    if (!replyName || replyName.trim().length < 2) {
+      setReplyError('Name must be at least 2 characters');
+      return;
+    }
+    if (!replyText || replyText.trim().length < 5) {
+      setReplyError('Reply must be at least 5 characters');
+      return;
+    }
+    if (replyEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyEmail)) {
+      setReplyError('Invalid email format');
+      return;
+    }
+    if (replyMobile && !/^\+?\d{6,15}$/.test(replyMobile.replace(/[\s-]/g, ''))) {
+      setReplyError('Invalid mobile number');
+      return;
+    }
+
+    setReplySubmitting(true);
+
+    try {
+      let profileImageUrl = '';
+      if (replyFile) {
+        const formData = new FormData();
+        formData.append('file', replyFile);
+        const uploadRes = await fetch(`${UPLOAD_URL}/upload/public`, {
+          method: 'POST',
+          body: formData
+        }).then(r => r.json());
+        if (uploadRes.success || uploadRes.data?.url) {
+          profileImageUrl = uploadRes.data?.url || '';
+        }
+      }
+
+      const res = await api.createReply(parentCommentId, {
+        name: replyName.trim(),
+        email: replyEmail.trim(),
+        mobile: replyMobile.replace(/[\s-]/g, ''),
+        profileImage: profileImageUrl,
+        comment: replyText.trim()
+      });
+
+      if (res.success) {
+        const newReply = res.data as BlogComment;
+        setRepliesMap(prev => ({
+          ...prev,
+          [parentCommentId]: [...(prev[parentCommentId] || []), newReply]
+        }));
+        setComments(prev => prev.map(c =>
+          c._id === parentCommentId
+            ? { ...c, replyCount: (c.replyCount || 0) + 1 }
+            : c
+        ));
+        setReplyName('');
+        setReplyEmail('');
+        setReplyMobile('');
+        setReplyText('');
+        setReplyFile(null);
+        setReplyPreview('');
+        if (replyFileRef.current) replyFileRef.current.value = '';
+      } else {
+        setReplyError(res.error || 'Failed to submit reply');
+      }
+    } catch (err: any) {
+      setReplyError(err.message || 'Something went wrong');
+    } finally {
+      setReplySubmitting(false);
+    }
+  };
+
+  const stripHtml = (s: string) => s ? s.replace(/<[^>]*>/g, '') : '';
 
   return (
     <div>
       <SEO 
         title={blog.title} 
-        description={blog.excerpt}
+        description={stripHtml(blog.excerpt)}
         image={blog.image}
         urlPath={`/blogs/${blog.slug}`}
         type="article"
@@ -267,10 +356,33 @@ export default function BlogDetails() {
                   />
                 </div>
 
-                {/* Rich content body paragraphs */}
-                <div className="prose max-w-none">
-                  {renderParagraphs(blog.content)}
-                </div>
+                {/* Short Description */}
+                {blog.excerpt && (() => {
+                  const stripped = stripHtml(blog.excerpt);
+                  if (!stripped) return null;
+                  return (
+                    <div className="relative pl-5 border-l-4 border-primary bg-linen/60 rounded-r-2xl p-5 sm:p-6 mb-8">
+                      <h4 className="font-serif text-sm font-bold text-primary uppercase tracking-wider mb-2">
+                        Article Summary
+                      </h4>
+                      <div className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed prose prose-sm max-w-none prose-table:border-collapse prose-table:w-full prose-th:bg-slate-50 prose-th:border prose-th:border-slate-200 prose-th:p-2 prose-td:border prose-td:border-slate-200 prose-td:p-2 prose-th:text-xs prose-td:text-xs"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.excerpt) }}
+                      />
+                    </div>
+                  );
+                })()}
+
+                {/* Rich content body */}
+                {blog.content && (() => {
+                  const stripped = stripHtml(blog.content);
+                  if (!stripped) return null;
+                  return (
+                    <div
+                      className="prose prose-sm sm:prose-base max-w-none prose-headings:font-serif prose-headings:text-secondary prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-sm prose-blockquote:border-l-primary prose-blockquote:bg-linen/40 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-table:border-collapse prose-table:w-full prose-th:bg-slate-50 prose-th:border prose-th:border-slate-200 prose-th:p-2 prose-td:border prose-td:border-slate-200 prose-td:p-2 prose-th:text-xs prose-td:text-xs"
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
+                    />
+                  );
+                })()}
 
                 {/* Tags bottom block */}
                 <div className="flex flex-wrap items-center gap-2 mt-10 border-t border-slate-50 pt-6">
@@ -326,41 +438,211 @@ export default function BlogDetails() {
                     </p>
                   )}
                   {comments.map((comm) => (
-                    <div
-                      key={comm._id}
-                      className="bg-white rounded-2xl p-5 border border-slate-50 shadow-sm flex gap-3 sm:gap-4"
-                    >
-                      <div className="shrink-0">
-                        {comm.profileImage ? (
-                          <img
-                            src={comm.profileImage}
-                            alt={comm.name}
-                            className="w-10 h-10 rounded-full object-cover border border-slate-200"
-                          />
-                        ) : (
-                          <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs border border-white/20"
-                            style={{ backgroundColor: getAvatarColor(comm.name) }}
-                          >
-                            {getInitials(comm.name)}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-baseline gap-2 flex-wrap">
-                          <h4 className="font-serif text-sm sm:text-base font-bold text-secondary">
-                            {DOMPurify.sanitize(comm.name)}
-                          </h4>
-                          <span className="text-[10px] text-slate-400 font-sans whitespace-nowrap">
-                            {new Date(comm.createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric', month: 'long', day: 'numeric'
-                            })}
-                          </span>
+                    <div key={comm._id} className="bg-white rounded-2xl p-5 border border-slate-50 shadow-sm">
+                      <div className="flex gap-3 sm:gap-4">
+                        <div className="shrink-0">
+                          {comm.profileImage ? (
+                            <img
+                              src={comm.profileImage}
+                              alt={comm.name}
+                              className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                            />
+                          ) : (
+                            <div
+                              className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs border border-white/20"
+                              style={{ backgroundColor: getAvatarColor(comm.name) }}
+                            >
+                              {getInitials(comm.name)}
+                            </div>
+                          )}
                         </div>
-                        <p className="font-sans text-slate-600 text-xs sm:text-sm leading-relaxed mt-1">
-                          {DOMPurify.sanitize(comm.comment)}
-                        </p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-baseline gap-2 flex-wrap">
+                            <h4 className="font-serif text-sm sm:text-base font-bold text-secondary">
+                              {DOMPurify.sanitize(comm.name)}
+                            </h4>
+                            <span className="text-[10px] text-slate-400 font-sans whitespace-nowrap">
+                              {new Date(comm.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                              })}
+                            </span>
+                          </div>
+                          <p className="font-sans text-slate-600 text-xs sm:text-sm leading-relaxed mt-1">
+                            {DOMPurify.sanitize(comm.comment)}
+                          </p>
+                          <div className="flex items-center gap-4 mt-2.5">
+                            <button
+                              onClick={() => {
+                                const isOpening = replyingTo !== comm._id;
+                                setReplyingTo(isOpening ? comm._id : null);
+                                if (isOpening) {
+                                  setReplyError('');
+                                  if (!repliesMap[comm._id]) {
+                                    setRepliesLoading(true);
+                                    api.getCommentReplies(comm._id).then(r => {
+                                      setRepliesMap(prev => ({ ...prev, [comm._id]: r.data || [] }));
+                                      setRepliesLoading(false);
+                                    });
+                                  }
+                                }
+                              }}
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-primary transition-colors"
+                            >
+                              <span className="text-base leading-none">↩</span>
+                              <span>Reply{comm.replyCount && comm.replyCount > 0 ? ` (${comm.replyCount})` : ''}</span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
+
+                      {replyingTo === comm._id && (
+                        <div className="mt-4 pt-4 border-t border-slate-100">
+                          {replyError && (
+                            <div className="mb-3 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-sans">
+                              {replyError}
+                            </div>
+                          )}
+
+                          {/* Replies Thread */}
+                          <div className="mb-4">
+                            <h5 className="text-xs font-bold font-sans text-slate-500 uppercase tracking-wider mb-2">
+                              Replies ({repliesMap[comm._id]?.length ?? 0})
+                            </h5>
+                            <div className="max-h-[350px] overflow-y-auto rounded-xl border border-slate-100 bg-white p-3 space-y-3">
+                              {repliesLoading && (
+                                <div className="flex items-center justify-center py-6 text-slate-400">
+                                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                  <span className="text-xs font-sans">Loading replies...</span>
+                                </div>
+                              )}
+                              {!repliesLoading && (!repliesMap[comm._id] || repliesMap[comm._id].length === 0) && (
+                                <p className="text-center text-slate-400 font-sans text-xs py-6">
+                                  No replies yet. Be the first to reply.
+                                </p>
+                              )}
+                              {!repliesLoading && repliesMap[comm._id]?.map(reply => (
+                                <div key={reply._id} className="flex gap-3">
+                                  <div className="shrink-0">
+                                    {reply.profileImage ? (
+                                      <img
+                                        src={reply.profileImage}
+                                        alt={reply.name}
+                                        className="w-7 h-7 rounded-full object-cover border border-slate-200"
+                                      />
+                                    ) : (
+                                      <div
+                                        className="w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-[9px] border border-white/20"
+                                        style={{ backgroundColor: getAvatarColor(reply.name) }}
+                                      >
+                                        {getInitials(reply.name)}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-baseline gap-2 flex-wrap">
+                                      <h4 className="font-serif text-xs font-bold text-secondary">
+                                        {DOMPurify.sanitize(reply.name)}
+                                      </h4>
+                                      <span className="text-[9px] text-slate-400 font-sans whitespace-nowrap">
+                                        {new Date(reply.createdAt).toLocaleDateString('en-US', {
+                                          year: 'numeric', month: 'long', day: 'numeric'
+                                        })}
+                                      </span>
+                                    </div>
+                                    <p className="font-sans text-slate-600 text-xs leading-relaxed mt-0.5">
+                                      {DOMPurify.sanitize(reply.comment)}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Reply Form */}
+                          <form onSubmit={(e) => handleReplySubmit(e, comm._id)} className="flex flex-col gap-3">
+                            <input
+                              type="text"
+                              required
+                              placeholder="Your full name *"
+                              value={replyName}
+                              onChange={(e) => setReplyName(e.target.value)}
+                              className="w-full bg-cream border border-slate-100 rounded-xl py-2.5 px-3.5 text-xs focus:outline-none focus:border-primary text-secondary font-sans"
+                            />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <input
+                                type="email"
+                                placeholder="Email (optional)"
+                                value={replyEmail}
+                                onChange={(e) => setReplyEmail(e.target.value)}
+                                className="w-full bg-cream border border-slate-100 rounded-xl py-2.5 px-3.5 text-xs focus:outline-none focus:border-primary text-secondary font-sans"
+                              />
+                              <input
+                                type="tel"
+                                placeholder="Mobile (optional)"
+                                value={replyMobile}
+                                onChange={(e) => setReplyMobile(e.target.value)}
+                                className="w-full bg-cream border border-slate-100 rounded-xl py-2.5 px-3.5 text-xs focus:outline-none focus:border-primary text-secondary font-sans"
+                              />
+                            </div>
+                            <div>
+                              <label className="flex items-center gap-2 cursor-pointer">
+                                <div className="flex items-center gap-1.5 bg-cream border border-slate-100 rounded-xl py-2.5 px-3.5 text-xs text-slate-500 font-sans hover:border-primary/50 transition-colors">
+                                  <Image className="w-3.5 h-3.5" />
+                                  <span>{replyFile ? replyFile.name : 'Profile Picture (optional)'}</span>
+                                </div>
+                                <input
+                                  ref={replyFileRef}
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleReplyFileChange}
+                                  className="hidden"
+                                />
+                                {replyPreview && (
+                                  <div className="relative">
+                                    <img src={replyPreview} alt="" className="w-8 h-8 rounded-full object-cover border border-slate-200" />
+                                    <button
+                                      type="button"
+                                      onClick={() => { setReplyFile(null); setReplyPreview(''); if (replyFileRef.current) replyFileRef.current.value = ''; }}
+                                      className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-rose-500 text-white rounded-full text-[8px] flex items-center justify-center hover:bg-rose-600"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                )}
+                              </label>
+                            </div>
+                            <textarea
+                              required
+                              rows={3}
+                              placeholder="Write your reply..."
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              className="w-full bg-cream border border-slate-100 rounded-xl py-2.5 px-3.5 text-xs focus:outline-none focus:border-primary text-secondary font-sans"
+                            />
+                            <div className="flex justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => { setReplyingTo(null); setReplyError(''); }}
+                                className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-500 font-sans hover:bg-slate-50 transition-colors"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="submit"
+                                disabled={replySubmitting}
+                                className="inline-flex items-center gap-1.5 bg-secondary hover:bg-secondary-hover text-white font-sans font-bold text-xs px-4 py-2 rounded-full transition-transform hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+                              >
+                                {replySubmitting ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <Send className="w-3 h-3" />
+                                )}
+                                <span>{replySubmitting ? 'Submitting...' : 'Submit Reply'}</span>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

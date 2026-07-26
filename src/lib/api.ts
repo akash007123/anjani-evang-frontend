@@ -102,6 +102,9 @@ export const api = {
   getBlogs: (params?: Record<string, any>) =>
     apiRequest(`/blogs${buildQueryString(params)}`),
 
+  getBlogById: (id: string) =>
+    apiRequest(`/blogs/id/${id}`),
+
   getBlogBySlug: (slug: string) =>
     apiRequest(`/blogs/${slug}`),
 
@@ -244,6 +247,13 @@ export const api = {
 
   createComment: (blogId: string, payload: any) =>
     apiRequest(`/blogs/${blogId}/comments`, { method: 'POST', body: JSON.stringify(payload) }),
+
+  // Blog Comment Replies
+  createReply: (commentId: string, payload: any) =>
+    apiRequest(`/comments/${commentId}/replies`, { method: 'POST', body: JSON.stringify(payload) }),
+
+  getCommentReplies: (commentId: string) =>
+    apiRequest(`/comments/${commentId}/replies`),
 
   // Admin Comment Management
   getAllComments: (params?: Record<string, any>) =>

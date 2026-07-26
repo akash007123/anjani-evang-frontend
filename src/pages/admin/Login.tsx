@@ -61,8 +61,8 @@ export default function Login() {
   };
 
   const handlePrefillDemo = () => {
-    setEmailOrMobile('admin@eveng.com');
-    setPassword('Admin123!');
+    setEmailOrMobile('akashraikwar763@gmail.com');
+    setPassword('Ujjain@9685');
     setErrorMessage('');
     setValidationErrors({});
   };

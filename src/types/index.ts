@@ -83,6 +83,8 @@ export interface FAQItem {
 export interface BlogComment {
   _id: string;
   blogId: string;
+  parentCommentId?: string | null;
+  isReply?: boolean;
   name: string;
   email?: string;
   mobile?: string;
@@ -91,6 +93,7 @@ export interface BlogComment {
   status: 'Pending' | 'Approved' | 'Rejected';
   createdAt: string;
   updatedAt: string;
+  replyCount?: number;
 }
 
 export interface BlogPost {
