@@ -58,7 +58,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
               lastName: nameParts.slice(1).join(' ') || '',
               email: u.email || decoded?.email || '',
               mobile: u.mobile || '',
-              profilePicture: u.avatar || '',
+              profilePicture: u.profilePicture || '',
               role: normalizeRole(u.role || decoded?.role || 'Admin'),
               permissions: u.permissions || []
             };
@@ -130,7 +130,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
           lastName: nameParts.slice(1).join(' ') || '',
           email: u.email || decoded?.email || '',
           mobile: u.mobile || '',
-          profilePicture: u.avatar || '',
+          profilePicture: u.profilePicture || '',
           role: normalizeRole(u.role || decoded?.role || 'Admin'),
           permissions: u.permissions || []
         };
