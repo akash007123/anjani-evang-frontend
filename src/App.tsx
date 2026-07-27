@@ -22,6 +22,7 @@ const Services = lazy(() => import('./pages/Services'));
 const ServiceDetails = lazy(() => import('./pages/ServiceDetails'));
 const Packages = lazy(() => import('./pages/Packages'));
 const Menu = lazy(() => import('./pages/Menu'));
+const Gallery = lazy(() => import('./pages/Gallery'));
 const Projects = lazy(() => import('./pages/Projects'));
 const ProjectDetails = lazy(() => import('./pages/ProjectDetails'));
 const Testimonials = lazy(() => import('./pages/Testimonials'));
@@ -84,7 +85,7 @@ function AppContent() {
               <Route path="/services/:slug" element={<PageTransition><ServiceDetails /></PageTransition>} />
               <Route path="/packages" element={<PageTransition><Packages /></PageTransition>} />
               <Route path="/menu" element={<PageTransition><Menu /></PageTransition>} />
-              <Route path="/gallery" element={<PageTransition><Projects /></PageTransition>} />
+              <Route path="/gallery" element={<PageTransition><Gallery /></PageTransition>} />
               <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
               <Route path="/projects/:slug" element={<PageTransition><ProjectDetails /></PageTransition>} />
               <Route path="/testimonials" element={<PageTransition><Testimonials /></PageTransition>} />

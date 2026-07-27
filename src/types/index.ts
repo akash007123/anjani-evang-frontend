@@ -102,6 +102,22 @@ export interface BlogComment {
   replyCount?: number;
 }
 
+export interface GalleryItem {
+  id: string;
+  type: 'image' | 'video';
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  videoUrl: string;
+  videoType: 'mp4' | 'youtube' | 'vimeo';
+  thumbnail: string;
+  featured: boolean;
+  displayOrder: number;
+  status: string;
+  createdAt: string;
+}
+
 export interface BlogPost {
   id: string;
   slug: string;

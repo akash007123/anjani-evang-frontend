@@ -191,6 +191,9 @@ export const api = {
   getGalleryItems: (params?: Record<string, any>) =>
     apiRequest(`/gallery${buildQueryString(params)}`),
 
+  getGalleryItemById: (id: string) =>
+    apiRequest(`/gallery/${id}`),
+
   createGalleryItem: (payload: any) =>
     apiRequest('/gallery', { method: 'POST', body: JSON.stringify(payload) }),
 
@@ -200,9 +203,29 @@ export const api = {
   deleteGalleryItem: (id: string) =>
     apiRequest(`/gallery/${id}`, { method: 'DELETE' }),
 
-  // File Upload
-  uploadMedia: (payload: any) =>
-    apiRequest('/upload', { method: 'POST', body: JSON.stringify(payload) }),
+  // File Upload — multipart/form-data
+  uploadFile: (file: File, fieldName: string = 'file'): Promise<{ success: boolean; data?: { url: string; filename: string; size: number; mimetype: string }; error?: string }> => {
+    return new Promise(async (resolve) => {
+      try {
+        const token = localStorage.getItem('eveng_admin_token') || sessionStorage.getItem('eveng_token');
+        const formData = new FormData();
+        formData.append(fieldName, file);
+        const res = await fetch(`${BASE_URL}/upload`, {
+          method: 'POST',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          body: formData,
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          resolve({ success: false, error: json.message || json.error || 'Upload failed' });
+          return;
+        }
+        resolve({ success: true, data: json.data || json });
+      } catch (err: any) {
+        resolve({ success: false, error: err.message || 'Upload error' });
+      }
+    });
+  },
 
   // Chat
   sendChatMessage: (message: string, sessionId?: string) =>

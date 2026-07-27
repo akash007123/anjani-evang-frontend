@@ -1,5 +1,5 @@
 import { api } from '../lib/api';
-import type { Service, MenuItem, CateringPackage, Project, TeamMember, Testimonial, FAQItem, BlogPost, BlogComment } from '../types';
+import type { Service, MenuItem, CateringPackage, Project, TeamMember, Testimonial, FAQItem, BlogPost, BlogComment, GalleryItem } from '../types';
 import type { TestimonialItem } from './testimonialsData';
 
 function mapService(item: any): Service {
@@ -72,6 +72,24 @@ function mapProject(item: any): Project {
   };
 }
 
+function mapGalleryItem(item: any): GalleryItem {
+  return {
+    id: item._id || item.id,
+    type: item.type || 'image',
+    title: item.title,
+    description: item.description || '',
+    category: item.category || 'Weddings',
+    imageUrl: item.imageUrl || '',
+    videoUrl: item.videoUrl || '',
+    videoType: item.videoType || 'youtube',
+    thumbnail: item.thumbnail || item.imageUrl || '',
+    featured: Boolean(item.featured),
+    displayOrder: item.displayOrder ?? 0,
+    status: item.status || 'Active',
+    createdAt: item.createdAt || '',
+  };
+}
+
 function mapTeamMember(item: any): TeamMember {
   return {
     id: item._id || item.id,
@@ -136,7 +154,7 @@ function mapBlog(item: any): BlogPost {
 function extractList(data: any): any[] {
   if (Array.isArray(data)) return data;
   if (data && typeof data === 'object') {
-    return data.data || data.items || data.services || data.packages || data.projects || data.members || data.testimonials || data.faqs || data.posts || data.blogs || data.contacts || data.orders || data.bookings || [];
+    return data.data || data.gallery || data.items || data.services || data.packages || data.projects || data.members || data.testimonials || data.faqs || data.posts || data.blogs || data.contacts || data.orders || data.bookings || [];
   }
   return [];
 }
@@ -188,6 +206,17 @@ export async function getProjects(lang: string): Promise<Project[]> {
     if (res.success && res.data) {
       const list = extractList(res.data);
       if (list.length > 0) return list.map(mapProject);
+    }
+  } catch {}
+  return [];
+}
+
+export async function getGalleryItems(lang: string): Promise<GalleryItem[]> {
+  try {
+    const res = await api.getGalleryItems({ limit: 999, status: 'Active', sortBy: 'displayOrder' });
+    if (res.success && res.data) {
+      const list = extractList(res.data);
+      if (list.length > 0) return list.map(mapGalleryItem);
     }
   } catch {}
   return [];

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, Search, Filter, RefreshCw, Trash2, Edit3, Eye, 
-  ChevronLeft, ChevronRight, Check, AlertCircle, Image as ImageIcon, Video, X, Star, Play
+  ChevronLeft, ChevronRight, Check, AlertCircle, Image as ImageIcon, Video, X, Play, Upload
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 interface GalleryItem {
   _id?: string;
@@ -65,6 +66,10 @@ export default function GalleryManagement() {
     displayOrder: 1,
     status: 'Active'
   });
+
+  // File upload
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
 
   // Toasts
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -155,15 +160,53 @@ export default function GalleryManagement() {
     setIsFormOpen(true);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    const res = await api.uploadFile(file);
+    setUploadingImage(false);
+    if (res.success && res.data?.url) {
+      setFormData(prev => ({ ...prev, imageUrl: res.data!.url }));
+      showToast('success', 'Image uploaded successfully');
+    } else {
+      showToast('error', res.error || 'Upload failed');
+    }
+    e.target.value = '';
+  };
+
+  const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingThumbnail(true);
+    const res = await api.uploadFile(file);
+    setUploadingThumbnail(false);
+    if (res.success && res.data?.url) {
+      setFormData(prev => ({ ...prev, thumbnail: res.data!.url }));
+      showToast('success', 'Thumbnail uploaded successfully');
+    } else {
+      showToast('error', res.error || 'Upload failed');
+    }
+    e.target.value = '';
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.category) {
       showToast('error', 'Title and Category are required');
       return;
     }
+    if (formData.type === 'image' && !formData.imageUrl) {
+      showToast('error', 'Please upload an image or provide an image URL');
+      return;
+    }
+    if (formData.type === 'video' && !formData.videoUrl) {
+      showToast('error', 'Please provide a video URL');
+      return;
+    }
 
     try {
-      const id = editingItem?._id || editingItem?.id;
+      const id = editingItem?._id;
       let res;
       if (id) {
         res = await api.updateGalleryItem(id, formData);
@@ -200,7 +243,7 @@ export default function GalleryManagement() {
   };
 
   const handleToggleStatus = async (item: GalleryItem) => {
-    const id = item._id || item.id;
+    const id = item._id;
     if (!id) return;
     const newStatus = item.status === 'Active' ? 'Inactive' : 'Active';
     try {
@@ -242,7 +285,7 @@ export default function GalleryManagement() {
             <span className="p-2 rounded-lg bg-primary/10 text-primary">
               <ImageIcon className="w-5 h-5" />
             </span>
-            <h1 className="text-2xl font-serif font-bold text-secondary">Gallery Management (Images & Videos)</h1>
+            <h1 className="text-2xl font-serif font-bold text-secondary">Gallery Management</h1>
           </div>
           <p className="text-slate-500 text-xs sm:text-sm mt-1">
             Organize photo albums and promotional event videos for your website portfolio showcase.
@@ -366,7 +409,7 @@ export default function GalleryManagement() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {galleryList.map((item) => {
-            const id = item._id || item.id || '';
+            const id = item._id || '';
             const thumb = item.type === 'video' ? (item.thumbnail || item.imageUrl) : item.imageUrl;
             return (
               <div key={id} className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden group flex flex-col justify-between">
@@ -514,16 +557,26 @@ export default function GalleryManagement() {
                 </div>
 
                 {formData.type === 'image' ? (
-                  <div className="sm:col-span-2">
-                    <label className="block font-bold text-slate-700 mb-1">Image URL *</label>
+                  <div className="sm:col-span-2 space-y-3">
+                    <label className="block font-bold text-slate-700 mb-1">Image *</label>
+                    <div className="flex items-center gap-3">
+                      <label className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-slate-300 hover:border-primary text-xs font-bold text-slate-600 hover:text-primary cursor-pointer transition-all ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
+                        <Upload className="w-4 h-4" />
+                        {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                        <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
+                      </label>
+                      <span className="text-[10px] text-slate-400">or paste URL</span>
+                    </div>
                     <input
                       type="text"
-                      required
                       value={formData.imageUrl || ''}
                       onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                       placeholder="https://images.unsplash.com/..."
                       className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
                     />
+                    {formData.imageUrl && (
+                      <img src={formData.imageUrl} alt="Preview" className="w-24 h-16 object-cover rounded-lg border border-slate-200" />
+                    )}
                   </div>
                 ) : (
                   <>
@@ -552,8 +605,16 @@ export default function GalleryManagement() {
                       />
                     </div>
 
-                    <div className="sm:col-span-2">
-                      <label className="block font-bold text-slate-700 mb-1">Video Cover Thumbnail URL</label>
+                    <div className="sm:col-span-2 space-y-3">
+                      <label className="block font-bold text-slate-700 mb-1">Video Cover Thumbnail</label>
+                      <div className="flex items-center gap-3">
+                        <label className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-slate-300 hover:border-primary text-xs font-bold text-slate-600 hover:text-primary cursor-pointer transition-all ${uploadingThumbnail ? 'opacity-50 pointer-events-none' : ''}`}>
+                          <Upload className="w-4 h-4" />
+                          {uploadingThumbnail ? 'Uploading...' : 'Upload Thumbnail'}
+                          <input type="file" accept="image/*" onChange={handleThumbnailUpload} className="hidden" disabled={uploadingThumbnail} />
+                        </label>
+                        <span className="text-[10px] text-slate-400">or paste URL</span>
+                      </div>
                       <input
                         type="text"
                         value={formData.thumbnail || ''}
@@ -561,6 +622,9 @@ export default function GalleryManagement() {
                         placeholder="https://images.unsplash.com/..."
                         className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
                       />
+                      {formData.thumbnail && (
+                        <img src={formData.thumbnail} alt="Thumbnail preview" className="w-24 h-16 object-cover rounded-lg border border-slate-200" />
+                      )}
                     </div>
                   </>
                 )}
@@ -623,35 +687,14 @@ export default function GalleryManagement() {
       )}
 
       {/* Delete Confirmation Modal */}
-      {deletingId && (
-        <div className="fixed inset-0 z-50 bg-secondary/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-xl border border-slate-200">
-            <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
-              <Trash2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Delete Gallery Item</h3>
-              <p className="text-xs text-slate-500 mt-1">
-                Are you sure you want to remove this media item from your website gallery?
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <button
-                onClick={() => setDeletingId(null)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs hover:bg-slate-200 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 cursor-pointer shadow-sm"
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteConfirmModal
+        isOpen={!!deletingId}
+        onClose={() => setDeletingId(null)}
+        onConfirm={handleDelete}
+        title="Delete Gallery Item"
+        itemName="this media item"
+        message="Are you sure you want to remove this media item from your website gallery?"
+      />
 
       {/* View Modal */}
       {viewingItem && (
