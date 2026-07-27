@@ -65,11 +65,15 @@ export default function Gallery() {
   const openVideo = useCallback((item: any) => {
     let embedUrl = item.videoUrl;
     if (item.videoType === 'youtube') {
-      const ytMatch = item.videoUrl.match(/(?:v=|youtu\.be\/)([\w-]+)/);
+      const ytMatch = item.videoUrl.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]+)/);
       if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`;
     } else if (item.videoType === 'vimeo') {
-      const vMatch = item.videoUrl.match(/vimeo\.com\/(\d+)/);
+      const vMatch = item.videoUrl.match(/vimeo\.com\/(?:.*\/)?(\d+)/);
       if (vMatch) embedUrl = `https://player.vimeo.com/video/${vMatch[1]}?autoplay=1`;
+    }
+    if (embedUrl === item.videoUrl && item.videoType !== 'mp4') {
+      window.open(item.videoUrl, '_blank');
+      return;
     }
     setVideoModal({ url: embedUrl || item.videoUrl, title: item.title, type: item.videoType });
   }, []);
@@ -174,7 +178,7 @@ export default function Gallery() {
                           {item.type === 'video' ? (
                             <button
                               onClick={() => openVideo(item)}
-                              className="absolute inset-0 flex items-center justify-center bg-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                              className="absolute inset-0 flex items-center justify-center bg-secondary/20 opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
                             >
                               <div className="w-14 h-14 rounded-full bg-primary text-secondary flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
                                 <Play className="w-6 h-6 fill-secondary translate-x-0.5" />
