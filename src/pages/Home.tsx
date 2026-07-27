@@ -212,10 +212,10 @@ export default function Home() {
               </p>
               <div className="space-y-3 pt-2">
                 {[
-                  language === 'HI' ? '100% ताजा और शुद्ध सामग्री से तैयार व्यंजन' : '100% scratch-made gourmet recipes crafted daily',
-                  language === 'HI' ? 'स्थानीय जैविक और प्राकृतिक खेतों से प्राप्त' : 'Sourced exclusively from localized biological heritage farms',
-                  language === 'HI' ? 'पांच सितारा बैंक्वेट प्रबंधकों द्वारा ऑन-साइट निष्पादन' : 'Expert on-site execution led by five-star banquet managers',
-                  language === 'HI' ? 'सुरुचिपूर्ण प्लेट प्रस्तुति और विशेष थीम' : 'Sophisticated plate presentation and bespoke styling themes'
+                  language === 'HI' ? '100% ताजी और शुद्ध सामग्री से तैयार किए गए व्यंजन' : '100% fresh, pure ingredients for authentic Indian flavours',
+                  language === 'HI' ? 'मध्य प्रदेश के स्थानीय बाजारों से चुनी गई सामग्री' : 'Locally sourced ingredients from MP farms and markets',
+                  language === 'HI' ? 'अनुभवी शेफ और इवेंट टीम द्वारा पेशेवर सेवा' : 'Professional service by our experienced chefs and event team',
+                  language === 'HI' ? 'पारंपरिक और आधुनिक शैली में सुंदर प्रस्तुति' : 'Elegant presentation blending traditional and modern styles'
                 ].map((item, index) => (
                   <div key={index} className="flex items-start gap-3 text-xs sm:text-sm text-slate-700 font-medium font-sans">
                     <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
@@ -238,7 +238,7 @@ export default function Home() {
                   </div>
                   <div>
                     <span className="block font-serif text-sm font-bold text-secondary">ISO 22000 Certified</span>
-                    <span className="block text-[10px] text-slate-500 font-sans">Strict Food Safety Standards</span>
+                    <span className="block text-[10px] text-slate-500 font-sans">Highest Food Safety Standards</span>
                   </div>
                 </div>
               </div>

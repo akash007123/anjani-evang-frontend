@@ -10,60 +10,60 @@ interface SEOData {
 
 const staticSEO: Record<string, SEOData> = {
   '/': {
-    title: 'Award-Winning Luxury Indian Event Catering',
-    description: 'Anjani Catering & Events offers premium Indian wedding catering, grand corporate gala banquets, and bespoke live food station solutions for luxury events in Mumbai and beyond.'
+    title: 'Award-Winning Indian Wedding Catering in Chhatarpur, MP',
+    description: 'Anjani Catering & Events offers premium Indian wedding catering, grand celebration banquets, and bespoke live food stations for events in Chhatarpur, Madhya Pradesh, and across Bundelkhand.'
   },
   '/about': {
-    title: 'About Our Indian Culinary Heritage',
-    description: 'Learn about Anjani Catering & Events\'s rich history of crafting premium Indian culinary experiences, from royal weddings and sangeet functions to grand corporate events in Mumbai.'
+    title: 'About Our Indian Catering Heritage in Chhatarpur, MP',
+    description: 'Learn about Anjani Catering & Events\'s rich history of crafting premium Indian culinary experiences, from royal weddings and sangeet functions to grand corporate events in Chhatarpur, Madhya Pradesh.'
   },
   '/team': {
-    title: 'Our Master Chefs & Indian Catering Experts',
-    description: 'Meet Anjani Catering & Events\'s team of master chefs, tandoor specialists, dessert designers, and professional banquet managers coordinating luxury celebrations in Mumbai.'
+    title: 'Our Expert Chefs & Indian Catering Team in Chhatarpur',
+    description: 'Meet Anjani Catering & Events\'s team of master chefs, tandoor specialists, dessert designers, and event managers coordinating luxury celebrations in Chhatarpur and across Madhya Pradesh.'
   },
   '/services': {
-    title: 'Luxury Indian Wedding & Corporate Catering Services',
-    description: 'Explore our premium services including custom royal wedding buffet setups, grand corporate galas, bespoke sangeet counters, and fine live-kitchen hospitality in Mumbai.'
+    title: 'Indian Wedding & Event Catering Services in Chhatarpur, MP',
+    description: 'Explore our premium services including wedding catering, reception buffets, sangeet counters, mehendi functions, haldi ceremonies, and corporate event catering in Chhatarpur, Madhya Pradesh.'
   },
   '/packages': {
-    title: 'Indian Wedding Catering Packages & Pricing Estimator',
-    description: 'Calculate estimated Indian catering costs and service staff ratios. Find bespoke luxury packages for Royal Sangeet, Grand Wedding Buffets, and Corporate Galas in Mumbai.'
+    title: 'Indian Wedding Catering Packages & Pricing | Chhatarpur, MP',
+    description: 'Explore our catering packages for weddings, receptions, and corporate events in Chhatarpur. Calculate estimated costs, find royal wedding menus, and book your celebration today.'
   },
   '/menu': {
-    title: 'Royal Indian Catering & Feast Menus',
-    description: 'Browse through Anjani Catering & Events\'s handcrafted Indian wedding menus. Explore signature tandoor appetizers, royal Awadhi main courses, artisanal desserts, and bespoke beverage stations in Mumbai.'
+    title: 'Royal Indian Wedding Menu | Catering in Chhatarpur, MP',
+    description: 'Browse Anjani Catering & Events\'s handcrafted Indian wedding menus. Explore signature tandoor appetizers, royal main courses, traditional desserts, and regional Bundelkhandi specialties.'
   },
   '/projects': {
-    title: 'Our Celebrated Events, Royal Weddings & Case Stories',
-    description: 'Explore Anjani Catering & Events\'s portfolio of beautifully executed royal wedding banquets, grand corporate galas, elegant Sangeet nights, and premium private celebrations in Mumbai.'
+    title: 'Our Events & Royal Weddings | Catering in Madhya Pradesh',
+    description: 'Explore Anjani Catering & Events\'s portfolio of beautifully executed royal wedding banquets, grand corporate events, elegant sangeet nights, and celebrations across Chhatarpur and Madhya Pradesh.'
   },
   '/testimonials': {
-    title: 'Host Testimonials & Client Reviews',
-    description: 'Read reviews from luxury hosts in Mumbai. Read verified feedback from premium Indian wedding families, corporate sponsors, and high-end private celebrations.'
+    title: 'Client Reviews & Testimonials | Anjani Catering Chhatarpur',
+    description: 'Read reviews from our clients in Chhatarpur, Khajuraho, and across Madhya Pradesh. See feedback from wedding families, corporate clients, and celebration hosts.'
   },
   '/faqs': {
-    title: 'Indian Event Catering FAQs & Planning Logistics',
-    description: 'Have questions about booking event catering, Jain food options, regional Indian menu adaptations, wedding tasting sessions, or tableware rentals in Mumbai? Explore our FAQ directory.'
+    title: 'Indian Event Catering FAQs | Anjani Catering Chhatarpur',
+    description: 'Get answers about booking event catering in Chhatarpur, Jain food options, regional Indian menu customization, wedding tasting sessions, and catering packages in Madhya Pradesh.'
   },
   '/blogs': {
-    title: 'Indian Culinary Blog, Recipes & Wedding Food Trends',
-    description: 'Stay inspired with the latest Indian wedding catering trends, regional menu pairing ideas, traditional dessert designs, and luxury event hosting tips in Mumbai.'
+    title: 'Indian Catering Blog | Wedding Trends & Menu Ideas | MP',
+    description: 'Stay inspired with the latest Indian wedding catering trends, regional menu ideas, traditional dessert designs, festival catering tips, and event planning advice from Chhatarpur, Madhya Pradesh.'
   },
   '/contact': {
-    title: 'Get In Touch - Request Indian Catering Quote',
-    description: 'Contact our wedding and event catering coordinators in Mumbai. Request customized traditional & fusion menus, get custom pricing quotes, and plan your banquet.'
+    title: 'Contact Us | Indian Catering in Chhatarpur, MP',
+    description: 'Contact Anjani Catering & Events for wedding and event catering inquiries in Chhatarpur, Madhya Pradesh. Request customized menus, get pricing, and plan your celebration.'
   },
   '/admin-login': {
-    title: 'Admin Login - Control Panel Access',
-    description: 'Access the Anjani Catering & Events admin portal to manage events, client requests, menu settings, and catering schedules in Mumbai.'
+    title: 'Admin Login - Catering Management Panel',
+    description: 'Access the Anjani Catering & Events admin portal to manage events, client bookings, menu settings, and catering schedules.'
   },
   '/admin-signup': {
     title: 'Create Admin Account',
-    description: 'Register a new coordinator or lead kitchen manager account on Anjani Catering & Events\'s control panel.'
+    description: 'Register a new coordinator or manager account on Anjani Catering & Events\'s management panel.'
   },
   '/admin': {
-    title: 'Admin Dashboard - Management Portal',
-    description: 'Manage bookings, client contacts, live menus, and user roles on Anjani Catering & Events\'s master control panel.'
+    title: 'Admin Dashboard - Catering Management',
+    description: 'Manage bookings, client inquiries, menus, and user roles on Anjani Catering & Events\'s master control panel.'
   }
 };
 
@@ -80,26 +80,24 @@ export default function SEOConfig({ title: customTitle, description: customDescr
 
   let seoData: SEOData | undefined = customTitle ? {
     title: customTitle,
-    description: customDescription || 'Anjani Catering & Events offers luxury Indian wedding and corporate event catering in Mumbai.',
+    description: customDescription || 'Anjani Catering & Events offers premium Indian wedding and corporate event catering in Chhatarpur, Madhya Pradesh.',
     image: customImage,
     type: customType
   } : staticSEO[pathname];
 
-  // Subpath matching for admin views
   if (!seoData && pathname.startsWith('/admin/')) {
     const adminPage = pathname.split('/').pop() || 'dashboard';
     const capitalized = adminPage.charAt(0).toUpperCase() + adminPage.slice(1);
     seoData = {
       title: `Admin ${capitalized} - Anjani Catering & Events`,
-      description: `Verify date pre-holds, analyze custom catering financials, and moderate staff permissions on the ${adminPage} panel.`
+      description: `Manage bookings, catering inquiries, and event schedules on the ${adminPage} panel.`
     };
   }
 
-  // Fallback default metadata if no route matched
   if (!seoData) {
     seoData = {
-      title: 'Luxury Event Catering Mumbai',
-      description: 'Anjani Catering & Events offers premium Indian wedding catering, grand corporate gala banquets, and bespoke live food station solutions for luxury events in Mumbai and Western India.'
+      title: 'Indian Wedding Catering in Chhatarpur, Madhya Pradesh',
+      description: 'Anjani Catering & Events offers premium Indian wedding catering, celebration banquets, and live food station solutions for events in Chhatarpur, Madhya Pradesh, and across Bundelkhand.'
     };
   }
 
@@ -113,11 +111,9 @@ export default function SEOConfig({ title: customTitle, description: customDescr
 
   return (
     <Helmet>
-      {/* Standard Meta Tags */}
       <title>{fullTitle}</title>
       <meta name="description" content={seoData.description} />
 
-      {/* Open Graph Tags */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={seoData.description} />
       <meta property="og:image" content={image} />
@@ -125,7 +121,6 @@ export default function SEOConfig({ title: customTitle, description: customDescr
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={siteName} />
 
-      {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={seoData.description} />

@@ -114,7 +114,7 @@ export default function Services() {
             {t('servicesTitle')}
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-secondary leading-tight max-w-lg">
-            {language === 'HI' ? 'हमारी दोषरहित सेवा गारंटी' : 'Our Flawless Execution Guarantee'}
+            {language === 'HI' ? 'हमारी सेवा का वादा' : 'Our Service Promise'}
           </h2>
           <div className="pt-2">
             <Link

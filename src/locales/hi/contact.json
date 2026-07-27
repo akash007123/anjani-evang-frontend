@@ -1,17 +1,17 @@
 {
   "pageTitle": "संपर्क करें",
-  "pageSubtitle": "आइए हम आपके अवसर के लिए विशेष रूप से डिज़ाइन किए गए पाक अनुभव तैयार करें।",
-  "formTitle": "हमें इवेंट पूछताछ भेजें",
-  "namePlaceholder": "जॉन डो",
-  "emailPlaceholder": "john@example.com",
+  "pageSubtitle": "अपने सही समारोह की योजना बनाने में हम आपकी मदद करें।",
+  "formTitle": "हमें अपनी पूछताछ भेजें",
+  "namePlaceholder": "राहुल शर्मा",
+  "emailPlaceholder": "rahul@example.com",
   "phonePlaceholder": "+91-9685533878",
   "eventTypePlaceholder": "इवेंट का प्रकार चुनें",
-  "messagePlaceholder": "हमें अपने इवेंट विज़न, मेहमानों की संख्या, पसंदीदा तारीख और खान-पान संबंधी आवश्यकताओं के बारे में बताएं...",
-  "sendMessage": "पूछताछ सबमिट करें",
-  "officeAddress": "मुख्यालय का पता",
-  "contactPhone": "डायरेक्ट फ़ोन",
-  "contactEmail": "सामान्य पूछताछ",
+  "messagePlaceholder": "हमें अपने इवेंट, मेहमान संख्या, पसंदीदा तारीख और मेनू संबंधी अनुरोधों के बारे में बताएं...",
+  "sendMessage": "पूछताछ भेजें",
+  "officeAddress": "हमारा स्थान",
+  "contactPhone": "हमें कॉल करें",
+  "contactEmail": "हमें ईमेल करें",
   "workingHours": "कार्यालय समय",
-  "locationTitle": "हमारे टेस्टिंग स्टूडियो पर आएं",
-  "faqPrompt": "क्या आपके पास तुरंत प्रश्न हैं? हमारा अक्सर पूछे जाने वाले प्रश्न अनुभाग देखें।"
+  "locationTitle": "हमसे मिलें",
+  "faqPrompt": "प्रश्न हैं? हमारा FAQ अनुभाग देखें।"
 }

@@ -17,16 +17,16 @@ export default function LocalBusinessSchema() {
     'priceRange': '₹₹₹₹',
     'address': {
       '@type': 'PostalAddress',
-      'streetAddress': COMPANY_ADDRESS.split(',')[0] || COMPANY_ADDRESS,
-      'addressLocality': 'Beverly Hills',
-      'addressRegion': 'CA',
-      'postalCode': '90210',
-      'addressCountry': 'US'
+      'streetAddress': 'Chhatarpur',
+      'addressLocality': 'Chhatarpur',
+      'addressRegion': 'Madhya Pradesh',
+      'postalCode': '471001',
+      'addressCountry': 'IN'
     },
     'geo': {
       '@type': 'GeoCoordinates',
-      'latitude': 18.9256,
-      'longitude': 72.8242
+      'latitude': 24.9064,
+      'longitude': 79.5873
     },
     'openingHoursSpecification': [
       {
@@ -45,32 +45,28 @@ export default function LocalBusinessSchema() {
       }
     ],
     'areaServed': [
-      {
-        '@type': 'AdministrativeArea',
-        'name': 'Los Angeles'
-      },
-      {
-        '@type': 'AdministrativeArea',
-        'name': 'Beverly Hills'
-      },
-      {
-        '@type': 'AdministrativeArea',
-        'name': 'Orange County'
-      },
-      {
-        '@type': 'AdministrativeArea',
-        'name': 'California'
-      }
+      { '@type': 'AdministrativeArea', 'name': 'Chhatarpur' },
+      { '@type': 'AdministrativeArea', 'name': 'Khajuraho' },
+      { '@type': 'AdministrativeArea', 'name': 'Panna' },
+      { '@type': 'AdministrativeArea', 'name': 'Tikamgarh' },
+      { '@type': 'AdministrativeArea', 'name': 'Sagar' },
+      { '@type': 'AdministrativeArea', 'name': 'Damoh' },
+      { '@type': 'AdministrativeArea', 'name': 'Satna' },
+      { '@type': 'AdministrativeArea', 'name': 'Rewa' },
+      { '@type': 'AdministrativeArea', 'name': 'Jhansi' },
+      { '@type': 'AdministrativeArea', 'name': 'Bundelkhand' },
+      { '@type': 'AdministrativeArea', 'name': 'Madhya Pradesh' }
     ],
     'servesCuisine': [
       'North Indian',
+      'Bundelkhandi',
       'Awadhi',
       'South Indian',
       'Mughlai',
       'Indian Fusion',
       'Continental'
     ],
-    'description': `${COMPANY_NAME} offers premium Indian wedding catering, grand corporate gala banquets, and bespoke live food station solutions for luxury events across California.`
+    'description': `${COMPANY_NAME} offers premium Indian wedding catering, grand celebration banquets, and bespoke live food station solutions for luxury events across Chhatarpur, Bundelkhand, and Madhya Pradesh.`
   };
 
   return (

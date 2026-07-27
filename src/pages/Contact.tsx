@@ -78,8 +78,8 @@ export default function Contact() {
   return (
     <div>
       <SEO 
-        title="Get In Touch - Request Indian Catering Quote" 
-        description="Contact our wedding and event catering coordinators in Mumbai. Request customized traditional & fusion menus, get custom pricing quotes, and plan your banquet."
+        title="Contact Us | Anjani Catering & Events - Chhatarpur, MP" 
+        description="Contact Anjani Catering & Events for wedding and event catering in Chhatarpur, Madhya Pradesh. Request a free quote, customize your menu, and plan your celebration with our team."
         urlPath="/contact"
       />
       <PageBanner 
@@ -99,13 +99,13 @@ export default function Contact() {
               
               <div>
                 <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block mb-2">
-                  PLAN YOUR TIMELINE
+                  GET IN TOUCH
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary mb-4 leading-tight">
-                  Reach Out To Our Gourmet Planners
+                  Let's Plan Your Celebration
                 </h2>
                 <p className="font-sans text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-                  We look forward to translating your event goals into a magnificent culinary experience. Drop us a message using the form, or call us directly.
+                  We would love to hear about your event. Whether it's a wedding, reception, birthday, or corporate gathering, our team is here to help. Drop us a message or give us a call.
                 </p>
               </div>
 
@@ -118,7 +118,7 @@ export default function Contact() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Our Headquarters</h4>
+                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Our Location</h4>
                     <p className="text-slate-500 font-medium">{COMPANY_ADDRESS}</p>
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export default function Contact() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Booking Lines</h4>
+                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Call Us</h4>
                     <p className="text-slate-500 font-medium">{COMPANY_PHONE} (Inquiries)</p>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export default function Contact() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Electronic Inquiries</h4>
+                    <h4 className="font-serif text-base font-bold text-secondary mb-1">Email Us</h4>
                     <p className="text-slate-500 font-medium">{COMPANY_EMAIL}</p>
                     <p className="text-slate-500 font-medium">info@akashraikwar.in</p>
                   </div>
@@ -167,10 +167,10 @@ export default function Contact() {
               <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-lg text-left relative">
                 
                 <h3 className="font-serif text-2xl font-bold text-secondary mb-2">
-                  Request a Custom Proposal
+                  Send Us Your Inquiry
                 </h3>
                 <p className="font-sans text-slate-500 text-xs sm:text-sm mb-8 font-medium">
-                  Provide details about your upcoming gathering, and our consultants will design a custom catering layout for you.
+                  Tell us about your event and we will get back to you with a customized catering plan and quote.
                 </p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -182,7 +182,7 @@ export default function Contact() {
                       </label>
                       <input
                         type="text"
-                        placeholder="John Doe"
+                        placeholder="Rahul Sharma"
                         className={`w-full bg-cream border rounded-xl py-3 px-4 text-xs sm:text-sm focus:outline-none focus:border-primary text-secondary font-sans font-medium transition-colors ${
                           errors.name ? 'border-red-400 focus:border-red-500' : 'border-slate-100'
                         }`}
@@ -202,7 +202,7 @@ export default function Contact() {
                       </label>
                       <input
                         type="email"
-                        placeholder="johndoe@email.com"
+                        placeholder="rahul@example.com"
                         className={`w-full bg-cream border rounded-xl py-3 px-4 text-xs sm:text-sm focus:outline-none focus:border-primary text-secondary font-sans font-medium transition-colors ${
                           errors.email ? 'border-red-400 focus:border-red-500' : 'border-slate-100'
                         }`}
@@ -224,7 +224,7 @@ export default function Contact() {
                       </label>
                       <input
                         type="tel"
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+91-9685533878"
                         className={`w-full bg-cream border rounded-xl py-3 px-4 text-xs sm:text-sm focus:outline-none focus:border-primary text-secondary font-sans font-medium transition-colors ${
                           errors.phone ? 'border-red-400 focus:border-red-500' : 'border-slate-100'
                         }`}
@@ -284,7 +284,7 @@ export default function Contact() {
                     </label>
                     <textarea
                       rows={5}
-                      placeholder="Describe the mood, target menu style, food allergies, and sequence of your gala dinner..."
+                      placeholder="Tell us about your event, menu preferences, guest count, and any special requests..."
                       className={`w-full bg-cream border rounded-xl py-3 px-4 text-xs sm:text-sm focus:outline-none focus:border-primary text-secondary font-sans font-medium transition-colors ${
                         errors.message ? 'border-red-400 focus:border-red-500' : 'border-slate-100'
                       }`}
@@ -308,7 +308,7 @@ export default function Contact() {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        <span>Submit Booking Request</span>
+                        <span>Send Inquiry</span>
                       </>
                     )}
                   </button>
@@ -333,10 +333,10 @@ export default function Contact() {
                 </div>
                 <h4 className="font-serif text-lg font-bold">{COMPANY_NAME}</h4>
                 <p className="font-sans text-slate-500 text-xs sm:text-sm leading-relaxed">
-                  90210 Gourmet Row, Suite A, <br /> Beverly Hills, CA 90210
+                  Chhatarpur, <br /> Madhya Pradesh 471001, India
                 </p>
                 <div className="border-t border-slate-50 pt-3 mt-1 flex justify-between text-[11px] text-slate-400 font-sans font-semibold">
-                  <span>GPS: 34.0736° N, 118.4004° W</span>
+                  <span>Serving Chhatarpur & All MP</span>
                 </div>
               </div>
             </div>

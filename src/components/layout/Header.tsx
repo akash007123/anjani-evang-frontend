@@ -83,10 +83,10 @@ export default function Header() {
             </div>
             <div>
               <span className="font-serif text-2xl font-bold tracking-widest text-white block group-hover:text-primary transition-colors duration-300">
-                EVENG
+                Anjani
               </span>
               <span className="text-[9px] uppercase tracking-[0.25em] text-primary block -mt-1 font-medium">
-                Catering Services
+                Catering & Events
               </span>
             </div>
           </Link>
@@ -177,7 +177,7 @@ export default function Header() {
           <div>
             {/* Mobile Header */}
             <div className="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-              <span className="font-serif text-xl font-bold tracking-widest text-white">EVENG</span>
+              <span className="font-serif text-xl font-bold tracking-widest text-white">Anjani</span>
               <div className="flex items-center gap-3">
                 <div className="flex items-center bg-white/10 p-1 rounded-full border border-white/15">
                   <button

@@ -343,12 +343,12 @@ export default function Testimonials() {
       <section className="py-12 bg-cream -mt-8 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <StatCard end={12000} suffix="+" label="Happy Clients" icon={<Heart className="w-5 h-5 fill-primary text-primary" />} />
+            <StatCard end={12000} suffix="+" label="Happy Guests" icon={<Heart className="w-5 h-5 fill-primary text-primary" />} />
             <StatCard end={2500} suffix="+" label="Events Catered" icon={<Utensils className="w-5 h-5" />} />
             <StatCard end={4.9} suffix="★" label="Average Rating" icon={<Star className="w-5 h-5 fill-primary text-primary" />} />
             <StatCard end={99} suffix="%" label="Satisfaction" icon={<ThumbsUp className="w-5 h-5" />} />
-            <StatCard end={18} suffix="+" label="Years of Heritage" icon={<Award className="w-5 h-5" />} />
-            <StatCard end={500} suffix="+" label="Palace Weddings" icon={<Sparkles className="w-5 h-5" />} />
+            <StatCard end={18} suffix="+" label="Years of Service" icon={<Award className="w-5 h-5" />} />
+            <StatCard end={500} suffix="+" label="Weddings Catered" icon={<Sparkles className="w-5 h-5" />} />
           </div>
         </div>
       </section>
@@ -359,13 +359,13 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16 flex flex-col gap-3">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              FEATURED STORY
+              FEATURED REVIEW
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary">
-              The Grand Banqueting Showcase
+              What Our Guests Say
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              A deep-dive look at how our master chefs and banqueting managers design unforgettable gourmet moments.
+              Real feedback from weddings, receptions, and celebrations we have been honoured to serve.
             </p>
           </div>
 
@@ -505,13 +505,13 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-12 flex flex-col gap-3">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              CELEBRATED FEEDBACK
+              CLIENT FEEDBACK
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary">
-              Guest Diaries & Memories
+              All Reviews
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              Filter through real host feedback from multiple celebration configurations across Western India.
+              Browse feedback from our clients across Chhatarpur, Bundelkhand, and Madhya Pradesh.
             </p>
           </div>
 
@@ -588,13 +588,13 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16 flex flex-col gap-3">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              CINEMATIC MEMORIES
+              GUEST VIDEOS
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary">
-              Video Testimonials
+              Video Reviews
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              Step inside real celebration banquets and witness guests enjoying live interactive food stations.
+              Watch and hear from our clients about their experience with Anjani Catering & Events.
             </p>
           </div>
 
@@ -677,10 +677,10 @@ export default function Testimonials() {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-primary text-primary" />
                   ))}
-                  <span className="text-xs text-slate-400 font-bold ml-1">4.9 Average Rating</span>
+                  <span className="text-xs text-slate-400 font-bold ml-1">Average Rating</span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-500 font-bold leading-relaxed">
-                  Based on <span className="text-secondary font-black">940+ verified host reviews</span> with a 99.4% recommendation rate.
+                  Based on feedback from our valued clients across Chhatarpur, Bundelkhand, and Madhya Pradesh.
                 </p>
               </div>
             </div>
@@ -712,13 +712,13 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-16 flex flex-col gap-3">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              SERVICE TIMELINE
+              OUR PROCESS
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary">
-              The Path to a Perfect Feast
+              How We Work
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              We coordinate our culinary and logistical timelines meticulously to construct a flawless celebratory banquet.
+              From your first inquiry to the final course, we ensure every step is smooth and stress-free.
             </p>
           </div>
 
@@ -734,9 +734,9 @@ export default function Testimonials() {
               </div>
               <div className="w-full md:w-[45%] md:text-right pr-0 md:pr-12 text-left pl-14 md:pl-0">
                 <span className="text-primary font-bold text-xs uppercase tracking-widest">Phase 01</span>
-                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Gourmet Curation Inquiry</h4>
+                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Share Your Requirements</h4>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2 font-semibold leading-relaxed">
-                  Submit wedding dates, venues, and approximate guest tallies. Our dedicated coordinators consult to map out specific regional dietary cuisines.
+                  Tell us your event date, guest count, venue, and menu preferences. Our team will review and get back to you.
                 </p>
               </div>
               <div className="hidden md:block w-[45%] pl-12" />
@@ -750,9 +750,9 @@ export default function Testimonials() {
               <div className="hidden md:block w-[45%] pr-12" />
               <div className="w-full md:w-[45%] text-left pl-14 md:pl-12">
                 <span className="text-primary font-bold text-xs uppercase tracking-widest">Phase 02</span>
-                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Private Menu Tasting</h4>
+                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Menu Planning & Finalization</h4>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2 font-semibold leading-relaxed">
-                  Join our master culinary team in our development kitchen for a private menu tasting session to calibrate spice balances and pick visual platting.
+                  We work with you to finalize a customized menu that suits your taste, preferences, and budget. Tastings can be arranged.
                 </p>
               </div>
             </div>
@@ -764,9 +764,9 @@ export default function Testimonials() {
               </div>
               <div className="w-full md:w-[45%] md:text-right pr-0 md:pr-12 text-left pl-14 md:pl-0">
                 <span className="text-primary font-bold text-xs uppercase tracking-widest">Phase 03</span>
-                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Royal Setup & Execution</h4>
+                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Setup & Service</h4>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2 font-semibold leading-relaxed">
-                  Our banquet team arrives hours before to establish brass chafing pots, clean burner lines, build fresh custom flower details, and set up live tables.
+                  Our team arrives early to set up the venue, arrange live counters, and ensure everything is ready for a flawless dining experience.
                 </p>
               </div>
               <div className="hidden md:block w-[45%] pl-12" />
@@ -780,9 +780,9 @@ export default function Testimonials() {
               <div className="hidden md:block w-[45%] pr-12" />
               <div className="w-full md:w-[45%] text-left pl-14 md:pl-12">
                 <span className="text-primary font-bold text-xs uppercase tracking-widest">Phase 04</span>
-                <h4 className="font-serif text-lg font-bold text-secondary mt-1">The Celebration & Review</h4>
+                <h4 className="font-serif text-lg font-bold text-secondary mt-1">Celebration & Feedback</h4>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2 font-semibold leading-relaxed">
-                  Guests experience pristine, warm hospitality. Post-banquet, we gather client feedback to ensure our kitchen squad receives recognition.
+                  You enjoy your event while we take care of everything. After the event, we value your feedback to keep improving.
                 </p>
               </div>
             </div>
@@ -798,13 +798,13 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-12 flex flex-col gap-3">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              VISUAL FEAST
+              EVENT GALLERY
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary">
-              Gourmet Layout Gallery
+              Moments from Our Events
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              Click on any photograph to inspect our hand-hammered copper setups and live active food stations.
+              Browse through photos from weddings, receptions, and celebrations we have catered.
             </p>
           </div>
 
@@ -847,10 +847,10 @@ export default function Testimonials() {
           
           <div className="text-center max-w-xl mx-auto mb-12 flex flex-col gap-2">
             <span className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm font-bold block">
-              HERITAGE STANDARD
+              ACCREDITATIONS
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-secondary">
-              Awards & Recognitions
+              Our Accreditations
             </h2>
           </div>
 
@@ -860,10 +860,10 @@ export default function Testimonials() {
               <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mb-4">
                 <Award className="w-8 h-8" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-secondary">Times Hospitality Award</h4>
-              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Best Wedding Catering</p>
+              <h4 className="font-serif text-lg font-bold text-secondary">ISO 22000 Certified</h4>
+              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Food Safety Management</p>
               <p className="text-xs text-slate-500 font-semibold mt-3 max-w-[200px] leading-relaxed">
-                Awarded for outstanding standard execution and gourmet curation in luxury destination events.
+                Internationally recognized certification for food safety and hygiene standards in our kitchen operations.
               </p>
             </div>
 
@@ -872,10 +872,10 @@ export default function Testimonials() {
               <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mb-4">
                 <Star className="w-8 h-8 fill-amber-50" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-secondary">Customer Choice Winner</h4>
-              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">99% Recommendation</p>
+              <h4 className="font-serif text-lg font-bold text-secondary">FSSAI Registered</h4>
+              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Food License Approved</p>
               <p className="text-xs text-slate-500 font-semibold mt-3 max-w-[200px] leading-relaxed">
-                Voted as the top boutique caterer in Mumbai and Pune by verified host families.
+                Fully compliant with Food Safety and Standards Authority of India regulations.
               </p>
             </div>
 
@@ -884,10 +884,10 @@ export default function Testimonials() {
               <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-secondary">A+ Grade Sanitization</h4>
-              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">ISO 22000 Certified</p>
+              <h4 className="font-serif text-lg font-bold text-secondary">Trusted by Families</h4>
+              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">500+ Weddings</p>
               <p className="text-xs text-slate-500 font-semibold mt-3 max-w-[200px] leading-relaxed">
-                Recognized for pristine kitchen hygiene, temperature checks, and safe culinary processes.
+                Over 500 weddings and countless celebrations served with love, authenticity, and dedication.
               </p>
             </div>
 
@@ -896,10 +896,10 @@ export default function Testimonials() {
               <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mb-4">
                 <Sparkles className="w-8 h-8" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-secondary">Sangeet Lounge Innovator</h4>
-              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Best Live Stations</p>
+              <h4 className="font-serif text-lg font-bold text-secondary">Experienced Team</h4>
+              <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Dedicated Professionals</p>
               <p className="text-xs text-slate-500 font-semibold mt-3 max-w-[200px] leading-relaxed">
-                Celebrated for crafting high-energy live culinary stations that bring drama and taste together.
+                Our team of chefs, coordinators, and service staff work together to make every event special.
               </p>
             </div>
           </div>
@@ -918,10 +918,10 @@ export default function Testimonials() {
                 <Send className="w-6 h-6" />
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-secondary">
-                Submit Your Feast Review
+                Share Your Experience
               </h3>
               <p className="text-xs text-slate-500 font-bold font-sans mt-1 max-w-[320px]">
-                Your feedback directly impacts the rewards and training of our kitchen staff and on-ground hospitality group.
+                Your feedback helps us improve and continue serving our clients better.
               </p>
             </div>
 
@@ -947,7 +947,7 @@ export default function Testimonials() {
                     required
                     value={writeReviewName}
                     onChange={(e) => setWriteReviewName(e.target.value)}
-                    placeholder="e.g. Ramesh Chandra"
+                    placeholder="Rahul Sharma"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-primary text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm"
                   />
                 </div>
@@ -959,7 +959,7 @@ export default function Testimonials() {
                     required
                     value={writeReviewEmail}
                     onChange={(e) => setWriteReviewEmail(e.target.value)}
-                    placeholder="e.g. ramesh@gmail.com"
+                    placeholder="rahul@example.com"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-primary text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm"
                   />
                 </div>
@@ -974,7 +974,7 @@ export default function Testimonials() {
                     required
                     value={writeReviewCity}
                     onChange={(e) => setWriteReviewCity(e.target.value)}
-                    placeholder="e.g. Mumbai"
+                    placeholder="e.g. Chhatarpur"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-primary text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm"
                   />
                 </div>

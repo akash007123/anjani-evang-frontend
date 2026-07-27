@@ -16,9 +16,9 @@ import { COMPANY_PHONE, COMPANY_EMAIL } from '../config/env';
 
 // Event Types & Cuisines
 const EVENT_TYPES = [
-  'Wedding', 'Reception', 'Birthday Party', 'Corporate Event', 
-  'Anniversary', 'Housewarming', 'Festival', 'Engagement', 
-  'Baby Shower', 'Private Party', 'Other'
+  'Wedding', 'Reception', 'Engagement', 'Haldi Ceremony', 'Mehendi Function', 'Sangeet Night',
+  'Birthday Party', 'Anniversary', 'Corporate Event', 'Religious Function',
+  'Housewarming', 'Baby Shower', 'Festival Celebration', 'Other'
 ] as const;
 
 const CUISINES = [
@@ -27,11 +27,11 @@ const CUISINES = [
 ] as const;
 
 const PACKAGES = [
-  'Royal Buffet Experience',
-  'Silver Gourmet Spread',
-  'Corporate Executive Platter',
-  'Cocktail & Gourmet Canapés',
-  'Customized Bespoke Menu'
+  'Silver Wedding Package',
+  'Gold Wedding Package',
+  'Platinum Wedding Package',
+  'Royal Wedding Experience',
+  'Customized Menu'
 ];
 
 // Comprehensive Zod Validation Schema
@@ -100,12 +100,12 @@ export default function Booking() {
     defaultValues: {
       eventType: 'Wedding',
       preferredCuisine: 'Multi Cuisine',
-      cateringPackage: 'Royal Buffet Experience',
+      cateringPackage: 'Gold Wedding Package',
       eventTime: '07:00 PM',
       guestCount: 100,
       budget: 150000,
-      city: 'Mumbai',
-      state: 'Maharashtra'
+      city: 'Chhatarpur',
+      state: 'Madhya Pradesh'
     }
   });
 
@@ -227,24 +227,24 @@ export default function Booking() {
 
   const faqs = [
     {
-      q: 'How far in advance should I book Anjani Catering & Events for my event?',
-      a: 'We recommend booking at least 2 to 4 weeks in advance for corporate gatherings or private parties, and 2 to 6 months in advance for grand weddings to ensure prime date availability and dedicated menu tasting sessions.'
+      q: 'How far in advance should I book for my event?',
+      a: 'We recommend booking at least 2-3 weeks in advance for private parties and corporate events, and 2-3 months in advance for weddings to ensure availability and a smooth planning process.'
     },
     {
-      q: 'Can you customize the menu according to dietary preferences?',
-      a: 'Absolutely! Our executive chefs specialize in bespoke menu creation including Jain food, pure vegetarian, vegan, organic, gluten-free, and nut-allergy compliant delicacies.'
+      q: 'Can you customize the menu for dietary preferences?',
+      a: 'Absolutely! We offer customized menus including Jain food, pure vegetarian options, and can accommodate specific dietary requirements. Just let us know your preferences.'
     },
     {
-      q: 'Is live counter service and server staff included in the package?',
-      a: 'Yes, all our primary catering packages come with professional uniformed service staff, live cooking stations, elegant chafing dish setups, fine cutlery, and complete venue cleanup.'
+      q: 'Do you provide live counters and service staff?',
+      a: 'Yes, all our packages include professional service staff, live cooking counters, elegant serving setups, and complete post-event cleanup.'
     },
     {
-      q: 'What is the minimum number of guests required for catering?',
-      a: 'We cater for intimate gatherings starting from 10 guests up to massive corporate galas and wedding banquets exceeding 5,000 guests.'
+      q: 'What is the minimum guest count for catering?',
+      a: 'We cater to gatherings of all sizes, from intimate parties of 10 guests to large wedding banquets of 1,500 guests or more.'
     },
     {
-      q: 'What is the payment structure and booking deposit?',
-      a: 'To lock in your date, we require a 25% initial advance deposit. 50% is due after the finalized tasting session, and the remaining 25% balance is settled on the event date.'
+      q: 'What is the payment process?',
+      a: 'We require a 25% advance payment to confirm your booking. The remaining balance can be paid as per the schedule agreed upon during planning.'
     }
   ];
 
@@ -263,23 +263,23 @@ export default function Booking() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-semibold tracking-widest uppercase mb-6">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>VIP Catering Reservations</span>
+            <span>Book Your Event</span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-4xl mx-auto leading-tight mb-6">
-            Reserve Your <span className="text-primary italic">Culinary Experience</span>
+            Plan Your <span className="text-primary italic">Perfect Celebration</span>
           </h1>
 
           <p className="font-sans text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10">
-            From regal wedding banquets to high-powered corporate summits, partner with India’s premier luxury catering concierge to curate an unforgettable gastronomic journey.
+            Whether it\u2019s a royal wedding, a mehendi function, a sangeet night, a corporate event, or a family celebration, we bring authentic Indian flavours and warm hospitality to your special day.
           </p>
 
           {/* Key Stat Badges */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { label: '500+ Successful Events', sub: 'Flawless Execution' },
-              { label: 'Multi-Cuisine Mastery', sub: '9 Authentic Cuisines' },
-              { label: 'Executive Chefs', sub: 'Michelin-Trained Staff' },
+              { label: '500+ Events', sub: 'Successfully Catered' },
+              { label: 'Multi-Cuisine', sub: 'Indian & Regional Specialties' },
+              { label: 'Expert Team', sub: 'Experienced Chefs & Staff' },
               { label: '100% Hygienic', sub: 'ISO 22000 Certified' }
             ].map((stat, i) => (
               <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-center">
@@ -302,10 +302,10 @@ export default function Booking() {
               <div className="mb-8 border-b border-slate-100 pb-6">
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-secondary flex items-center gap-3">
                   <Calendar className="w-7 h-7 text-primary" />
-                  <span>Reservation Wizard</span>
+                  <span>Plan Your Event</span>
                 </h2>
                 <p className="text-sm text-slate-500 font-sans mt-1">
-                  Complete the 4 simple steps below to request a tailored menu proposal and catering quotation.
+                  Complete the 4 simple steps below and our team will get back to you with a customized menu proposal and quote.
                 </p>
               </div>
 
@@ -316,7 +316,7 @@ export default function Booking() {
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-emerald-950 mb-2">
-                    Reservation Requested Successfully!
+                    Inquiry Submitted Successfully!
                   </h3>
                   <p className="text-emerald-800 text-sm max-w-md mx-auto mb-6">
                     Thank you <strong>{submittedBooking.name}</strong>. Your reservation request for <strong>{submittedBooking.date}</strong> has been saved.
@@ -329,7 +329,7 @@ export default function Booking() {
                     </div>
                     <p className="text-xs text-slate-600 flex items-center gap-2">
                       <Mail className="w-4 h-4 text-emerald-600" />
-                      An acknowledgment notification was dispatched to your email.
+                      A confirmation email has been sent to your registered email address.
                     </p>
                   </div>
 
@@ -337,7 +337,7 @@ export default function Booking() {
                     onClick={() => setSubmittedBooking(null)}
                     className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 text-white font-sans font-semibold text-sm px-6 py-3 rounded-full transition-all shadow-md cursor-pointer"
                   >
-                    <span>Submit Another Booking</span>
+                    <span>Submit Another Inquiry</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -849,12 +849,12 @@ export default function Booking() {
               <div className="bg-secondary text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
                 <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-primary/10 rounded-full blur-2xl" />
                 
-                <h3 className="font-serif text-xl font-bold text-white mb-2 flex items-center gap-2">
+                   <h3 className="font-serif text-xl font-bold text-white mb-2 flex items-center gap-2">
                   <Phone className="w-5 h-5 text-primary" />
-                  <span>Immediate Concierge</span>
+                  <span>Need Help?</span>
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed mb-6">
-                  Need an urgent quotation for an upcoming event within 48 hours? Call our master event planner directly.
+                  Have a question or want to discuss your event? Call or email our team directly.
                 </p>
 
                 <div className="space-y-4 text-sm font-sans">
@@ -863,7 +863,7 @@ export default function Booking() {
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="block text-[10px] text-primary uppercase font-bold tracking-wider">Hotline</span>
+                      <span className="block text-[10px] text-primary uppercase font-bold tracking-wider">Call</span>
                       <span className="font-bold text-white text-base">{COMPANY_PHONE}</span>
                     </div>
                   </a>
@@ -873,7 +873,7 @@ export default function Booking() {
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="block text-[10px] text-primary uppercase font-bold tracking-wider">Email</span>
+                      <span className="block text-[10px] text-primary uppercase font-bold tracking-wider">Email Us</span>
                       <span className="font-medium text-white text-xs">{COMPANY_EMAIL}</span>
                     </div>
                   </a>
@@ -884,15 +884,15 @@ export default function Booking() {
               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                 <h3 className="font-serif text-lg font-bold text-secondary mb-4 flex items-center gap-2">
                   <Award className="w-5 h-5 text-primary" />
-                  <span>Our 4-Step Booking Process</span>
+                  <span>How It Works</span>
                 </h3>
 
                 <div className="space-y-4">
                   {[
-                    { num: '01', title: 'Submit Request', desc: 'Fill out event specifications, guest numbers, and menu preferences.' },
-                    { num: '02', title: 'Menu Consultation', desc: 'Receive custom menu proposals and attend a private tasting.' },
-                    { num: '03', title: 'Lock Date & Deposit', desc: 'Confirm date with advance deposit and finalized venue layout.' },
-                    { num: '04', title: 'Flawless Execution', desc: 'Live kitchen setup, executive service, and unforgettable dining.' }
+                    { num: '01', title: 'Submit Inquiry', desc: 'Tell us about your event, guest count, and menu preferences.' },
+                    { num: '02', title: 'Get a Quote', desc: 'Receive a customized menu proposal and pricing from our team.' },
+                    { num: '03', title: 'Confirm & Book', desc: 'Finalize your menu, confirm the date, and book your event.' },
+                    { num: '04', title: 'Enjoy Your Event', desc: 'Relax and enjoy your celebration while we handle everything.' }
                   ].map((step, i) => (
                     <div key={i} className="flex items-start gap-3 p-3 rounded-2xl bg-cream/60 border border-slate-100">
                       <span className="w-7 h-7 rounded-full bg-secondary text-primary font-serif font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
@@ -911,15 +911,15 @@ export default function Booking() {
               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                 <h3 className="font-serif text-lg font-bold text-secondary mb-4 flex items-center gap-2">
                   <Heart className="w-5 h-5 text-primary" />
-                  <span>Why Choose Anjani Catering & Events?</span>
+                  <span>Why Choose Us?</span>
                 </h3>
 
                 <ul className="space-y-3 text-xs text-slate-600 font-sans">
                   {[
-                    'Master chefs trained in authentic global culinary traditions',
-                    '100% pure ingredients & stringent temperature-controlled transport',
-                    'Interactive live cooking stalls (Chaat, Tandoori, Teppanyaki, Pasta)',
-                    'Full suite setup: Tableware, linens, staff & post-event cleanup'
+                    'Experienced chefs specializing in Indian and regional cuisines',
+                    '100% fresh, pure ingredients with highest hygiene standards',
+                    'Live cooking counters (Chaat, Tandoor, Pasta, Desserts)',
+                    'Complete setup: tables, linens, service staff & post-event cleanup'
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
@@ -939,10 +939,10 @@ export default function Booking() {
       <section className="py-16 bg-slate-50 border-t border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-widest text-primary block mb-2">Real-Time Kitchen Capacity</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary mb-3">Live Availability & Pre-Hold Calendar</h2>
+            <span className="text-xs font-bold uppercase tracking-widest text-primary block mb-2">Check Availability</span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary mb-3">Event Availability Calendar</h2>
             <p className="text-sm font-sans text-slate-600 leading-relaxed">
-              Inspect live kitchen booking statuses across the month. Reserve an instant pre-hold for your catering event before slots fill up.
+              Check our availability and find the perfect date for your event. Book early to secure your preferred date.
             </p>
           </div>
 

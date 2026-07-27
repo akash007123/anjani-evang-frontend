@@ -10,23 +10,23 @@ export default function About() {
   const timelineMilestones = [
     {
       year: '2010',
-      title: language === 'HI' ? 'हमारी विनम्र शुरुआत' : 'Our humble beginning',
-      desc: language === 'HI' ? 'इवेंग कैटरिंग की स्थापना मुंबई में एक कस्टम पाक इकाई के साथ की गई थी, जिसका ध्यान उच्च स्तरीय बुटीक डिनर पर था।' : 'Anjani Catering & Events was established in Mumbai with a single custom culinary unit, focused purely on high-end boutique dinners and traditional family events.'
+      title: language === 'HI' ? 'हमारी विनम्र शुरुआत' : 'Our Humble Beginning',
+      desc: language === 'HI' ? 'अंजनी कैटरिंग एंड इवेंट्स की शुरुआत छतरपुर, मध्य प्रदेश में एक छोटी सी रसोई से हुई। शुरुआत पारिवारिक समारोहों और छोटी शादियों से हुई।' : 'Anjani Catering & Events started with a small kitchen in Chhatarpur, Madhya Pradesh, serving family gatherings and intimate wedding ceremonies with love and authenticity.'
     },
     {
       year: '2014',
-      title: language === 'HI' ? 'भव्य शादियों में प्रवेश' : 'Venturing into grand weddings',
-      desc: language === 'HI' ? 'मुंबई के प्रमुख स्थानों पर पूर्ण शाही शादी की व्यवस्था प्रदान करने के लिए संचालन का विस्तार किया।' : 'Expanded our operations to offer full-scale royal wedding banquet coordination and customized traditional sits-downs across elite Mumbai venues.'
+      title: language === 'HI' ? 'भव्य शादियों की शुरुआत' : 'Grand Weddings & Expansion',
+      desc: language === 'HI' ? 'बुंदेलखंड और मध्य प्रदेश में बड़ी शादियों और समारोहों की जिम्मेदारी लेना शुरू किया। हमारी टीम ने खजुराहो, सागर और झाँसी में शानदार आयोजन किए।' : 'Began managing large weddings and celebrations across Bundelkhand and Madhya Pradesh. Our team delivered memorable events in Khajuraho, Sagar, and Jhansi.'
     },
     {
       year: '2019',
-      title: language === 'HI' ? 'उच्च क्षमता विस्तार' : 'The High-Capacity Expansion',
-      desc: language === 'HI' ? 'नवीनतम कॉर्पोरेट किचन सुविधा में स्थानांतरित हुए, जिससे एक साथ 2,500 मेहमानों को परोसना संभव हुआ।' : 'Moved into our brand-new, state-of-the-art corporate kitchen facility, enabling us to cater grand corporate galas for up to 2,500 guests simultaneously.'
+      title: language === 'HI' ? 'विस्तार और आधुनिकीकरण' : 'Growth & Modern Kitchen',
+      desc: language === 'HI' ? 'एक आधुनिक रसोई सुविधा में स्थानांतरित हुए, जिससे एक साथ 1,500 से अधिक मेहमानों को बेहतरीन सेवा प्रदान करना संभव हुआ।' : 'Moved into a larger, modern kitchen facility, enabling us to serve over 1,500 guests simultaneously with the same quality and care.'
     },
     {
       year: '2024',
-      title: language === 'HI' ? 'गॉरमेट नेतृत्व पुरस्कार' : 'Gourmet Leadership Award',
-      desc: language === 'HI' ? 'पश्चिम भारत में शीर्ष कैटरर के रूप में वोट दिया गया और आईएसओ 22000 प्रमाणन प्राप्त किया।' : 'Voted "Top Culinary Wedding Caterer in Western India" and achieved international ISO 22000 certification for exceptional hygiene and safety standard integrity.'
+      title: language === 'HI' ? 'सम्मान और मान्यता' : 'Recognition & Certification',
+      desc: language === 'HI' ? 'मध्य प्रदेश में शीर्ष कैटरर के रूप में पहचाने गए और अंतरराष्ट्रीय ISO 22000 प्रमाणन प्राप्त किया।' : 'Recognised as a leading caterer in Madhya Pradesh and achieved international ISO 22000 certification for food safety and hygiene excellence.'
     }
   ];
 
@@ -57,26 +57,26 @@ export default function About() {
                 {t('aboutSubtitle')}
               </h2>
               <p className="font-sans text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                {language === 'HI' ? 'हमारा मानना है कि प्रीमियम आयोजन विवरणों से परिभाषित होते हैं। पंद्रह वर्षों से हमारा मिशन अपरिवर्तित रहा है: स्वाद, कलात्मकता और असाधारण प्रस्तुति का सही मिश्रण।' : 'We believe that premium events are defined by detail. For fifteen years, our mission has remained unchanged: to curate dining moments that perfectly blend taste, artistry, and exceptional presentation.'}
+                {language === 'HI' ? 'हम मानते हैं कि हर समारोह खास होता है। पिछले 15 वर्षों से हमारा लक्ष्य एक ही है: प्रामाणिक स्वाद, बेहतरीन सेवा और गर्मजोशी भरी मेहमाननवाज़ी के साथ हर आयोजन को यादगार बनाना।' : 'We believe every celebration is special. For 15 years, our mission has remained the same: to make every event memorable with authentic flavours, warm hospitality, and flawless service.'}
               </p>
               
               {/* Core Attributes mini list */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="flex items-center gap-2.5 font-sans text-sm font-semibold text-secondary">
                   <Clock className="w-5 h-5 text-primary shrink-0" />
-                  <span>{language === 'HI' ? 'हमेशा सटीक और समयबद्ध' : 'Always Prompt & Precise'}</span>
+                  <span>{language === 'HI' ? 'समय पर सेवा का भरोसा' : 'Always On Time Service'}</span>
                 </div>
                 <div className="flex items-center gap-2.5 font-sans text-sm font-semibold text-secondary">
                   <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
-                  <span>{language === 'HI' ? '100% खाद्य सुरक्षा' : '100% Food Safety Integrity'}</span>
+                  <span>{language === 'HI' ? '100% शुद्धता और साफ-सफाई' : '100% Purity & Hygiene'}</span>
                 </div>
                 <div className="flex items-center gap-2.5 font-sans text-sm font-semibold text-secondary">
                   <Award className="w-5 h-5 text-primary shrink-0" />
-                  <span>{language === 'HI' ? 'विश्वस्तरीय शेफ' : 'Michelin-grade Chefs'}</span>
+                  <span>{language === 'HI' ? 'अनुभवी शेफ और स्टाफ' : 'Experienced Chefs & Staff'}</span>
                 </div>
                 <div className="flex items-center gap-2.5 font-sans text-sm font-semibold text-secondary">
                   <Heart className="w-5 h-5 text-primary shrink-0" />
-                  <span>{language === 'HI' ? 'अनुकूलित आहार विकल्प' : 'Tailored Diet Adaptations'}</span>
+                  <span>{language === 'HI' ? 'हर स्वाद और ज़रूरत के लिए' : 'Customised for Every Need'}</span>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function About() {
                 {t('mission')}
               </h3>
               <p className="font-sans text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">
-                {language === 'HI' ? 'असाधारण स्वाद और कलात्मक प्रस्तुति के साथ हर अवसर को यादगार संवेदी अनुभव में बदलना।' : 'To transform events into unforgettable sensory stories by matching rigorous flavor integrity with theatrical plate styling and customized silver-service hospitality that exceeds every expectation.'}
+                {language === 'HI' ? 'प्रामाणिक स्वाद और बेहतरीन सेवा के साथ हर आयोजन को यादगार बनाना। हमारी टीम हर छोटी-बड़ी ज़रूरत का ध्यान रखती है।' : 'To make every celebration unforgettable with authentic flavours, warm hospitality, and flawless execution. We take care of every detail so you can enjoy your special day.'}
               </p>
             </div>
 
@@ -142,7 +142,7 @@ export default function About() {
                 {t('vision')}
               </h3>
               <p className="font-sans text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">
-                {language === 'HI' ? 'मुंबई और पूरे भारत में लक्जरी कैटरिंग के क्षेत्र में उच्चतम मानदंड स्थापित करना।' : 'To stand as the absolute benchmark of luxury event catering across Mumbai and Western India, recognized for sustainable culinary innovation, premium localized farm sourcing, and impeccable logistical execution.'}
+                {language === 'HI' ? 'छतरपुर, मध्य प्रदेश और बुंदेलखंड क्षेत्र में कैटरिंग और इवेंट मैनेजमेंट के क्षेत्र में विश्वास और गुणवत्ता का मानक बनना।' : 'To be the most trusted name in catering and event management across Chhatarpur, Bundelkhand, and Madhya Pradesh, known for quality, authenticity, and exceptional service.'}
               </p>
             </div>
 
