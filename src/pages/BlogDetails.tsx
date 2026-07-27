@@ -150,7 +150,15 @@ useEffect(() => {
       });
 
       if (res.success) {
-        setSubmitMsg('Thank you! Your comment has been submitted.');
+        const created = res.data as any;
+        if (created && created.status === 'Pending') {
+          setSubmitMsg('Your comment has been submitted and is awaiting moderation.');
+        } else {
+          setSubmitMsg('Thank you! Your comment has been posted.');
+        }
+        if (created) {
+          setComments(prev => [created as BlogComment, ...prev]);
+        }
         setCommentName('');
         setCommentEmail('');
         setCommentMobile('');
@@ -158,7 +166,9 @@ useEffect(() => {
         setProfileFile(null);
         setProfilePreview('');
         if (fileInputRef.current) fileInputRef.current.value = '';
-        setRefreshKey(k => k + 1);
+        if (!created || created.status !== 'Pending') {
+          setRefreshKey(k => k + 1);
+        }
       } else {
         setSubmitError(res.error || 'Failed to submit comment');
       }
@@ -497,6 +507,11 @@ useEffect(() => {
                             <h4 className="font-serif text-sm sm:text-base font-bold text-secondary">
                               {DOMPurify.sanitize(comm.name)}
                             </h4>
+                            {comm.status === 'Pending' && (
+                              <span className="text-[10px] font-sans font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                                Pending approval
+                              </span>
+                            )}
                             <span className="text-[10px] text-slate-400 font-sans whitespace-nowrap">
                               {new Date(comm.createdAt).toLocaleDateString('en-US', {
                                 year: 'numeric', month: 'long', day: 'numeric'
