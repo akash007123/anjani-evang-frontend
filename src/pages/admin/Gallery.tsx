@@ -145,7 +145,7 @@ export default function GalleryManagement() {
       category: 'Weddings',
       imageUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80',
       videoUrl: '',
-      videoType: 'youtube',
+      videoType: 'mp4',
       thumbnail: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80',
       featured: false,
       displayOrder: galleryList.length + 1,
@@ -581,28 +581,23 @@ export default function GalleryManagement() {
                 ) : (
                   <>
                     <div className="sm:col-span-2">
-                      <label className="block font-bold text-slate-700 mb-1">Video Source Type</label>
-                      <select
-                        value={formData.videoType || 'youtube'}
-                        onChange={(e) => setFormData({ ...formData, videoType: e.target.value as any })}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
-                      >
-                        <option value="youtube">YouTube URL</option>
-                        <option value="vimeo">Vimeo URL</option>
-                        <option value="mp4">Direct MP4 URL</option>
-                      </select>
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="block font-bold text-slate-700 mb-1">Video Link URL *</label>
+                      <label className="block font-bold text-slate-700 mb-1">Video URL *</label>
                       <input
                         type="text"
                         required
                         value={formData.videoUrl || ''}
-                        onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                        placeholder="https://www.youtube.com/watch?v=..."
+                        onChange={(e) => {
+                          const url = e.target.value;
+                          const detected = url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)/) ? 'youtube'
+                            : url.match(/vimeo\.com/) ? 'vimeo' : 'mp4';
+                          setFormData({ ...formData, videoUrl: url, videoType: detected as any });
+                        }}
+                        placeholder="Paste any video link — YouTube, Vimeo, or direct MP4 URL"
                         className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs font-mono"
                       />
+                      <p className="text-[10px] text-slate-400 mt-1">
+                        Detected: <span className="font-bold text-primary">{formData.videoType || 'MP4'}</span>
+                      </p>
                     </div>
 
                     <div className="sm:col-span-2 space-y-3">

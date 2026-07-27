@@ -63,19 +63,16 @@ export default function Gallery() {
   }, []);
 
   const openVideo = useCallback((item: any) => {
-    let embedUrl = item.videoUrl;
-    if (item.videoType === 'youtube') {
-      const ytMatch = item.videoUrl.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]+)/);
-      if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`;
-    } else if (item.videoType === 'vimeo') {
-      const vMatch = item.videoUrl.match(/vimeo\.com\/(?:.*\/)?(\d+)/);
-      if (vMatch) embedUrl = `https://player.vimeo.com/video/${vMatch[1]}?autoplay=1`;
+    const url = item.videoUrl;
+    const ytMatch = url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]+)/);
+    const vMatch = url.match(/vimeo\.com\/(?:.*\/)?(\d+)/);
+    if (ytMatch) {
+      setVideoModal({ url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`, title: item.title, type: 'youtube' });
+    } else if (vMatch) {
+      setVideoModal({ url: `https://player.vimeo.com/video/${vMatch[1]}?autoplay=1`, title: item.title, type: 'vimeo' });
+    } else {
+      setVideoModal({ url, title: item.title, type: 'mp4' });
     }
-    if (embedUrl === item.videoUrl && item.videoType !== 'mp4') {
-      window.open(item.videoUrl, '_blank');
-      return;
-    }
-    setVideoModal({ url: embedUrl || item.videoUrl, title: item.title, type: item.videoType });
   }, []);
 
   return (
