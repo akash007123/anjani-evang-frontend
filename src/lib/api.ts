@@ -72,6 +72,12 @@ export const api = {
   getMe: () =>
     apiRequest('/auth/me'),
 
+  verifyAccount: (emailOrMobile: string) =>
+    apiRequest('/auth/verify-account', { method: 'POST', body: JSON.stringify({ emailOrMobile }) }),
+
+  resetPassword: (emailOrMobile: string, newPassword: string) =>
+    apiRequest('/auth/reset-password', { method: 'POST', body: JSON.stringify({ emailOrMobile, newPassword }) }),
+
   // Contact
   submitContact: (payload: any) =>
     apiRequest('/contacts', { method: 'POST', body: JSON.stringify(payload) }),

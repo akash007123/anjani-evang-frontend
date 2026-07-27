@@ -202,13 +202,21 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   };
 
   const verifyAccount = async (emailOrMobile: string): Promise<{ success: boolean; error?: string }> => {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return { success: true };
+    try {
+      const res = await api.verifyAccount(emailOrMobile);
+      return { success: res.success, error: res.error };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Verification failed' };
+    }
   };
 
   const resetPassword = async (emailOrMobile: string, newPassword: string): Promise<{ success: boolean; error?: string }> => {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return { success: true };
+    try {
+      const res = await api.resetPassword(emailOrMobile, newPassword);
+      return { success: res.success, error: res.error };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Password reset failed' };
+    }
   };
 
   const hasRole = (allowedRoles: AdminRole[] | string[]): boolean => {
