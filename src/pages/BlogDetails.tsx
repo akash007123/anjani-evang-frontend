@@ -3,6 +3,7 @@ import { useState, useEffect, FormEvent, useRef } from 'react';
 import { Calendar, User, ArrowLeft, Send, MessageSquare, Share2, Copy, Check, Image, Loader2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import PageBanner from '../components/layout/PageBanner';
+import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import { getBlogBySlug, getBlogs, getBlogComments } from '../data/getAsyncData';
 import { useAsyncData } from '../hooks/useAsyncData';
@@ -262,12 +263,47 @@ useEffect(() => {
   return (
     <div>
       <SEO 
-        title={blog.title} 
-        description={stripHtml(blog.excerpt)}
+        title={blog.seoTitle || blog.title} 
+        description={blog.seoDescription || stripHtml(blog.excerpt)}
         image={blog.image}
         urlPath={`/blogs/${blog.slug}`}
         type="article"
       />
+      <Helmet>
+        {blog.metaKeywords && (
+          <meta name="keywords" content={blog.metaKeywords} />
+        )}
+        {(blog.status && blog.status !== 'Active' && blog.status !== 'Published') && (
+          <meta name="robots" content="noindex,nofollow" />
+        )}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": `${typeof window !== 'undefined' ? window.location.origin : ''}/` },
+              { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${typeof window !== 'undefined' ? window.location.origin : ''}/blogs` },
+              { "@type": "ListItem", "position": 3, "name": blog.seoTitle || blog.title, "item": typeof window !== 'undefined' ? window.location.href : '' }
+            ]
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": blog.seoTitle || blog.title,
+            "description": blog.seoDescription || stripHtml(blog.excerpt),
+            "image": blog.image,
+            "datePublished": blog.publishDate || blog.date,
+            "dateModified": blog.publishDate || blog.date,
+            "author": {
+              "@type": "Person",
+              "name": blog.author.name
+            },
+            "keywords": blog.metaKeywords || (blog.tags && blog.tags.join(', ')) || ''
+          })}
+        </script>
+      </Helmet>
       <PageBanner 
         title={blog.title} 
         breadcrumbs={[{ name: 'Blog', path: '/blogs' }, { name: 'Post details' }]} 

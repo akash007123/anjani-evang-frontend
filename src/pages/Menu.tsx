@@ -122,11 +122,11 @@ export default function Menu() {
                     key={item.id}
                     className="bg-white rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-6 border border-slate-50 shadow-sm hover:shadow-xl transition-all duration-300 group text-left relative animate-in fade-in duration-500"
                   >
-                    {item.isPopular && (
+                    {/* {item.isPopular && (
                       <span className="absolute top-4 right-4 bg-secondary text-primary font-sans text-[10px] uppercase tracking-widest font-extrabold px-3 py-1 rounded-md shadow-sm">
                         Signature
                       </span>
-                    )}
+                    )} */}
 
                     <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shrink-0 bg-slate-100 relative">
                       <LazyImage
@@ -147,9 +147,9 @@ export default function Menu() {
                         <h3 className="font-serif text-xl font-bold text-secondary group-hover:text-primary transition-colors leading-snug">
                           {item.name}
                         </h3>
-                        <span className="font-serif text-xl font-extrabold text-secondary">
+                        {/* <span className="font-serif text-xl font-extrabold text-secondary">
                           ₹{item.price}
-                        </span>
+                        </span> */}
                       </div>
                       <p className="font-sans text-slate-500 text-xs leading-relaxed font-medium">
                         {item.description}

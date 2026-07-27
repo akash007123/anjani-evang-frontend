@@ -148,6 +148,11 @@ function mapBlog(item: any): BlogPost {
     category: item.category || 'Catering Trends',
     tags: item.tags || [],
     commentsCount: item.commentsCount ?? 0,
+    seoTitle: item.seoTitle || '',
+    seoDescription: item.seoDescription || '',
+    metaKeywords: item.metaKeywords || '',
+    status: item.status || 'Active',
+    publishDate: item.publishDate || '',
   };
 }
 

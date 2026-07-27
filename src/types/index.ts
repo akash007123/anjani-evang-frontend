@@ -134,4 +134,9 @@ export interface BlogPost {
   };
   tags: string[];
   commentsCount: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  metaKeywords?: string;
+  status?: string;
+  publishDate?: string;
 }

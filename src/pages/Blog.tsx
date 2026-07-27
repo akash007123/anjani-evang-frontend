@@ -93,6 +93,25 @@ export default function Blog() {
                         <p className="font-sans text-slate-500 text-sm sm:text-base leading-relaxed">
                           {(() => { const s = blog.excerpt; return s ? s.replace(/<[^>]*>/g, '') : ''; })()}
                         </p>
+
+                        {blog.tags && blog.tags.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <Tag className="w-3.5 h-3.5 text-primary shrink-0" />
+                            {blog.tags.slice(0, 4).map((tag) => (
+                              <span
+                                key={tag}
+                                className="bg-linen text-slate-600 text-[10px] font-semibold px-2.5 py-0.5 rounded-md"
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                            {blog.tags.length > 4 && (
+                              <span className="text-[10px] text-slate-400 font-semibold">
+                                +{blog.tags.length - 4}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
 

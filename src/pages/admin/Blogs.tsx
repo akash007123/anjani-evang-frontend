@@ -9,6 +9,7 @@ import {
   Edit3,
   Eye,
   Sparkles,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Check,
@@ -24,6 +25,7 @@ import DOMPurify from "dompurify";
 import { api } from "../../lib/api";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import RichEditor from "../../components/ui/RichEditor";
+import TagInput from "../../components/ui/TagInput";
 import { slugify } from "../../lib/slugify";
 
 interface BlogPostItem {
@@ -74,6 +76,7 @@ export default function BlogsManagement() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const slugManuallyEdited = useRef(false);
+  const [showSeo, setShowSeo] = useState(false);
 
   // Form Fields
   const [formData, setFormData] = useState<Partial<BlogPostItem>>({
@@ -179,7 +182,7 @@ export default function BlogsManagement() {
       author: "Anjani Culinary Team",
       authorAvatar: "",
       category: "Culinary Arts",
-      tags: ["Weddings", "Catering"],
+      tags: [],
       readingTime: "5 min read",
       publishDate: new Date().toISOString().split("T")[0],
       seoTitle: "",
@@ -243,13 +246,19 @@ export default function BlogsManagement() {
       return;
     }
 
+    const payload = {
+      ...formData,
+      seoTitle: formData.seoTitle || formData.title || '',
+      seoDescription: formData.seoDescription || strippedExcerpt,
+    };
+
     try {
       const id = editingItem?._id || editingItem?.id;
       let res;
       if (id) {
-        res = await api.updateBlog(id, formData);
+        res = await api.updateBlog(id, payload);
       } else {
-        res = await api.createBlog(formData);
+        res = await api.createBlog(payload);
       }
 
       if (res.success) {
@@ -711,19 +720,30 @@ export default function BlogsManagement() {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block font-bold text-slate-700 mb-1">
-                    Author Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.author || ""}
-                    onChange={(e) =>
-                      setFormData({ ...formData, author: e.target.value })
-                    }
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
-                  />
-                </div>
+                  <div className="sm:col-span-2">
+                    <label className="block font-bold text-slate-700 mb-1">
+                      Tags
+                    </label>
+                    <TagInput
+                      tags={formData.tags || []}
+                      onChange={(tags) => setFormData({ ...formData, tags })}
+                      placeholder="Type tag and press Enter, Comma, or Tab..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">
+                      Author Name
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.author || ""}
+                      onChange={(e) =>
+                        setFormData({ ...formData, author: e.target.value })
+                      }
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
+                    />
+                  </div>
 
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">
@@ -838,6 +858,75 @@ export default function BlogsManagement() {
                   >
                     Feature on Home Page
                   </label>
+                </div>
+
+                {/* SEO Settings */}
+                <div className="sm:col-span-2 mt-4 border border-slate-200 rounded-xl overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setShowSeo(!showSeo)}
+                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="font-bold text-slate-700 text-xs flex items-center gap-2">
+                      <Search className="w-3.5 h-3.5 text-primary" />
+                      SEO Settings
+                    </span>
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showSeo ? 'rotate-180' : ''}`} />
+                  </button>
+                  {showSeo && (
+                    <div className="p-4 space-y-4 bg-white">
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1 flex items-center justify-between">
+                          <span>Meta Title</span>
+                          <span className={`text-[10px] font-mono font-bold ${(formData.seoTitle || '').length > 60 ? 'text-red-500' : (formData.seoTitle || '').length > 48 ? 'text-amber-500' : 'text-emerald-500'}`}>
+                            {(formData.seoTitle || '').length} / 60
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={75}
+                          value={formData.seoTitle || ''}
+                          onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
+                          placeholder={formData.title ? `Auto: ${formData.title.slice(0, 60)}` : 'SEO-optimized page title (60 chars max)'}
+                          className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
+                        />
+                        <p className="text-[10px] text-slate-400 mt-1">Auto-fills from Blog Title on save if left empty.</p>
+                      </div>
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1 flex items-center justify-between">
+                          <span>Meta Description</span>
+                          <span className={`text-[10px] font-mono font-bold ${(formData.seoDescription || '').length > 160 ? 'text-red-500' : (formData.seoDescription || '').length > 128 ? 'text-amber-500' : 'text-emerald-500'}`}>
+                            {(formData.seoDescription || '').length} / 160
+                          </span>
+                        </label>
+                        <textarea
+                          rows={3}
+                          maxLength={200}
+                          value={formData.seoDescription || ''}
+                          onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
+                          placeholder={formData.excerpt ? `Auto: ${formData.excerpt.replace(/<[^>]*>/g, '').slice(0, 160)}` : 'Compelling meta description for search results (160 chars max)'}
+                          className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs resize-none"
+                        />
+                        <p className="text-[10px] text-slate-400 mt-1">Auto-fills from Short Description on save if left empty.</p>
+                      </div>
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1 flex items-center justify-between">
+                          <span>SEO Keywords</span>
+                          <span className={`text-[10px] font-mono font-bold ${(formData.metaKeywords || '').length > 200 ? 'text-red-500' : (formData.metaKeywords || '').length > 160 ? 'text-amber-500' : 'text-emerald-500'}`}>
+                            {(formData.metaKeywords || '').length} / 200
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={250}
+                          value={formData.metaKeywords || ''}
+                          onChange={(e) => setFormData({ ...formData, metaKeywords: e.target.value })}
+                          placeholder="Comma-separated keywords, e.g. wedding catering, luxury events, Mumbai"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-xs"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
