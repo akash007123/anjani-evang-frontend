@@ -14,6 +14,7 @@ import Users from './admin/Users';
 import Blogs from './admin/Blogs';
 import Comments from './admin/Comments';
 import Menu from './admin/Menu';
+import Services from './admin/Services';
 import Packages from './admin/Packages';
 import Newsletter from './admin/Newsletter';
 import Gallery from './admin/Gallery';
@@ -70,6 +71,7 @@ export default function Admin() {
             {/* Operations & Management Modules */}
             <Route path="bookings" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin', 'Manager']}><Bookings /></ProtectedRoute>} />
             <Route path="menu" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin', 'Manager']}><Menu /></ProtectedRoute>} />
+            <Route path="services" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin', 'Manager']}><Services /></ProtectedRoute>} />
             <Route path="packages" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin', 'Manager']}><Packages /></ProtectedRoute>} />
             <Route path="ai-bookings" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin', 'Manager']}><AIChatbotInquiries /></ProtectedRoute>} />
 

@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Heart, Briefcase, Sparkles, GlassWater, Check, ChevronDown, Calendar, ArrowRight, HelpCircle } from 'lucide-react';
+import { Heart, Briefcase, Sparkles, GlassWater, ChevronDown, Calendar, ArrowRight, HelpCircle } from 'lucide-react';
 import PageBanner from '../components/layout/PageBanner';
 import SEO from '../components/SEO';
 import { getServiceBySlug, getServices } from '../data/getAsyncData';
@@ -43,7 +43,7 @@ export default function ServiceDetails() {
     <div>
       <SEO 
         title={service.title} 
-        description={service.description}
+        description={service.shortDescription}
         image={service.image}
         urlPath={`/services/${service.slug}`}
       />
@@ -67,66 +67,37 @@ export default function ServiceDetails() {
                   Exceptional Culinary Hospitality for {service.title}
                 </h2>
                 <p className="font-sans text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-                  {service.description}
+                  {service.shortDescription}
                 </p>
               </div>
 
-              {/* Responsive Photo Grid Gallery */}
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
-                  Visual Showcase & Setup Gallery
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {service.gallery.map((imgSrc, idx) => (
-                    <div key={idx} className="h-44 sm:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                      <LazyImage
-                        src={imgSrc}
-                        alt={`${service.title} Setup Showcase ${idx + 1}`}
-                        wrapperClassName="w-full h-full"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  ))}
+              {service.image && (
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
+                    Visual Showcase
+                  </h3>
+                  <div className="rounded-2xl overflow-hidden shadow-sm">
+                    <LazyImage
+                      src={service.image}
+                      alt={service.title}
+                      wrapperClassName="w-full h-72 sm:h-96"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Service Features & Package Highlights */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-50 shadow-sm">
-                <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
-                  What’s Included in This Service
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-secondary" />
-                      </div>
-                      <span className="font-sans text-xs sm:text-sm text-slate-700 font-medium leading-tight">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
+              {service.fullDescription && (
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-50 shadow-sm">
+                  <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
+                    About This Service
+                  </h3>
+                  <div
+                    className="prose prose-sm sm:prose-base max-w-none text-slate-700"
+                    dangerouslySetInnerHTML={{ __html: service.fullDescription }}
+                  />
                 </div>
-              </div>
-
-              {/* Benefits of Choosing Anjani Catering & Events */}
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
-                  Why Families & Corporate Planners Choose Us
-                </h3>
-                <div className="space-y-4">
-                  {service.benefits.map((benefit, idx) => (
-                    <div key={idx} className="bg-linen rounded-2xl p-5 border border-accent/10 flex gap-4">
-                      <span className="font-serif text-2xl font-extrabold text-primary shrink-0 leading-none">
-                        0{idx + 1}
-                      </span>
-                      <p className="font-sans text-slate-700 text-xs sm:text-sm font-medium leading-relaxed">
-                        {benefit}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
 
               {/* Interactive Service FAQ Accordion */}
               <div>

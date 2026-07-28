@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { 
   LayoutDashboard, Users, Mail, Calendar, ShoppingBag, 
   FileText, MessageSquare, UtensilsCrossed, Package, Send, Image as ImageIcon, Settings, 
-  ChevronLeft, ChevronRight, X, Sparkles, ShieldCheck, Bell
+  ChevronLeft, ChevronRight, X, Sparkles, ShieldCheck, Bell, Briefcase
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -45,6 +45,7 @@ export default function AdminSidebar({
     { key: 'admin:orders', name: t('admin:orders'), path: '/admin/orders', icon: ShoppingBag, roles: ['Super Admin', 'Admin', 'Manager', 'Employee'] },
     { key: 'admin:blogs', name: t('admin:blogs'), path: '/admin/blogs', icon: FileText, roles: ['Super Admin', 'Admin'] },
     { key: 'admin:comments', name: t('admin:comments'), path: '/admin/comments', icon: MessageSquare, roles: ['Super Admin', 'Admin'] },
+    { key: 'admin:services', name: t('admin:services'), path: '/admin/services', icon: Briefcase, roles: ['Super Admin', 'Admin', 'Manager'] },
     { key: 'admin:menu', name: t('admin:menu'), path: '/admin/menu', icon: UtensilsCrossed, roles: ['Super Admin', 'Admin', 'Manager'] },
     { key: 'admin:packages', name: t('admin:packages'), path: '/admin/packages', icon: Package, roles: ['Super Admin', 'Admin', 'Manager'] },
     { key: 'admin:newsletter', name: t('admin:newsletter'), path: '/admin/newsletter', icon: Send, roles: ['Super Admin', 'Admin'] },

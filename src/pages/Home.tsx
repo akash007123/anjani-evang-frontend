@@ -264,7 +264,11 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="up" staggerChildren={true} stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service) => {
+            {services
+              .filter(s => s.featured)
+              .sort((a, b) => a.displayOrder - b.displayOrder)
+              .slice(0, 4)
+              .map((service) => {
               const IconComp = 
                 service.icon === 'Heart' ? Heart : 
                 service.icon === 'Briefcase' ? Briefcase :
@@ -294,7 +298,7 @@ export default function Home() {
                         {service.title}
                       </h3>
                       <p className="font-sans text-white/70 text-xs sm:text-sm leading-relaxed font-medium">
-                        {service.description.substring(0, 120)}...
+                        {service.shortDescription.substring(0, 120)}...
                       </p>
                     </div>
                   </div>

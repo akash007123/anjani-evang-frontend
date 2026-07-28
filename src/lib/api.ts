@@ -343,6 +343,15 @@ export const api = {
   getServiceBySlug: (slug: string) =>
     apiRequest(`/services/${slug}`),
 
+  createService: (payload: any) =>
+    apiRequest('/services', { method: 'POST', body: JSON.stringify(payload) }),
+
+  updateService: (id: string, payload: any) =>
+    apiRequest(`/services/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
+
+  deleteService: (id: string) =>
+    apiRequest(`/services/${id}`, { method: 'DELETE' }),
+
   // Testimonials
   getTestimonials: () =>
     apiRequest('/testimonials'),

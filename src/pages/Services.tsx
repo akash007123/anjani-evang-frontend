@@ -74,18 +74,8 @@ export default function Services() {
                         {service.title}
                       </h3>
                       <p className="font-sans text-slate-600 text-sm leading-relaxed font-medium">
-                        {service.description}
+                        {service.shortDescription}
                       </p>
-                      
-                      {/* Bullet Highlights */}
-                      <ul className="space-y-2 mt-2">
-                        {service.features.slice(0, 3).map((feat, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 font-sans text-xs sm:text-sm text-slate-700 font-medium">
-                            <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   </div>
 

@@ -4,15 +4,25 @@ import type { TestimonialItem } from './testimonialsData';
 
 function mapService(item: any): Service {
   return {
-    id: item._id || item.id,
-    slug: item.slug,
-    title: item.title,
-    description: item.description || item.shortDescription || item.fullDescription || '',
+    _id: item._id || item.id || '',
+    id: item._id || item.id || '',
+    slug: item.slug || '',
+    title: item.title || '',
+    shortDescription: item.shortDescription || item.description || '',
+    fullDescription: item.fullDescription || '',
+    pricePerGuest: item.pricePerGuest ?? 0,
+    minGuests: item.minGuests ?? 25,
     icon: item.icon || 'Sparkles',
     image: item.image || '',
-    gallery: item.gallery || [],
-    features: item.features || [],
-    benefits: item.benefits || [],
+    category: item.category || 'General',
+    featured: Boolean(item.featured),
+    active: item.active !== false,
+    displayOrder: item.displayOrder ?? 0,
+    seoTitle: item.seoTitle || '',
+    seoDescription: item.seoDescription || '',
+    seoKeywords: item.seoKeywords || [],
+    createdAt: item.createdAt || '',
+    updatedAt: item.updatedAt || '',
   };
 }
 

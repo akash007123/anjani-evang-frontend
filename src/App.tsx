@@ -8,6 +8,7 @@ import LoadingSpinner from './components/layout/LoadingSpinner';
 import WhatsAppContact from './components/layout/WhatsAppContact';
 import GeminiChatbot from './components/layout/GeminiChatbot';
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import GuestRoute from './components/admin/GuestRoute';
 import { LanguageProvider } from './context/LanguageContext';
 import { ToastProvider } from './context/ToastContext';
 import SEOConfig from './components/SEOConfig';
@@ -56,8 +57,8 @@ function AppContent() {
         <Suspense fallback={<LoadingSpinner fullPage={true} />}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-              <Route path="/admin-login" element={<PageTransition><Login /></PageTransition>} />
-              <Route path="/admin-signup" element={<PageTransition><Signup /></PageTransition>} />
+              <Route path="/admin-login" element={<GuestRoute><PageTransition><Login /></PageTransition></GuestRoute>} />
+              <Route path="/admin-signup" element={<GuestRoute><PageTransition><Signup /></PageTransition></GuestRoute>} />
               <Route path="/admin/*" element={<PageTransition><Admin /></PageTransition>} />
               <Route path="/*" element={<PageTransition><NotFound /></PageTransition>} />
             </Routes>

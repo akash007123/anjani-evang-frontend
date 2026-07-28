@@ -13,15 +13,25 @@ export interface TeamMember {
 }
 
 export interface Service {
+  _id: string;
   id: string;
   slug: string;
   title: string;
-  description: string;
+  shortDescription: string;
+  fullDescription?: string;
+  pricePerGuest: number;
+  minGuests: number;
   icon: string;
   image: string;
-  gallery: string[];
-  features: string[];
-  benefits: string[];
+  category: string;
+  featured: boolean;
+  active: boolean;
+  displayOrder: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface MenuItem {
