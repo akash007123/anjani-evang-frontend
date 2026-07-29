@@ -44,7 +44,7 @@ export default function Settings() {
     e.preventDefault();
     try {
       if (currentUser?.id) {
-        await api.updateUser(currentUser.id, { firstName, lastName, email, mobile, profilePicture });
+        await api.updateProfile({ firstName, lastName, email, mobile, profilePicture });
       }
       updateProfile({ firstName, lastName, email, mobile, profilePicture });
     } catch (err) {
@@ -62,7 +62,7 @@ export default function Settings() {
     }
     try {
       if (currentUser?.id) {
-        await api.resetUserPassword(currentUser.id, newPassword);
+        await api.resetPassword(currentUser.email, newPassword);
       }
     } catch (err) {
       console.error('Failed to change password', err);

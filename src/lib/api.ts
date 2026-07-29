@@ -171,6 +171,10 @@ export const api = {
   bulkDeleteSubscribers: (ids: string[]) =>
     apiRequest('/newsletter/bulk-delete', { method: 'POST', body: JSON.stringify({ ids }) }),
 
+  // Self profile
+  updateProfile: (payload: any) =>
+    apiRequest('/auth/profile', { method: 'PUT', body: JSON.stringify(payload) }),
+
   // Users Management
   getUsers: (params?: Record<string, any>) =>
     apiRequest(`/users${buildQueryString(params)}`),
