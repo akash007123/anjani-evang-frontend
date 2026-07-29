@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { 
   Heart, Briefcase, Sparkles, GlassWater, 
@@ -67,6 +68,9 @@ export default function Home() {
         description={t('home:heroSubtitle')}
         urlPath="/"
       />
+      <Helmet>
+        <meta name="google-site-verification" content="-i0mdQZYNBta7fE0yMyrjSlz0O4qcw1nQtKdmG1PiY8" />
+      </Helmet>
       
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[90vh] sm:min-h-screen bg-secondary flex items-center justify-center pt-24 pb-16 overflow-hidden">
