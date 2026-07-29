@@ -78,28 +78,43 @@ export function reveal(
     }
   }
 
+  // Guard: skip if no valid targets
+  if (!targets || (typeof targets !== 'string' && 'length' in targets && targets.length === 0)) {
+    return null;
+  }
+
   // Initial state configuration
-  gsap.set(targets, {
-    opacity: 0,
-    x: direction !== 'fade' ? x : 0,
-    y: direction !== 'fade' ? y : 0,
-  });
+  try {
+    gsap.set(targets, {
+      opacity: 0,
+      x: direction !== 'fade' ? x : 0,
+      y: direction !== 'fade' ? y : 0,
+    });
+  } catch (e) {
+    console.warn('[ScrollReveal] gsap.set failed:', e);
+    return null;
+  }
 
   // GSAP ScrollTrigger tween
-  return gsap.to(targets, {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    duration,
-    delay,
-    stagger: (staggerChildren || staggerSelector) ? stagger : 0,
-    ease,
-    scrollTrigger: {
-      trigger: element as any,
-      start: viewportStart,
-      toggleActions: triggerOnce 
-        ? 'play none none none' 
-        : 'play none none reverse',
-    }
-  });
+  try {
+    return gsap.to(targets, {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      duration,
+      delay,
+      stagger: (staggerChildren || staggerSelector) ? stagger : 0,
+      ease,
+      scrollTrigger: {
+        trigger: element as any,
+        start: viewportStart,
+        toggleActions: triggerOnce 
+          ? 'play none none none' 
+          : 'play none none reverse',
+      }
+    });
+  } catch (e) {
+    console.warn('[ScrollReveal] gsap.to failed:', e);
+    return null;
+  }
 }
