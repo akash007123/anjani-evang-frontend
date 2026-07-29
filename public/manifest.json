@@ -1,0 +1,25 @@
+{
+  "name": "Anjani Catering & Events",
+  "short_name": "Anjani Events",
+  "description": "Premium Indian wedding catering and event management in Chhatarpur, Madhya Pradesh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdf8f0",
+  "theme_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

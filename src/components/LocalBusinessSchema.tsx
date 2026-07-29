@@ -1,11 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import { COMPANY_EMAIL, COMPANY_PHONE, COMPANY_ADDRESS, COMPANY_NAME } from '../config/env';
 
+const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://anjanievents.in';
+
 export default function LocalBusinessSchema() {
-  const schema = {
+  const localBusiness = {
     '@context': 'https://schema.org',
-    '@type': 'CateringService',
-    '@id': 'https://evengcatering.com/#catering-service',
+    '@type': ['LocalBusiness', 'CateringService', 'FoodService'],
+    '@id': `${SITE_URL}/#business`,
     'name': COMPANY_NAME,
     'image': [
       'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80',
@@ -13,11 +15,12 @@ export default function LocalBusinessSchema() {
     ],
     'telephone': COMPANY_PHONE,
     'email': COMPANY_EMAIL,
-    'url': 'https://evengcatering.com',
+    'url': SITE_URL,
     'priceRange': '₹₹₹₹',
+    'description': `${COMPANY_NAME} offers premium Indian wedding catering, grand celebration banquets, and bespoke live food station solutions for luxury events across Chhatarpur, Bundelkhand, and Madhya Pradesh.`,
     'address': {
       '@type': 'PostalAddress',
-      'streetAddress': 'Chhatarpur',
+      'streetAddress': 'Maharastra Marg, Rani ki Bagiya',
       'addressLocality': 'Chhatarpur',
       'addressRegion': 'Madhya Pradesh',
       'postalCode': '471001',
@@ -25,23 +28,15 @@ export default function LocalBusinessSchema() {
     },
     'geo': {
       '@type': 'GeoCoordinates',
-      'latitude': 24.9064,
-      'longitude': 79.5873
+      'latitude': 24.9157,
+      'longitude': 79.5833
     },
     'openingHoursSpecification': [
       {
         '@type': 'OpeningHoursSpecification',
-        'dayOfWeek': [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday'
-        ],
-        'opens': '08:00',
-        'closes': '22:00'
+        'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        'opens': '09:00',
+        'closes': '18:00'
       }
     ],
     'areaServed': [
@@ -51,9 +46,6 @@ export default function LocalBusinessSchema() {
       { '@type': 'AdministrativeArea', 'name': 'Tikamgarh' },
       { '@type': 'AdministrativeArea', 'name': 'Sagar' },
       { '@type': 'AdministrativeArea', 'name': 'Damoh' },
-      { '@type': 'AdministrativeArea', 'name': 'Satna' },
-      { '@type': 'AdministrativeArea', 'name': 'Rewa' },
-      { '@type': 'AdministrativeArea', 'name': 'Jhansi' },
       { '@type': 'AdministrativeArea', 'name': 'Bundelkhand' },
       { '@type': 'AdministrativeArea', 'name': 'Madhya Pradesh' }
     ],
@@ -66,14 +58,47 @@ export default function LocalBusinessSchema() {
       'Indian Fusion',
       'Continental'
     ],
-    'description': `${COMPANY_NAME} offers premium Indian wedding catering, grand celebration banquets, and bespoke live food station solutions for luxury events across Chhatarpur, Bundelkhand, and Madhya Pradesh.`
+    'sameAs': [
+      'https://www.facebook.com/anjanieventscatering/',
+      'https://www.instagram.com/anjani_events__/',
+      'https://linkedin.com/company/evengcatering',
+      'https://youtube.com/@evengcatering'
+    ],
+    'hasMap': `https://maps.google.com/?q=Maharastra+Marg+Rani+ki+Bagiya+Chhatarpur+MP+471001`,
+    'contactPoint': {
+      '@type': 'ContactPoint',
+      'telephone': COMPANY_PHONE,
+      'contactType': 'reservations',
+      'email': COMPANY_EMAIL,
+      'availableLanguage': ['Hindi', 'English']
+    },
+    'currenciesAccepted': 'INR',
+    'paymentAccepted': ['Cash', 'UPI', 'Bank Transfer', 'Cheque'],
+    'foundingDate': '2018'
+  };
+
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    'url': SITE_URL,
+    'name': COMPANY_NAME,
+    'description': `${COMPANY_NAME} offers premium Indian wedding catering and event management services in Chhatarpur, Madhya Pradesh.`,
+    'publisher': { '@id': `${SITE_URL}/#business` },
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': {
+        '@type': 'EntryPoint',
+        'urlTemplate': `${SITE_URL}/?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
   };
 
   return (
     <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(schema)}
-      </script>
+      <script type="application/ld+json">{JSON.stringify(localBusiness)}</script>
+      <script type="application/ld+json">{JSON.stringify(website)}</script>
     </Helmet>
   );
 }

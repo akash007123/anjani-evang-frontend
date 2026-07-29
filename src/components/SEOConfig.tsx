@@ -1,11 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SEOData {
   title: string;
   description: string;
   image?: string;
   type?: 'website' | 'article';
+  keywords?: string;
 }
 
 const staticSEO: Record<string, SEOData> = {
@@ -72,17 +74,20 @@ interface SEOConfigProps {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  keywords?: string;
 }
 
-export default function SEOConfig({ title: customTitle, description: customDescription, image: customImage, type: customType }: SEOConfigProps = {}) {
+export default function SEOConfig({ title: customTitle, description: customDescription, image: customImage, type: customType, keywords: customKeywords }: SEOConfigProps = {}) {
   const location = useLocation();
+  const { language } = useLanguage();
   const pathname = location.pathname;
 
   let seoData: SEOData | undefined = customTitle ? {
     title: customTitle,
     description: customDescription || 'Anjani Catering & Events offers premium Indian wedding and corporate event catering in Chhatarpur, Madhya Pradesh.',
     image: customImage,
-    type: customType
+    type: customType,
+    keywords: customKeywords
   } : staticSEO[pathname];
 
   if (!seoData && pathname.startsWith('/admin/')) {
@@ -103,7 +108,7 @@ export default function SEOConfig({ title: customTitle, description: customDescr
 
   const siteName = 'Anjani Catering & Events';
   const fullTitle = `${seoData.title} | ${siteName}`;
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://evengcatering.com';
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://anjanievents.in';
   const canonicalUrl = `${baseUrl}${pathname}`;
   const defaultImage = 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80';
   const image = seoData.image || defaultImage;
@@ -113,6 +118,8 @@ export default function SEOConfig({ title: customTitle, description: customDescr
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={seoData.description} />
+      {seoData.keywords && <meta name="keywords" content={seoData.keywords} />}
+      <link rel="canonical" href={canonicalUrl} />
 
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={seoData.description} />
@@ -120,11 +127,16 @@ export default function SEOConfig({ title: customTitle, description: customDescr
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={siteName} />
+      <meta property="og:locale" content={language === 'HI' ? 'hi_IN' : 'en_IN'} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={seoData.description} />
       <meta name="twitter:image" content={image} />
+
+      <link rel="alternate" href={`${baseUrl}/en${pathname}`} hrefLang="en" />
+      <link rel="alternate" href={`${baseUrl}/hi${pathname}`} hrefLang="hi" />
+      <link rel="alternate" href={`${baseUrl}${pathname}`} hrefLang="x-default" />
     </Helmet>
   );
 }
