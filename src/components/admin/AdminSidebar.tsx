@@ -39,7 +39,7 @@ export default function AdminSidebar({
   const navItems: NavItem[] = [
     { key: 'admin:dashboard', name: t('admin:dashboard'), path: '/admin/dashboard', icon: LayoutDashboard, roles: ['Super Admin', 'Admin', 'Manager', 'Employee'] },
     { key: 'admin:notifications', name: t('admin:notifications'), path: '/admin/notifications', icon: Bell, roles: ['Super Admin', 'Admin', 'Manager'] },
-    { key: 'admin:users', name: t('admin:users'), path: '/admin/users', icon: Users, roles: ['Super Admin'] },
+    { key: 'admin:users', name: t('admin:users'), path: '/admin/users', icon: Users, roles: ['Super Admin', 'Admin'] },
     { key: 'admin:contacts', name: t('admin:contacts'), path: '/admin/contacts', icon: Mail, roles: ['Super Admin', 'Admin', 'Manager', 'Employee'] },
     { key: 'admin:bookings', name: t('admin:bookings'), path: '/admin/bookings', icon: Calendar, roles: ['Super Admin', 'Admin', 'Manager'] },
     { key: 'admin:orders', name: t('admin:orders'), path: '/admin/orders', icon: ShoppingBag, roles: ['Super Admin', 'Admin', 'Manager', 'Employee'] },

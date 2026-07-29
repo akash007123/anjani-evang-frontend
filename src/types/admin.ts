@@ -2,13 +2,19 @@ export type AdminRole = 'Super Admin' | 'Admin' | 'Manager' | 'Employee';
 
 export interface AdminUser {
   id: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   email: string;
   mobile: string;
+  username?: string;
   profilePicture: string;
   role?: AdminRole | string;
   permissions?: string[];
+  status?: string;
+  lastLogin?: string;
+  createdAt?: string;
+  createdBy?: string;
 }
 
 export interface Order {

@@ -83,7 +83,7 @@ export default function Admin() {
             <Route path="settings" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Settings /></ProtectedRoute>} />
 
             {/* Super Admin Restricted Security Module */}
-            <Route path="users" element={<ProtectedRoute allowedRoles={['Super Admin']}><Users /></ProtectedRoute>} />
+            <Route path="users" element={<ProtectedRoute allowedRoles={['Super Admin', 'Admin']}><Users /></ProtectedRoute>} />
 
             {/* Fallback route */}
             <Route path="*" element={<Navigate to="dashboard" replace />} />
