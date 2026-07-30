@@ -4,6 +4,7 @@ import { api } from '../../lib/api';
 import { 
   Check, Eye, EyeOff, Save, Key, User as UserIcon, Shield, Sparkles, AlertCircle 
 } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 export default function Settings() {
   const { currentUser, updateProfile } = useAdminAuth();
@@ -104,6 +105,7 @@ export default function Settings() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <SEO title="Admin Settings - Admin Panel" description="Configure admin profile, account security, and system preferences." urlPath="/admin/settings" />
       {/* Sidebar Details / Preview card */}
       <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm text-center font-sans space-y-6">
         <div className="flex flex-col items-center">

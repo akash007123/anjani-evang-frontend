@@ -4,6 +4,7 @@ import {
   CheckCircle2, Award, Calendar, MapPin, Sparkles, Clock, ArrowRight, 
   X, Maximize2, ChevronDown, ChevronUp, Utensils, ThumbsUp, Send, UserCheck, ShieldCheck
 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import PageBanner from '../components/layout/PageBanner';
 import SEO from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
@@ -332,7 +333,38 @@ export default function Testimonials() {
         description="Read reviews from luxury hosts in Mumbai. Read verified feedback from premium Indian wedding families, corporate sponsors, and high-end private celebrations."
         urlPath="/testimonials"
       />
-      
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Anjani Catering & Events",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": testimonialsData.length > 0
+                ? (testimonialsData.reduce((sum: number, t: TestimonialItem) => sum + t.rating, 0) / testimonialsData.length).toFixed(1)
+                : "5.0",
+              "reviewCount": testimonialsData.length,
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "review": testimonialsData.slice(0, 3).map((t: TestimonialItem) => ({
+              "@type": "Review",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": t.rating,
+                "bestRating": "5"
+              },
+              "author": {
+                "@type": "Person",
+                "name": t.name
+              },
+              "reviewBody": t.review,
+              "datePublished": t.date
+            }))
+          })}
+        </script>
+      </Helmet>
       <PageBanner 
         title="Client Testimonials" 
         breadcrumbs={[{ name: 'Testimonials' }]} 

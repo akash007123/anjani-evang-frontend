@@ -25,6 +25,7 @@ import { api } from "../../lib/api";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import RichEditor from "../../components/ui/RichEditor";
 import { slugify } from "../../lib/slugify";
+import SEO from "../../components/SEO";
 
 interface ServiceItem {
   _id?: string;
@@ -302,6 +303,7 @@ export default function ServicesManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Service Management - Admin Panel" description="Manage catering services offered, service descriptions, and pricing tiers." urlPath="/admin/services" />
       <AnimatePresence>
         {toast && (
           <motion.div

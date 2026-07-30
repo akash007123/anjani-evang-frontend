@@ -25,6 +25,7 @@ import DOMPurify from "dompurify";
 import { api } from "../../lib/api";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import RichEditor from "../../components/ui/RichEditor";
+import SEO from "../../components/SEO";
 import TagInput from "../../components/ui/TagInput";
 import { slugify } from "../../lib/slugify";
 
@@ -330,6 +331,7 @@ export default function BlogsManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Blog Posts - Admin Panel" description="Create, edit, and publish blog posts and articles for the catering website." urlPath="/admin/blogs" />
       {/* Toast Banner */}
       <AnimatePresence>
         {toast && (

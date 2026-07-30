@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import SEO from '../../components/SEO';
 
 interface UserItem {
   _id?: string;
@@ -292,6 +293,7 @@ export default function UsersManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="User Management - Admin Panel" description="Manage registered users, their roles, permissions, and account status." urlPath="/admin/users" />
       <AnimatePresence>
         {toast && (
           <motion.div

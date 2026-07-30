@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import SEO from '../../components/SEO';
 
 interface MenuItem {
   _id?: string;
@@ -251,6 +252,7 @@ export default function MenuManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Menu Management - Admin Panel" description="Add, edit, and organize menu items, categories, and pricing." urlPath="/admin/menu" />
       {/* Toast Banner */}
       <AnimatePresence>
         {toast && (

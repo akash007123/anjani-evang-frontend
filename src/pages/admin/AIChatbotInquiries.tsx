@@ -6,6 +6,7 @@ import {
   Eye, Calendar, Check, AlertCircle, Sparkles, Filter, MessageSquare, Bot, User, Clipboard, FileText, RefreshCw
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import SEO from "../../components/SEO";
 
 interface AIChatbotInquiry {
   id: string;
@@ -221,6 +222,7 @@ export default function AIChatbotInquiries() {
 
   return (
     <div className="space-y-6">
+      <SEO title="AI Concierge Inquiries - Admin Panel" description="Review and manage inquiries received through the AI concierge chatbot." urlPath="/admin/ai-inquiries" />
       {/* Header Info Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

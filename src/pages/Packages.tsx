@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Calculator } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import PageBanner from '../components/layout/PageBanner';
 import SEO from '../components/SEO';
 import { getPackages } from '../data/getAsyncData';
@@ -29,6 +30,27 @@ export default function Packages() {
         description={t('packagesSubtitle')}
         urlPath="/packages"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": packages.map((pkg) => ({
+              "@type": "Product",
+              "name": pkg.name,
+              "description": pkg.description,
+              "category": pkg.category,
+              "offers": {
+                "@type": "Offer",
+                "price": pkg.pricePerPerson,
+                "priceCurrency": "INR",
+                "description": `Starting at ₹${pkg.pricePerPerson.toLocaleString('en-IN')}/person`,
+                "availability": "https://schema.org/InStock",
+                "validFrom": new Date().toISOString().split('T')[0]
+              }
+            }))
+          })}
+        </script>
+      </Helmet>
       <PageBanner 
         title={t('packagesTitle')} 
         breadcrumbs={[{ name: t('packages') }]} 

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import SEO from '../../components/SEO';
 
 interface GalleryItem {
   _id?: string;
@@ -259,6 +260,7 @@ export default function GalleryManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Gallery Management - Admin Panel" description="Upload and manage event photo galleries and media assets." urlPath="/admin/gallery" />
       {/* Toast */}
       <AnimatePresence>
         {toast && (

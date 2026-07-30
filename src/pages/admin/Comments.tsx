@@ -4,6 +4,7 @@ import { api } from '../../lib/api';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 import { getInitials, getAvatarColor } from '../../lib/avatar';
 import type { BlogComment } from '../../types';
+import SEO from '../../components/SEO';
 
 export default function Comments() {
   const [comments, setComments] = useState<BlogComment[]>([]);
@@ -66,6 +67,7 @@ export default function Comments() {
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <SEO title="Comment Moderation - Admin Panel" description="Moderate reader comments on blog posts and manage comment approvals." urlPath="/admin/comments" />
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-serif font-bold text-secondary">Comments</h1>

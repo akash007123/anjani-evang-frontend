@@ -5,6 +5,7 @@ import {
   ChevronLeft, ChevronRight, Check, AlertCircle, Mail, CheckSquare, Square
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import SEO from '../../components/SEO';
 
 interface Subscriber {
   _id?: string;
@@ -173,6 +174,7 @@ export default function NewsletterManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Newsletter Subscribers - Admin Panel" description="Manage email newsletter subscribers and send campaign broadcasts." urlPath="/admin/newsletter" />
       {/* Toast */}
       <AnimatePresence>
         {toast && (
