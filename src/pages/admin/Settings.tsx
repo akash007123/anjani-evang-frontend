@@ -15,6 +15,14 @@ export default function Settings() {
   const [mobile, setMobile] = useState(currentUser?.mobile || '');
   const [profilePicture, setProfilePicture] = useState(currentUser?.profilePicture || '');
 
+  useEffect(() => {
+    setFirstName(currentUser?.firstName || '');
+    setLastName(currentUser?.lastName || '');
+    setEmail(currentUser?.email || '');
+    setMobile(currentUser?.mobile || '');
+    setProfilePicture(currentUser?.profilePicture || '');
+  }, [currentUser]);
+
   // Password forms
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

@@ -122,7 +122,8 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
         email: userData.email,
         mobile: userData.mobile,
         password,
-        role: userData.role || 'Admin'
+        role: userData.role || 'Admin',
+        profilePicture: userData.profilePicture || ''
       };
       const res = await api.register(payload);
       if (res.success && res.data) {
@@ -137,9 +138,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
           lastName: userData.lastName,
           email: userData.email,
           mobile: userData.mobile,
-          profilePicture: userData.profilePicture || '',
-          role: userData.role || 'Admin',
-          permissions: []
+          profilePicture: u.profilePicture || userData.profilePicture || '',
+          role: u.role || userData.role || 'Admin',
+          permissions: u.permissions || []
         };
         setCurrentUser(newUser);
         setIsAuthenticated(true);
