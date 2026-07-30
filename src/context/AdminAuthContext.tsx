@@ -44,63 +44,29 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
       if (storedToken && isTokenValid(storedToken)) {
         setToken(storedToken);
-        const decoded = decodeJwt(storedToken);
 
         try {
-          // Attempt to fetch current user profile from backend
           const res = await api.getMe();
           if (res.success && res.data) {
             const u = res.data;
-            const nameParts = (u.name || decoded?.name || '').split(' ');
+            const nameParts = (u.name || '').split(' ');
             const adminUser: AdminUser = {
-              id: u.id || u._id || decoded?.id || '',
+              id: u.id || u._id || '',
               firstName: nameParts[0] || '',
               lastName: nameParts.slice(1).join(' ') || '',
-              email: u.email || decoded?.email || '',
+              email: u.email || '',
               mobile: u.mobile || '',
               profilePicture: u.profilePicture || '',
-              role: normalizeRole(u.role || decoded?.role || 'Admin'),
+              role: normalizeRole(u.role || 'Admin'),
               permissions: u.permissions || []
             };
             setCurrentUser(adminUser);
             setIsAuthenticated(true);
           } else {
-            // Fallback to decoded token payload
-            if (decoded) {
-              const nameParts = (decoded.name || '').split(' ');
-              const fallbackUser: AdminUser = {
-                id: decoded.id || '',
-                firstName: nameParts[0] || '',
-                lastName: nameParts.slice(1).join(' ') || '',
-                email: decoded.email || '',
-                mobile: '',
-                profilePicture: '',
-                role: normalizeRole(decoded.role || 'Admin'),
-                permissions: []
-              };
-              setCurrentUser(fallbackUser);
-              setIsAuthenticated(true);
-            } else {
-              logout();
-            }
-          }
-        } catch {
-          if (decoded) {
-            const nameParts = (decoded.name || '').split(' ');
-            setCurrentUser({
-              id: decoded.id || '',
-              firstName: nameParts[0] || '',
-              lastName: nameParts.slice(1).join(' ') || '',
-              email: decoded.email || '',
-              mobile: '',
-              profilePicture: '',
-              role: normalizeRole(decoded.role || 'Admin'),
-              permissions: []
-            });
-            setIsAuthenticated(true);
-          } else {
             logout();
           }
+        } catch {
+          logout();
         }
       } else {
         logout();
