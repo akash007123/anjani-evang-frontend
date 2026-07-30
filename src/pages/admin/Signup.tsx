@@ -225,7 +225,7 @@ export default function Signup() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@eveng.com"
+                placeholder="admin@anjanievents.in"
                 className={`w-full px-3.5 py-2.5 bg-slate-50/50 border rounded-2xl focus:outline-none text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm ${
                   validationErrors.email ? 'border-rose-400' : 'border-slate-200 focus:border-primary'
                 }`}

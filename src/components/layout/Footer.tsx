@@ -6,8 +6,6 @@ import {
   MapPin,
   Instagram,
   Facebook,
-  Twitter,
-  Linkedin,
   Send,
   ArrowUp,
 } from "lucide-react";
@@ -18,6 +16,8 @@ import {
   COMPANY_ADDRESS,
   COMPANY_PHONE,
   COMPANY_EMAIL,
+  FACEBOOK_URL,
+  INSTAGRAM_URL
 } from "../../config/env";
 
 export default function Footer() {
@@ -134,32 +134,22 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-white/5 hover:bg-primary hover:text-secondary transition-all flex items-center justify-center text-white/80"
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href="#"
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-white/5 hover:bg-primary hover:text-secondary transition-all flex items-center justify-center text-white/80"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
-              </a>
-              <a
-                href="#"
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-primary hover:text-secondary transition-all flex items-center justify-center text-white/80"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href="#"
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-primary hover:text-secondary transition-all flex items-center justify-center text-white/80"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -296,14 +286,22 @@ export default function Footer() {
 
             {/* Contact quick summaries */}
             <div className="flex flex-col gap-2 pt-2 text-xs text-white/70 font-sans">
-              <span className="flex items-center gap-2">
+              <a href={`https://maps.google.com/?q=${encodeURIComponent(COMPANY_ADDRESS)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
                 <span>{COMPANY_ADDRESS}</span>
-              </span>
-              <span className="flex items-center gap-2">
+              </a>
+              <a href={`tel:${COMPANY_PHONE.replace(/[^+\d]/g, '')}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Phone className="w-3.5 h-3.5 text-primary shrink-0" />
                 <span>{COMPANY_PHONE}</span>
-              </span>
+              </a>
+              <a href={`mailto:${COMPANY_EMAIL}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Mail className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span>{COMPANY_EMAIL}</span>
+              </a>
+              <a href="https://anjanievents.in" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <span className="w-3.5 h-3.5 text-primary shrink-0 font-bold text-center">W</span>
+                <span>anjanievents.in</span>
+              </a>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { COMPANY_EMAIL, COMPANY_PHONE, COMPANY_ADDRESS, COMPANY_NAME } from '../config/env';
+import { COMPANY_EMAIL, COMPANY_PHONE, COMPANY_ADDRESS, COMPANY_NAME, FACEBOOK_URL, INSTAGRAM_URL } from '../config/env';
 
 const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://anjanievents.in';
 
@@ -59,10 +59,8 @@ export default function LocalBusinessSchema() {
       'Continental'
     ],
     'sameAs': [
-      'https://www.facebook.com/anjanieventscatering/',
-      'https://www.instagram.com/anjani_events__/',
-      'https://linkedin.com/company/evengcatering',
-      'https://youtube.com/@evengcatering'
+      FACEBOOK_URL,
+      INSTAGRAM_URL
     ],
     'hasMap': `https://maps.google.com/?q=Maharastra+Marg+Rani+ki+Bagiya+Chhatarpur+MP+471001`,
     'contactPoint': {

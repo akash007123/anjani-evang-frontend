@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../context/LanguageContext';
+import { COMPANY_NAME } from '../config/env';
 
 interface SEOData {
   title: string;
@@ -106,7 +107,7 @@ export default function SEOConfig({ title: customTitle, description: customDescr
     };
   }
 
-  const siteName = 'Anjani Catering & Events';
+  const siteName = COMPANY_NAME;
   const fullTitle = `${seoData.title} | ${siteName}`;
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://anjanievents.in';
   const canonicalUrl = `${baseUrl}${pathname}`;

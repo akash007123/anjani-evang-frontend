@@ -141,7 +141,7 @@ export default function Login() {
                 type="text"
                 value={emailOrMobile}
                 onChange={(e) => setEmailOrMobile(e.target.value)}
-                placeholder="admin@eveng.com or +1..."
+                placeholder="admin@anjanievents.in or +91..."
                 className={`w-full pl-11 pr-4 py-3 bg-slate-50/50 border rounded-2xl focus:outline-none text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm ${
                   validationErrors.email ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-primary'
                 }`}

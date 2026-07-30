@@ -245,7 +245,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, onSuccessReset }:
                       required
                       value={emailOrMobile}
                       onChange={(e) => setEmailOrMobile(e.target.value)}
-                      placeholder="e.g. admin@eveng.com"
+                      placeholder="e.g. admin@anjanievents.in"
                       className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-primary text-secondary font-semibold placeholder-slate-400 text-xs sm:text-sm"
                     />
                   </div>

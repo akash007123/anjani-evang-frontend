@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calendar, Phone, Mail, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
+import { Menu, X, ChevronDown, Calendar, Phone, Mail, Instagram, Facebook, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { navigationConfig, isPathActive, isDropdownActive } from '../../data/navigation';
-import { COMPANY_PHONE, COMPANY_EMAIL } from '../../config/env';
+import { COMPANY_PHONE, COMPANY_EMAIL, FACEBOOK_URL, INSTAGRAM_URL } from '../../config/env';
 import NavDropdown from './NavDropdown';
 
 export default function Header() {
@@ -55,9 +55,8 @@ export default function Header() {
           <span className="text-white/60">{t('openHours')}</span>
           <div className="flex items-center gap-4 border-l border-white/20 pl-4">
             <div className="flex items-center gap-2 pl-4">
-              <a href="#" className="hover:text-primary transition-colors" aria-label="Instagram"><Instagram className="w-3.5 h-3.5" /></a>
-              <a href="#" className="hover:text-primary transition-colors" aria-label="Facebook"><Facebook className="w-3.5 h-3.5" /></a>
-              <a href="#" className="hover:text-primary transition-colors" aria-label="Twitter"><Twitter className="w-3.5 h-3.5" /></a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" aria-label="Instagram"><Instagram className="w-3.5 h-3.5" /></a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" aria-label="Facebook"><Facebook className="w-3.5 h-3.5" /></a>
             </div>
           </div>
         </div>
