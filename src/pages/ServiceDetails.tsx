@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import { getServiceBySlug, getServices } from '../data/getAsyncData';
 import { useAsyncData } from '../hooks/useAsyncData';
 import LazyImage from '../components/ui/LazyImage';
+import RichText, { stripHtml } from '../components/ui/RichText';
 
 export default function ServiceDetails() {
   const { slug } = useParams<{ slug: string }>();
@@ -43,7 +44,7 @@ export default function ServiceDetails() {
     <div>
       <SEO 
         title={service.title} 
-        description={service.shortDescription}
+        description={stripHtml(service.shortDescription)}
         image={service.image}
         urlPath={`/services/${service.slug}`}
       />
@@ -66,9 +67,7 @@ export default function ServiceDetails() {
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-secondary mb-4">
                   Exceptional Culinary Hospitality for {service.title}
                 </h2>
-                <p className="font-sans text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-                  {service.shortDescription}
-                </p>
+                <RichText html={service.shortDescription} className="mb-6" />
               </div>
 
               {service.image && (
@@ -92,10 +91,7 @@ export default function ServiceDetails() {
                   <h3 className="font-serif text-2xl font-bold text-secondary mb-5">
                     About This Service
                   </h3>
-                  <div
-                    className="prose prose-sm sm:prose-base max-w-none text-slate-700"
-                    dangerouslySetInnerHTML={{ __html: service.fullDescription }}
-                  />
+                  <RichText html={service.fullDescription} />
                 </div>
               )}
 
