@@ -12,6 +12,7 @@ import {
 import { StatCardSkeleton } from '../../components/ui/Skeleton';
 import { api } from '../../lib/api';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO';
 
 const RECHARTS_BOOKINGS_DATA: any[] = [];
 const RECHARTS_GROWTH_DATA: any[] = [];
@@ -144,6 +145,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
+      <SEO title="Dashboard - Admin Panel" description="Manage catering operations, bookings, revenue, and team performance from the master control panel." urlPath="/admin/dashboard" />
       {/* Welcome Hero Banner Section */}
       <div className="bg-gradient-to-r from-secondary to-slate-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg border border-white/5">
         <div className="absolute right-0 top-0 translate-x-12 -translate-y-12 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />

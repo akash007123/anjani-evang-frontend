@@ -19,14 +19,11 @@ export interface Service {
   title: string;
   shortDescription: string;
   fullDescription?: string;
-  pricePerGuest: number;
-  minGuests: number;
   icon: string;
   image: string;
   category: string;
   featured: boolean;
   active: boolean;
-  displayOrder: number;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string[];

@@ -11,6 +11,7 @@ import { getServices, getMenuItems, getPackages, getTestimonials, getFAQs } from
 import { useAsyncData } from '../hooks/useAsyncData';
 import TestimonialCarousel from '../components/TestimonialCarousel';
 import LazyImage from '../components/ui/LazyImage';
+import { stripHtml } from '../components/ui/RichText';
 import { useLanguage } from '../context/LanguageContext';
 
 // Custom CountUp Component
@@ -270,7 +271,7 @@ export default function Home() {
           <ScrollReveal direction="up" staggerChildren={true} stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services
               .filter(s => s.featured)
-              .sort((a, b) => a.displayOrder - b.displayOrder)
+              .sort((a, b) => (a.createdAt || "").localeCompare(b.createdAt || ""))
               .slice(0, 4)
               .map((service) => {
               const IconComp = 
@@ -302,7 +303,7 @@ export default function Home() {
                         {service.title}
                       </h3>
                       <p className="font-sans text-white/70 text-xs sm:text-sm leading-relaxed font-medium">
-                        {service.shortDescription.substring(0, 120)}...
+                        {stripHtml(service.shortDescription).substring(0, 120)}...
                       </p>
                     </div>
                   </div>

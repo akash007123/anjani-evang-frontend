@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Search, ChevronDown, ChevronUp, HelpCircle, Mail, MessageCircle } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import PageBanner from '../components/layout/PageBanner';
 import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
@@ -25,6 +26,22 @@ export default function FAQs() {
         description={t('faqsSubtitle')}
         urlPath="/faqs"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(f => ({
+              "@type": "Question",
+              "name": f.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.answer
+              }
+            }))
+          })}
+        </script>
+      </Helmet>
       <PageBanner 
         title={t('faqsTitle')} 
         breadcrumbs={[{ name: t('faqs') }]} 

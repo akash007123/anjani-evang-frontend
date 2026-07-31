@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import SEO from '../../components/SEO';
 
 export default function Contacts() {
   const { currentUser } = useAdminAuth();
@@ -127,6 +128,7 @@ export default function Contacts() {
 
   return (
     <div className="space-y-6 relative">
+      <SEO title="Contact Inquiries - Admin Panel" description="Review and respond to customer inquiries submitted through the contact form." urlPath="/admin/contacts" />
       {/* Delete Confirmation Modal */}
       <DeleteConfirmModal
         isOpen={!!deleteTarget}

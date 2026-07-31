@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { getServices } from '../data/getAsyncData';
 import LazyImage from '../components/ui/LazyImage';
+import RichText from '../components/ui/RichText';
 import { useLanguage } from '../context/LanguageContext';
 import { useAsyncData } from '../hooks/useAsyncData';
 
@@ -73,9 +74,10 @@ export default function Services() {
                       <h3 className="font-serif text-2xl font-bold text-secondary group-hover:text-primary transition-colors">
                         {service.title}
                       </h3>
-                      <p className="font-sans text-slate-600 text-sm leading-relaxed font-medium">
-                        {service.shortDescription}
-                      </p>
+                      <RichText
+                        html={service.shortDescription}
+                        className="prose-p:my-0 prose-p:text-slate-600 prose-p:text-sm prose-p:leading-relaxed"
+                      />
                     </div>
                   </div>
 

@@ -5,6 +5,7 @@ import {
   XCircle, Filter, Trash2, ShieldCheck, RefreshCw 
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
+import SEO from '../../components/SEO';
 
 export default function Orders() {
   const [loading, setLoading] = useState(true);
@@ -71,6 +72,7 @@ export default function Orders() {
 
   return (
     <div className="space-y-6">
+      <SEO title="Catering Orders - Admin Panel" description="Track and manage active catering orders, delivery status, and order fulfillment." urlPath="/admin/orders" />
       {/* Page Title Header */}
       <div>
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-secondary">

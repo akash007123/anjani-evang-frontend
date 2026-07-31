@@ -9,6 +9,7 @@ import {
 import { api } from '../../lib/api';
 import { useNotifications, NotificationItem } from '../../context/NotificationContext';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import SEO from '../../components/SEO';
 
 function formatFullDate(dateStr: string): string {
   if (!dateStr) return 'N/A';
@@ -247,6 +248,7 @@ export default function NotificationsPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
+      <SEO title="Notifications - Admin Panel" description="View and manage system notifications and alerts." urlPath="/admin/notifications" />
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-secondary to-slate-900 text-white p-6 rounded-3xl shadow-xl relative overflow-hidden">
         <div className="relative z-10 space-y-1">

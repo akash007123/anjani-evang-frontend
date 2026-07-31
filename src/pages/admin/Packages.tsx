@@ -5,6 +5,7 @@ import {
   ChevronLeft, ChevronRight, Check, AlertCircle, Package as PackageIcon, X, Star, Users
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import SEO from '../../components/SEO';
 
 interface CateringPackage {
   _id?: string;
@@ -238,6 +239,7 @@ export default function PackagesManagement() {
 
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+      <SEO title="Package Management - Admin Panel" description="Configure wedding and event catering packages with pricing and inclusions." urlPath="/admin/packages" />
       {/* Toast Banner */}
       <AnimatePresence>
         {toast && (

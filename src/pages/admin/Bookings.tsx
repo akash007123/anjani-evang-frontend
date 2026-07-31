@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { TableSkeleton } from '../../components/ui/Skeleton';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import SEO from '../../components/SEO';
 
 const STATUS_OPTIONS = [
   'New Booking', 'Contacted', 'Quotation Sent', 
@@ -239,6 +240,7 @@ export default function Bookings() {
 
   return (
     <div className="space-y-6">
+      <SEO title="Event Bookings - Admin Panel" description="View, filter, and manage all event booking inquiries and catering reservations." urlPath="/admin/bookings" />
       {/* Delete Confirmation Modal */}
       <DeleteConfirmModal
         isOpen={!!deleteTarget}
