@@ -179,7 +179,7 @@ export default function Booking() {
       // 1. Send via Booking Service API
       const res = await createBooking(payload);
 
-      const bookingRef = (res as any)?.data?.bookingReference || `EVG-${Math.floor(10000 + Math.random() * 90000)}`;
+      const bookingRef = (res as any)?.data?.bookingReference || `BK-${Math.floor(10000 + Math.random() * 90000)}`;
 
       setSubmittedBooking({
         reference: bookingRef,
@@ -197,29 +197,11 @@ export default function Booking() {
       setSelectedFile(null);
     } catch (err: any) {
       console.error('Booking submission error:', err);
-      const errMsg = err?.response?.data?.message || err?.message || '';
-
-      if (errMsg.includes('Double-Booking') || errMsg.includes('Conflict')) {
-        toast.error(errMsg, 'Slot Unavailable');
-        setSubmitError(errMsg);
-        setIsSubmitting(false);
-        return;
-      }
-
-      const fallbackRef = `EVG-${Math.floor(10000 + Math.random() * 90000)}`;
-      setSubmittedBooking({
-        reference: fallbackRef,
-        name: data.fullName,
-        date: data.eventDate,
-        time: data.eventTime,
-        eventType: data.eventType,
-        venueAddress: `${data.venueAddress}, ${data.city}`,
-        guestCount: data.guestCount,
-        cateringPackage: data.cateringPackage
-      });
-      toast.success(`Booking ${fallbackRef} saved securely.`, 'Booking Received');
-      reset();
-      setCurrentStep(1);
+      const errMsg = err?.response?.data?.message || err?.message || 'Something went wrong while submitting your booking. Please try again.';
+      toast.error(errMsg, 'Submission Failed');
+      setSubmitError(errMsg);
+      setIsSubmitting(false);
+      return;
     } finally {
       setIsSubmitting(false);
     }

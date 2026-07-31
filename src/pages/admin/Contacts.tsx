@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '../../lib/api';
+import { useAdminAuth } from '../../context/AdminAuthContext';
+import { connectSocket } from '../../lib/socket';
 import { 
   Search, Trash2, Mail, CheckCircle2, Clock, Eye, AlertCircle, 
   XCircle, ArrowDownToLine, Phone, Calendar, Users, Send, Check 
@@ -8,6 +10,7 @@ import { TableSkeleton } from '../../components/ui/Skeleton';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 export default function Contacts() {
+  const { currentUser } = useAdminAuth();
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,11 +20,7 @@ export default function Contacts() {
   const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     setLoading(true);
     try {
       const res = await api.getContacts();
@@ -33,7 +32,25 @@ export default function Contacts() {
       console.error('Failed to fetch contacts', err);
     }
     setLoading(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
+
+  useEffect(() => {
+    const role = currentUser?.role || 'Admin';
+    const socket = connectSocket(role);
+    const handleNewNotification = (notification: any) => {
+      if (notification.type === 'Contact' || notification.relatedModule === 'Contact') {
+        fetchContacts();
+      }
+    };
+    socket.on('notification:new', handleNewNotification);
+    return () => {
+      socket.off('notification:new', handleNewNotification);
+    };
+  }, [currentUser?.role, fetchContacts]);
 
   const handleStatusChange = async (id: string, status: string) => {
     try {
@@ -291,6 +308,12 @@ export default function Contacts() {
               <div className="space-y-3 text-left">
                 <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Client Profile & Contact</h5>
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3">
+                  {selectedInquiry.reference && (
+                    <div>
+                      <span className="text-[9px] text-slate-400 font-bold block">INQUIRY REFERENCE</span>
+                      <p className="font-bold text-primary text-sm font-mono">{selectedInquiry.reference}</p>
+                    </div>
+                  )}
                   <div>
                     <span className="text-[9px] text-slate-400 font-bold block">CLIENT NAME</span>
                     <p className="font-bold text-secondary text-sm">{selectedInquiry.name}</p>

@@ -60,16 +60,23 @@ export default function Contact() {
         message: data.message,
       });
       if (result.success) {
-        toast.success("Thank you! Your catering inquiry has been received. Our planner will contact you shortly.", "Inquiry Sent!");
+        const ref = result.data?.reference;
+        toast.success(
+          ref
+            ? `Thank you! Your inquiry (Ref ${ref}) has been received. Our planner will contact you shortly.`
+            : "Thank you! Your catering inquiry has been received. Our planner will contact you shortly.",
+          "Inquiry Sent!"
+        );
         reset();
       } else {
-        toast.warning("Message saved offline. Our team will follow up soon.", "Inquiry Received");
-        reset();
+        toast.error(
+          result.error || "We couldn't send your inquiry. Please try again or call us.",
+          "Something went wrong"
+        );
       }
     } catch (apiErr) {
       console.error("Backend contact form submission failed:", apiErr);
-      toast.warning("Message saved offline. Our team will follow up soon.", "Inquiry Received");
-      reset();
+      toast.error("We couldn't send your inquiry. Please try again or call us.", "Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

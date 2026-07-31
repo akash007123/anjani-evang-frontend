@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../../lib/api';
+import { useAdminAuth } from '../../context/AdminAuthContext';
+import { connectSocket } from '../../lib/socket';
 import { getBookings, updateBookingStatus as updateLocalStatus, deleteBooking as deleteLocalBooking, BookingRequest } from '../../lib/storage';
 import { 
   Search, Filter, Trash2, CheckCircle2, Clock, XCircle, 
@@ -26,6 +28,7 @@ function getId(b: any): string {
 }
 
 export default function Bookings() {
+  const { currentUser } = useAdminAuth();
   const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingRequest[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -59,7 +62,7 @@ export default function Bookings() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch Bookings from API / Local Storage
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     setLoading(true);
     try {
       const res = await api.getBookings({
@@ -92,7 +95,7 @@ export default function Bookings() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [appliedFilters, sortBy, sortOrder, currentPage]);
 
   const fallbackToLocalStorage = () => {
     const local = getBookings();
@@ -128,7 +131,21 @@ export default function Bookings() {
 
   useEffect(() => {
     fetchBookings();
-  }, [appliedFilters, sortBy, sortOrder, currentPage]);
+  }, [fetchBookings]);
+
+  useEffect(() => {
+    const role = currentUser?.role || 'Admin';
+    const socket = connectSocket(role);
+    const handleNewNotification = (notification: any) => {
+      if (notification.type === 'Booking' || notification.relatedModule === 'Booking') {
+        fetchBookings();
+      }
+    };
+    socket.on('notification:new', handleNewNotification);
+    return () => {
+      socket.off('notification:new', handleNewNotification);
+    };
+  }, [currentUser?.role, fetchBookings]);
 
   const handleApplyFilters = (e: React.FormEvent) => {
     e.preventDefault();

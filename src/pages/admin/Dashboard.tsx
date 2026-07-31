@@ -55,12 +55,14 @@ export default function Dashboard() {
         setDashboardStats(statsRes.data);
       }
 
-      if (bookingsRes.success && Array.isArray(bookingsRes.data)) {
-        setBookings(bookingsRes.data);
+      if (bookingsRes.success && bookingsRes.data) {
+        const list = Array.isArray(bookingsRes.data) ? bookingsRes.data : bookingsRes.data.bookings;
+        if (Array.isArray(list)) setBookings(list);
       }
 
-      if (contactsRes.success && Array.isArray(contactsRes.data)) {
-        setContacts(contactsRes.data);
+      if (contactsRes.success && contactsRes.data) {
+        const list = Array.isArray(contactsRes.data) ? contactsRes.data : contactsRes.data.contacts;
+        if (Array.isArray(list)) setContacts(list);
       }
 
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
